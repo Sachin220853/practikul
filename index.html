@@ -1,0 +1,576 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#030817">
+    <title>Practikul | Practice. Improve. Achieve.</title>
+
+    <style>
+        /* =====================================
+           1. GLOBAL STYLES
+        ===================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #030817;
+            --blue: #071a3c;
+            --electric: #38bdf8;
+            --gold: #facc72;
+            --white: #f4f8ff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--white);
+            background:
+                radial-gradient(ellipse at 50% 40%,
+                    #102c60 0%,
+                    #071a3c 35%,
+                    #030817 75%);
+        }
+
+        /* Animated background glows */
+        .glow {
+            position: fixed;
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            pointer-events: none;
+            animation: glowMove 12s ease-in-out infinite alternate;
+        }
+
+        .glow-one {
+            background: #0878ff;
+            top: -160px;
+            left: -100px;
+        }
+
+        .glow-two {
+            background: #7055ff;
+            bottom: -180px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        @keyframes glowMove {
+            from { transform: translate(0, 0); }
+            to { transform: translate(100px, 70px); }
+        }
+
+        /* =====================================
+           2. MAIN PAGE LAYOUT
+        ===================================== */
+        .page {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            isolation: isolate;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: min(850px, 100%);
+            text-align: center;
+            animation: contentReveal 1.2s ease both;
+        }
+
+        @keyframes contentReveal {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Top label */
+        .top-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 17px;
+            margin-bottom: 32px;
+            border: 1px solid rgba(96, 165, 250, 0.25);
+            border-radius: 50px;
+            background: rgba(15, 35, 75, 0.65);
+            color: #b9d8ff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 12px #4ade80;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.35; }
+        }
+
+        /* =====================================
+           3. FLOATING EDUCATIONAL SYMBOLS
+        ===================================== */
+        .symbol {
+            position: absolute;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 64px;
+            height: 64px;
+            padding: 8px;
+            border: 1px solid rgba(125, 180, 255, 0.23);
+            border-radius: 18px;
+            background: linear-gradient(
+                145deg,
+                rgba(18, 48, 100, 0.78),
+                rgba(5, 17, 42, 0.72)
+            );
+            box-shadow:
+                0 10px 35px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            color: #9bdcff;
+            font-family: "Consolas", monospace;
+            font-size: 21px;
+            font-weight: 700;
+            animation: floatSymbol 5s ease-in-out infinite;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .symbol small {
+            font-size: 9px;
+            letter-spacing: 1px;
+        }
+
+        .symbol.gold {
+            color: var(--gold);
+            border-color: rgba(250, 204, 114, 0.25);
+        }
+
+        .symbol.purple {
+            color: #c4b5fd;
+            border-color: rgba(196, 181, 253, 0.25);
+        }
+
+        @keyframes floatSymbol {
+            0%, 100% {
+                transform: translateY(0) rotate(-4deg);
+            }
+            50% {
+                transform: translateY(-18px) rotate(4deg);
+            }
+        }
+
+        /* Position each symbol around the center */
+        .s1  { top: 7%; left: 13%; animation-delay: 0s; }
+        .s2  { top: 15%; right: 14%; animation-delay: -1s; }
+        .s3  { top: 36%; left: 5%; animation-delay: -2s; }
+        .s4  { top: 39%; right: 5%; animation-delay: -3s; }
+        .s5  { bottom: 24%; left: 13%; animation-delay: -1.5s; }
+        .s6  { bottom: 21%; right: 13%; animation-delay: -2.5s; }
+        .s7  { bottom: 8%; left: 29%; animation-delay: -0.5s; }
+        .s8  { bottom: 9%; right: 29%; animation-delay: -3.5s; }
+        .s9  { top: 8%; left: 43%; animation-delay: -2s; }
+        .s10 { top: 64%; left: 4%; animation-delay: -4s; }
+        .s11 { top: 63%; right: 4%; animation-delay: -1s; }
+        .s12 { bottom: 39%; left: 19%; animation-delay: -2.7s; }
+
+        /* =====================================
+           4. BRAND TITLE
+        ===================================== */
+        .brand {
+            position: relative;
+            display: inline-block;
+            margin: 5px 0 22px;
+        }
+
+        .brand h1 {
+            font-size: clamp(42px, 8.5vw, 94px);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: clamp(3px, 1vw, 10px);
+            background: linear-gradient(
+                110deg,
+                #ffffff 5%,
+                #9bdcff 32%,
+                #398bff 57%,
+                #facc72 95%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.15));
+            animation: titleGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from {
+                filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.12));
+            }
+            to {
+                filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.35));
+            }
+        }
+
+        .brand-underline {
+            height: 3px;
+            width: 0;
+            margin: 18px auto 0;
+            border-radius: 20px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                #38bdf8,
+                #facc72,
+                transparent
+            );
+            box-shadow: 0 0 18px rgba(56, 189, 248, 0.7);
+            animation: lineReveal 1.5s ease 0.5s forwards;
+        }
+
+        @keyframes lineReveal {
+            to { width: 75%; }
+        }
+
+        /* =====================================
+           5. TAGLINE AND DESCRIPTION
+        ===================================== */
+        .tagline {
+            font-size: clamp(14px, 2.4vw, 19px);
+            line-height: 1.8;
+            color: #d7e7ff;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .tagline span {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .description {
+            max-width: 530px;
+            margin: 0 auto 32px;
+            color: #91a9cd;
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        /* =====================================
+           6. FEATURE PILLS
+        ===================================== */
+        .features {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 35px;
+        }
+
+        .feature {
+            padding: 9px 14px;
+            border: 1px solid rgba(147, 197, 253, 0.16);
+            border-radius: 30px;
+            background: rgba(15, 37, 77, 0.5);
+            color: #c2d7f8;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            transition: 0.3s ease;
+        }
+
+        .feature:hover {
+            border-color: var(--electric);
+            background: rgba(56, 189, 248, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* =====================================
+           7. START BUTTON
+        ===================================== */
+        .start-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            min-width: 220px;
+            padding: 17px 27px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            color: #061127;
+            background: linear-gradient(110deg, #facc72, #ffe9aa);
+            box-shadow: 0 0 30px rgba(250, 204, 114, 0.13);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .start-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 70%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: skewX(-25deg);
+            transition: left 0.6s;
+        }
+
+        .start-button:hover::before {
+            left: 150%;
+        }
+
+        .start-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 35px rgba(250, 204, 114, 0.25);
+        }
+
+        .button-arrow {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        .start-button:hover .button-arrow {
+            transform: translateX(5px);
+        }
+
+        /* Bottom caption */
+        .footer-note {
+            margin-top: 30px;
+            color: #637da5;
+            font-size: 10px;
+            letter-spacing: 2px;
+        }
+
+        .footer-note span {
+            color: #8abfff;
+        }
+
+        /* =====================================
+           8. RESPONSIVE DESIGN
+        ===================================== */
+        @media (max-width: 700px) {
+            .content {
+                padding: 55px 5px;
+            }
+
+            .top-label {
+                font-size: 9px;
+                letter-spacing: 2px;
+                margin-bottom: 28px;
+            }
+
+            .symbol {
+                min-width: 45px;
+                height: 45px;
+                padding: 5px;
+                border-radius: 12px;
+                font-size: 15px;
+            }
+
+            .s1  { top: 4%; left: 3%; }
+            .s2  { top: 7%; right: 4%; }
+            .s3  { top: 29%; left: 2%; }
+            .s4  { top: 31%; right: 2%; }
+            .s5  { bottom: 23%; left: 3%; }
+            .s6  { bottom: 22%; right: 3%; }
+            .s7  { bottom: 5%; left: 16%; }
+            .s8  { bottom: 5%; right: 16%; }
+            .s9  { top: 13%; left: 44%; }
+            .s10 { top: 60%; left: 2%; }
+            .s11 { top: 60%; right: 2%; }
+            .s12 { display: none; }
+
+            .description {
+                font-size: 12px;
+                padding: 0 10px;
+            }
+
+            .feature {
+                font-size: 10px;
+                padding: 8px 11px;
+            }
+
+            .features {
+                gap: 7px;
+                padding: 0 10px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .symbol {
+                min-width: 38px;
+                height: 38px;
+                font-size: 12px;
+            }
+
+            .s3, .s4, .s10, .s11 {
+                opacity: 0.55;
+            }
+
+            .tagline {
+                font-size: 13px;
+            }
+
+            .start-button {
+                min-width: 190px;
+            }
+        }
+
+        /* Respect users who prefer reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background glow effects -->
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+
+    <main class="page">
+
+        <!--
+            Floating symbols are created with text and CSS.
+            No logo image or external image files are required.
+        -->
+
+        <!-- Aptitude and mathematics symbols -->
+        <div class="symbol gold s1" aria-hidden="true">∑</div>
+        <div class="symbol s2" aria-hidden="true">√x</div>
+        <div class="symbol purple s3" aria-hidden="true">π</div>
+        <div class="symbol gold s4" aria-hidden="true">%</div>
+
+        <!-- Programming language symbols -->
+        <div class="symbol s5" aria-hidden="true">&lt;/&gt;</div>
+        <div class="symbol purple s6" aria-hidden="true">{ }</div>
+        <div class="symbol gold s7" aria-hidden="true">Py</div>
+        <div class="symbol s8" aria-hidden="true">JS</div>
+
+        <!-- More coding, logic, and database symbols -->
+        <div class="symbol purple s9" aria-hidden="true">λ</div>
+        <div class="symbol gold s10" aria-hidden="true">SQL</div>
+        <div class="symbol s11" aria-hidden="true">0101</div>
+        <div class="symbol purple s12" aria-hidden="true">∞</div>
+
+        <section class="content">
+
+            <div class="top-label">
+                <span class="status-dot"></span>
+                YOUR PRACTICE. YOUR PROGRESS.
+            </div>
+
+            <!-- Animated text brand -->
+            <div class="brand">
+                <h1>PRACTIKUL</h1>
+                <div class="brand-underline"></div>
+            </div>
+
+            <p class="tagline">
+                Don't just learn it.
+                <span>Practice it.</span>
+                Master it.
+            </p>
+
+            <p class="description">
+                Sharpen your aptitude, master coding, test your knowledge,
+                and build the confidence to achieve more — one practice at a time.
+            </p>
+
+            <!-- Project features -->
+            <div class="features">
+                <div class="feature">∑ Aptitude</div>
+                <div class="feature">&lt;/&gt; Coding</div>
+                <div class="feature">◎ Mock Tests</div>
+                <div class="feature">↗ Performance</div>
+            </div>
+
+            <!-- Connect this button to your sign-in page -->
+            <a href="signup.html" class="start-button">
+                <span>LET'S LEVEL UP</span>
+                <span class="button-arrow">→</span>
+            </a>
+
+            <p class="footer-note">
+                BUILT FOR <span>LEARNERS</span> · DESIGNED FOR GROWTH
+            </p>
+
+        </section>
+    </main>
+
+    <script>
+        /* =====================================
+           JAVASCRIPT: INTERACTIVE SYMBOL EFFECTS
+        ===================================== */
+
+        // Select every floating educational symbol.
+        const symbols = document.querySelectorAll(".symbol");
+
+        // Add a subtle pointer-based movement on desktop.
+        document.addEventListener("mousemove", function (event) {
+            // Avoid extra movement on small screens.
+            if (window.innerWidth <= 700) return;
+
+            const x = (event.clientX / window.innerWidth - 0.5);
+            const y = (event.clientY / window.innerHeight - 0.5);
+
+            symbols.forEach(function (symbol, index) {
+                // Different symbols move at different speeds.
+                const speed = (index % 3 + 1) * 5;
+
+                symbol.style.marginLeft = `${x * speed}px`;
+                symbol.style.marginTop = `${y * speed}px`;
+            });
+        });
+
+        // Clear pointer movement when the pointer leaves the page.
+        document.addEventListener("mouseleave", function () {
+            symbols.forEach(function (symbol) {
+                symbol.style.marginLeft = "0px";
+                symbol.style.marginTop = "0px";
+            });
+        });
+    </script>
+
+</body>
+</html>

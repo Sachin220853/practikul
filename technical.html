@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRAKTIKUL | Technical Zone</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #080b14;
+      --panel: #111827;
+      --text: #f5f7ff;
+      --muted: #9ca8bd;
+      --blue: #60a5fa;
+      --purple: #a78bfa;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 10%, #172554 0, transparent 35%),
+        radial-gradient(ellipse at 90% 80%, #312e81 0, transparent 30%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .navbar {
+      min-height: 76px;
+      padding: 18px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8, 11, 20, 0.75);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      font-size: 1.5rem;
+      font-weight: 850;
+      letter-spacing: 1px;
+    }
+
+    .brand span {
+      color: var(--blue);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .nav-right a:hover {
+      color: white;
+    }
+
+    .back-link {
+      border: 1px solid var(--border);
+      padding: 10px 15px;
+      border-radius: 12px;
+    }
+
+    main {
+      width: min(1120px, 90%);
+      margin: auto;
+      padding: 72px 0 50px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 9px;
+      align-items: center;
+      color: #bfdbfe;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      border-radius: 30px;
+      padding: 9px 14px;
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow span {
+      width: 7px;
+      height: 7px;
+      background: #60a5fa;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #60a5fa;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.6rem);
+      line-height: 1.08;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    h1 .gradient {
+      background: linear-gradient(90deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .intro {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.8;
+    }
+
+    .section-heading {
+      margin: 56px 0 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+    }
+
+    .section-heading h2 {
+      font-size: 1.45rem;
+      margin-bottom: 8px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 390px;
+      padding: 30px;
+      border-radius: 24px;
+      background: linear-gradient(
+        145deg,
+        rgba(24, 34, 57, 0.96),
+        rgba(13, 18, 32, 0.96)
+      );
+      border: 1px solid var(--border);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(147, 197, 253, 0.55);
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      right: -80px;
+      top: -80px;
+      border-radius: 50%;
+      background: var(--glow);
+      filter: blur(70px);
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .practice {
+      --glow: #3b82f6;
+    }
+
+    .quiz {
+      --glow: #8b5cf6;
+    }
+
+    .icon-box {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 66px;
+      height: 66px;
+      border-radius: 18px;
+      font-size: 2rem;
+      margin-bottom: 26px;
+      background: rgba(96, 165, 250, 0.13);
+      border: 1px solid rgba(96, 165, 250, 0.22);
+    }
+
+    .quiz .icon-box {
+      background: rgba(167, 139, 250, 0.13);
+      border-color: rgba(167, 139, 250, 0.25);
+    }
+
+    .card-label {
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      font-size: 0.76rem;
+      font-weight: 750;
+      margin-bottom: 12px;
+    }
+
+    .quiz .card-label {
+      color: var(--purple);
+    }
+
+    .card h3 {
+      font-size: 1.7rem;
+      margin-bottom: 12px;
+    }
+
+    .card-description {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 22px;
+    }
+
+    .features {
+      display: grid;
+      gap: 12px;
+      list-style: none;
+      margin-bottom: 28px;
+    }
+
+    .features li {
+      color: #d4dbea;
+      font-size: 0.93rem;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .features li span {
+      color: #86efac;
+      font-weight: bold;
+    }
+
+    .card-button {
+      margin-top: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 13px;
+      background: #2563eb;
+      color: white;
+      font-weight: 750;
+      border: 1px solid transparent;
+      transition: background 0.2s ease;
+    }
+
+    .card-button:hover {
+      background: #3b82f6;
+    }
+
+    .quiz .card-button {
+      background: #6d4ae8;
+    }
+
+    .quiz .card-button:hover {
+      background: #825ff5;
+    }
+
+    .tip {
+      margin-top: 28px;
+      padding: 18px 20px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.035);
+      border-radius: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.92rem;
+    }
+
+    .tip strong {
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 26px 16px;
+      color: #7e8ba3;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 700px) {
+      .navbar {
+        padding: 16px 5%;
+      }
+
+      .nav-right {
+        gap: 12px;
+      }
+
+      .nav-right .optional-link {
+        display: none;
+      }
+
+      main {
+        padding-top: 48px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        min-height: 360px;
+        padding: 24px;
+      }
+
+      h1 {
+        letter-spacing: -1.2px;
+      }
+
+      .section-heading {
+        margin-top: 40px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <a class="brand" href="home.html">PRAKTI<span>KUL</span></a>
+
+    <nav class="nav-right" aria-label="Main navigation">
+      <a class="optional-link" href="home.html">Home</a>
+      <a class="back-link" href="home.html">← Dashboard</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="eyebrow">
+      <span></span>
+      PRAKTIKUL LEARNING ARENA
+    </div>
+
+    <h1>
+      Enter the <span class="gradient">Technical Zone.</span>
+    </h1>
+
+    <p class="intro">
+      Build your programming skills one challenge at a time.
+      Write code, sharpen your logic, test your technical knowledge,
+      and track your progress as you prepare for placements and interviews.
+    </p>
+
+    <div class="section-heading">
+      <div>
+        <h2>Choose your challenge</h2>
+        <p>Two ways to improve your coding skills.</p>
+      </div>
+    </div>
+
+    <section class="cards" aria-label="Technical practice options">
+
+      <!-- Coding Practice card -->
+      <article class="card practice">
+        <div class="icon-box" aria-hidden="true">⌨️</div>
+
+        <p class="card-label">Build your logic</p>
+        <h3>Learning </h3>
+
+        <p class="card-description">
+       Learning  programming problems .
+          Improve problem-solving skills and prepare for coding rounds.
+        </p>
+
+        <ul class="features">
+       
+          <li><span>✓</span> Track solved and attempted problems</li>
+        </ul>
+
+        <!-- Create coding-practice.html for this destination -->
+        <a class="card-button" href="coding-practice.html">
+          Start learning<span>→</span>
+        </a>
+      </article>
+
+      <!-- Coding Quiz card -->
+      <article class="card quiz">
+        <div class="icon-box" aria-hidden="true">🧠</div>
+
+        <p class="card-label">Test your knowledge</p>
+        <h3>Coding Quiz</h3>
+
+        <p class="card-description">
+          Test your programming fundamentals with timed questions,
+          code-output prediction, and technical MCQs.
+        </p>
+
+        <ul class="features">
+          <li><span>✓</span> Python, Java, C, SQL and web technologies</li>
+          <li><span>✓</span> Predict the output questions</li>
+          <li><span>✓</span> Find-the-error challenges</li>
+          <li><span>✓</span> Explanations and performance analysis</li>
+        </ul>
+
+        <!-- Create coding-quiz.html for this destination -->
+        <a class="card-button" href="coding-quiz.html">
+          Start Coding Quiz <span>→</span>
+        </a>
+      </article>
+
+    </section>
+
+    <div class="tip">
+      <strong>💡 Pro tip:</strong>
+      Practice writing code first, then use coding quizzes to check
+      your understanding of programming concepts.
+    </div>
+  </main>
+
+  <footer>
+    PRAKTIKUL · Learn. Practice. Improve.
+  </footer>
+</body>
+</html>

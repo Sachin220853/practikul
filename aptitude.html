@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRAKTIKUL | Aptitude Arena</title>
+
+<style>
+:root {
+  --bg: #07111f;
+  --panel: #101e31;
+  --panel2: #16273d;
+  --border: #293c54;
+  --text: #eaf3ff;
+  --muted: #9aacc3;
+  --cyan: #38d9f5;
+  --purple: #a78bfa;
+  --green: #4ade80;
+  --red: #fb7185;
+  --yellow: #facc15;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at top, #122946, var(--bg) 60%);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  min-height: 100vh;
+}
+button, select, a.btn { font: inherit; }
+button, a.btn {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  line-height: 1.2;
+}
+button:hover, a.btn:hover { transform: translateY(-1px); }
+button:disabled { opacity: .4; cursor: not-allowed; }
+.primary { background: var(--cyan); color: #06111d; }
+.secondary { background: var(--panel2); color: var(--text); border: 1px solid var(--border); }
+.danger { background: #492032; color: #ffb3c0; }
+a.btn.primary:hover { background: #5ee7ff; color: #06111d; }
+a.btn.secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+header {
+  padding: 18px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(7,17,31,.8);
+  flex-wrap: wrap;
+}
+.brand { font-size: 25px; font-weight: 900; letter-spacing: 1px; }
+.brand span { color: var(--cyan); }
+header p { color: var(--muted); margin: 5px 0 0; font-size: 13px; }
+.nav-links { display: flex; gap: 10px; flex-wrap: wrap; }
+main { width: min(1150px, 92%); margin: 28px auto 60px; }
+.hero {
+  padding: 28px;
+  background: linear-gradient(130deg, #122942, #11182b);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  margin-bottom: 22px;
+}
+.eyebrow { color: var(--cyan); font-size: 12px; font-weight: 800; letter-spacing: 2px; }
+h1 { font-size: clamp(28px, 4vw, 43px); margin: 12px 0; }
+h2 { font-size: 23px; margin: 0 0 16px; }
+h3 { margin: 0 0 12px; }
+p { line-height: 1.6; }
+.muted { color: var(--muted); }
+.stats, .category-grid, .dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 14px;
+}
+.stat, .panel, .category-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+}
+.stat strong { display: block; font-size: 27px; margin: 8px 0; }
+.stat small { color: var(--muted); }
+.category-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.category-card { padding: 18px; }
+.category-card .emoji { font-size: 26px; }
+.category-card h3 { margin-top: 12px; font-size: 16px; }
+.category-card p { font-size: 13px; color: var(--muted); margin-bottom: 0; }
+.section { margin-top: 24px; }
+.setup {
+  display: flex; flex-wrap: wrap; align-items: end; gap: 14px;
+  margin-top: 20px;
+}
+.field { flex: 1; min-width: 180px; }
+.field label { display: block; color: var(--muted); margin-bottom: 8px; font-size: 13px; }
+select {
+  width: 100%; padding: 13px; background: #091626; color: white;
+  border: 1px solid var(--border); border-radius: 10px;
+}
+.pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+.pill { border-radius: 30px; background: #1b3048; padding: 7px 11px; color: var(--muted); font-size: 12px; }
+.medium { color: var(--yellow); }
+.hard { color: var(--red); }
+.hidden { display: none !important; }
+.progress-track { height: 7px; background: #26374b; border-radius: 10px; overflow: hidden; margin: 15px 0; }
+.progress-fill { height: 100%; width: 0; background: var(--cyan); transition: width .3s; }
+.test-top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: center; }
+.timer { color: var(--cyan); font-weight: 800; font-size: 20px; }
+.timer.warning { color: var(--red); }
+.question-text { font-size: clamp(19px, 3vw, 25px); line-height: 1.5; margin: 24px 0; }
+.options { display: grid; gap: 12px; }
+.option {
+  width: 100%; text-align: left; background: #14243a; color: var(--text);
+  border: 1px solid var(--border); padding: 16px; border-radius: 12px;
+}
+.option:hover { border-color: var(--cyan); }
+.option.selected { border-color: var(--cyan); background: #14394a; }
+.option.correct { border-color: var(--green); background: #123a2b; }
+.option.incorrect { border-color: var(--red); background: #421f30; }
+.question-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+.question-actions button { flex: 1; min-width: 130px; }
+.feedback { margin-top: 17px; padding: 16px; background: #0b1b2b; border-radius: 12px; border: 1px solid var(--border); line-height: 1.7; }
+.result-score { font-size: 46px; color: var(--cyan); font-weight: 900; }
+.topic-row { margin: 15px 0; }
+.topic-heading { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; margin-bottom: 7px; }
+.history-item { padding: 13px 0; border-bottom: 1px solid var(--border); }
+footer { text-align: center; color: var(--muted); padding: 25px; font-size: 12px; }
+@media(max-width:800px) {
+  .stats, .dashboard-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .category-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:520px) {
+  .stats, .dashboard-grid, .category-grid { grid-template-columns: 1fr 1fr; gap: 9px; }
+  .stat, .panel, .category-card { padding: 14px; }
+  .hero { padding: 20px; }
+  .brand { font-size: 22px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div>
+    <div class="brand">PRAKTI<span>KUL</span></div>
+    <p>Aptitude Arena · Practice. Analyze. Improve.</p>
+  </div>
+  <div class="nav-links">
+    <button class="secondary" onclick="goHome()">← Home</button>
+    <a href="performance-report.html" class="btn secondary">📊 Performance Report</a>
+  </div>
+</header>
+
+<main>
+  <section id="setupScreen">
+    <div class="hero">
+      <div class="eyebrow">YOUR NEXT LEVEL STARTS HERE</div>
+      <h1>Think sharper.<br>Perform better.</h1>
+      <p class="muted">Challenge yourself with Medium and Hard aptitude questions. Every test helps you identify strengths, improve weak areas, and prepare for placements.</p>
+      <div class="pills">
+        <span class="pill medium">● Medium only + Hard only</span>
+        <span class="pill">45 seconds per question</span>
+        <span class="pill">Detailed explanations</span>
+      </div>
+      <div class="stats">
+        <div class="stat"><small>Total question bank</small><strong id="totalCount">1,000</strong><small>Generated questions</small></div>
+        <div class="stat"><small>Medium</small><strong id="mediumCount">500</strong><small>Challenging practice</small></div>
+        <div class="stat"><small>Hard</small><strong id="hardCount">500</strong><small>Advanced practice</small></div>
+        <div class="stat"><small>Categories</small><strong>05</strong><small>Skills to develop</small></div>
+      </div>
+    </div>
+
+    <section class="section">
+      <h2>Choose your practice area</h2>
+      <div class="category-grid">
+        <div class="category-card"><div class="emoji">🧮</div><h3>Quantitative Aptitude</h3><p>Percentages, ratios, profit and loss, speed, interest, algebra.</p></div>
+        <div class="category-card"><div class="emoji">🧠</div><h3>Logical Reasoning</h3><p>Number series, coding, arrangements, directions and logic.</p></div>
+        <div class="category-card"><div class="emoji">📚</div><h3>Verbal Ability</h3><p>Grammar, vocabulary, sentence correction and comprehension.</p></div>
+        <div class="category-card"><div class="emoji">🔷</div><h3>Abstract & Spatial</h3><p>Patterns, sequences, shape properties and visual reasoning.</p></div>
+        <div class="category-card"><div class="emoji">📊</div><h3>Data Interpretation</h3><p>Tables, percentage change, averages and comparisons.</p></div>
+        <div class="category-card"><div class="emoji">🎯</div><h3>Placement Practice</h3><p>Mixed-category timed tests with performance feedback.</p></div>
+      </div>
+    </section>
+
+    <section class="panel section">
+      <h2>Configure your test</h2>
+      <p class="muted">Choose the difficulty and test duration. Easy questions are excluded from this bank.</p>
+      <div class="setup">
+        <div class="field">
+          <label for="categorySelect">Category</label>
+          <select id="categorySelect">
+            <option value="All">All Categories</option>
+            <option value="Quantitative Aptitude">Quantitative Aptitude</option>
+            <option value="Logical Reasoning">Logical Reasoning</option>
+            <option value="Verbal Ability">Verbal Ability</option>
+            <option value="Abstract & Spatial Reasoning">Abstract & Spatial Reasoning</option>
+            <option value="Data Interpretation">Data Interpretation</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="difficultySelect">Difficulty</label>
+          <select id="difficultySelect">
+            <option value="All">Medium + Hard</option>
+            <option value="Medium">Medium Only</option>
+            <option value="Hard">Hard Only</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="durationSelect">Test duration</label>
+          <select id="durationSelect">
+            <option value="10">10 minutes · 10 questions</option>
+            <option value="20">20 minutes · 20 questions</option>
+            <option value="45">45 minutes · 45 questions</option>
+          </select>
+        </div>
+        <button class="primary" onclick="startTest()">Start Test →</button>
+      </div>
+      <p class="muted">Questions already attempted, skipped, or timed out are excluded from future tests during this session. All practice data is automatically cleared when you close the website.</p>
+    </section>
+
+    <section class="panel section">
+      <h2>Previous test history</h2>
+      <div id="setupHistory" class="muted">Your completed tests will appear here.</div>
+    </section>
+  </section>
+
+  <section id="testScreen" class="hidden">
+    <div class="panel">
+      <div class="test-top">
+        <span id="questionCounter" class="muted">Question 1</span>
+        <span id="overallTimer" class="timer">10:00</span>
+        <span id="questionTimer" class="timer">45s</span>
+      </div>
+      <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+      <div class="pills">
+        <span id="categoryPill" class="pill"></span>
+        <span id="difficultyPill" class="pill"></span>
+      </div>
+      <div id="questionText" class="question-text"></div>
+      <div id="optionsBox" class="options"></div>
+      <div id="feedbackBox" class="feedback hidden"></div>
+      <div id="liveActions" class="question-actions">
+        <button id="skipBtn" class="secondary" onclick="skipQuestion()">Skip Question →</button>
+      </div>
+      <p id="liveHint" class="muted">Questions advance automatically after you answer or when the question timer expires. Answers are not revealed during the test.</p>
+
+      <section id="reviewMode" class="hidden section">
+        <div class="panel">
+          <h2>Review your answers</h2>
+          <p class="muted">Use Previous and Next to change your answers before submitting. Correct answers and explanations appear only after you submit or the timer ends.</p>
+          <div id="reviewFeedback" class="feedback"></div>
+          <div class="question-actions">
+            <button id="previousReviewBtn" class="secondary" onclick="moveReview(-1)">← Previous</button>
+            <button id="nextReviewBtn" class="secondary" onclick="moveReview(1)">Next →</button>
+            <button class="primary" onclick="finishTest()">Submit Test & View Dashboard</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section id="resultScreen" class="hidden">
+    <div class="hero">
+      <div class="eyebrow">TEST COMPLETED</div>
+      <h1>Your performance snapshot</h1>
+      <div class="result-score" id="resultPercent">0%</div>
+      <p id="resultMessage" class="muted"></p>
+      <div class="stats">
+        <div class="stat"><small>Correct answers</small><strong id="correctStat">0</strong></div>
+        <div class="stat"><small>Incorrect answers</small><strong id="wrongStat">0</strong></div>
+        <div class="stat"><small>Skipped / timed out</small><strong id="skipStat">0</strong></div>
+        <div class="stat"><small>Average time</small><strong id="avgTimeStat">0s</strong></div>
+      </div>
+      <div class="question-actions">
+        <button class="primary" onclick="showDashboard()">Open Local Dashboard</button>
+        <a href="performance-report.html" class="btn primary">📊 Full Performance Report</a>
+        <button class="secondary" onclick="returnToSetup()">Back to Practice</button>
+      </div>
+    </div>
+
+    <section class="panel section">
+      <h2>Question review and explanations</h2>
+      <div id="reviewBox"></div>
+    </section>
+  </section>
+
+  <section id="dashboardScreen" class="hidden">
+    <div class="hero">
+      <div class="eyebrow">PERFORMANCE INTELLIGENCE</div>
+      <h1>Your improvement dashboard</h1>
+      <p class="muted">Review your results, compare category accuracy, and use the recommendations to guide your next practice session.</p>
+      <div class="question-actions">
+        <button class="primary" onclick="returnToSetup()">Practice Again →</button>
+        <a href="performance.html" class="btn secondary">📊 Full Performance Report</a>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><small>Tests completed</small><strong id="dashTests">0</strong></div>
+      <div class="stat"><small>Average accuracy</small><strong id="dashAccuracy">0%</strong></div>
+      <div class="stat"><small>Best score</small><strong id="dashBest">0%</strong></div>
+      <div class="stat"><small>Questions attempted</small><strong id="dashAttempted">0</strong></div>
+    </div>
+    <div class="dashboard-grid section">
+      <div class="panel"><h3>Category accuracy</h3><div id="topicAccuracy"></div></div>
+      <div class="panel"><h3>Time spent by category</h3><div id="topicTime"></div></div>
+      <div class="panel"><h3>Score trend</h3><div id="scoreTrend"></div></div>
+      <div class="panel"><h3>Recommendations</h3><div id="recommendations"></div></div>
+    </div>
+    <section class="panel section">
+      <h2>Answer analysis for your latest test</h2>
+      <p class="muted">Correct answers, your final responses, and explanations are shown here after submission or timeout.</p>
+      <div id="latestAnswerAnalysis"></div>
+    </section>
+    <section class="panel section">
+      <h2>Complete test history</h2>
+      <div id="fullHistory"></div>
+    </section>
+  </section>
+</main>
+
+<footer>PRAKTIKUL · Built by Sachin B. V. · Learn consistently, improve continuously.</footer>
+
+<script>
+"use strict";
+
+/* ---------- shared helpers ---------- */
+const CATEGORIES = [
+  "Quantitative Aptitude",
+  "Logical Reasoning",
+  "Verbal Ability",
+  "Abstract & Spatial Reasoning",
+  "Data Interpretation"
+];
+
+/* Shared key used by performance.html */
+const PERFORMANCE_STORAGE_KEY = "praktikul_test_results";
+
+let questionBank = [];
+let idCounter = 0;
+let session = null;
+let overallInterval = null;
+let questionInterval = null;
+let advanceTimeout = null;
+
+function $(id) { return document.getElementById(id); }
+
+function escapeHTML(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+function showScreen(id) {
+  ["setupScreen", "testScreen", "resultScreen", "dashboardScreen"].forEach(s => {
+    $(s).classList.toggle("hidden", s !== id);
+  });
+}
+
+function goHome() {
+  clearTimers();
+  session = null;
+  showScreen("setupScreen");
+  renderSetupHistory();
+}
+
+/* ============================================================
+   SESSION STORAGE (clears automatically when browser/tab is closed)
+   - Multiple tests in the same session → questions won't repeat
+   - Performance data accumulates during the session
+   - Close the website → all test data is deleted
+   ============================================================ */
+function historyData() {
+  try { return JSON.parse(sessionStorage.getItem("praktikul_history") || "[]"); }
+  catch { return []; }
+}
+function saveHistory(data) {
+  sessionStorage.setItem("praktikul_history", JSON.stringify(data));
+}
+function attemptedQuestions() {
+  try { return JSON.parse(sessionStorage.getItem("praktikul_attempted") || "[]"); }
+  catch { return []; }
+}
+function saveAttempted(ids) {
+  sessionStorage.setItem("praktikul_attempted", JSON.stringify(ids));
+}
+
+/* Current user identity (shared with performance page) */
+function getCurrentUser() {
+  return (
+    sessionStorage.getItem("praktikulUserGmail") ||
+    sessionStorage.getItem("praktikulUserName") ||
+    localStorage.getItem("praktikulUserGmail") ||
+    localStorage.getItem("praktikulUserName") ||
+    "guest"
+  ).trim().toLowerCase();
+}
+
+/**
+ * Save a completed test into the shared key that performance.html reads.
+ * Uses sessionStorage so data is cleared when the user closes the site.
+ */
+function saveToPerformanceReport(result) {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(PERFORMANCE_STORAGE_KEY) || "[]");
+    if (!Array.isArray(saved)) throw new Error("Storage is not an array");
+
+    // Build topics in the shape expected by performance.html
+    const topics = {};
+    Object.entries(result.topic || {}).forEach(([name, t]) => {
+      topics[name] = {
+        correct: t.correct || 0,
+        incorrect: t.wrong || 0,
+        skipped: t.skipped || 0,
+        timeSpentSeconds: t.time || 0
+      };
+    });
+
+    const record = {
+      type: "Aptitude",
+      category: result.category || "All",
+      difficulty: result.difficulty || "All",
+      date: new Date().toISOString(),
+      total: result.total,
+      correct: result.correct,
+      incorrect: result.wrong,
+      skipped: result.skipped,
+      scorePercent: result.percent,
+      timeSpentSeconds: result.elapsedSeconds || 0,
+      topics,
+      userId: getCurrentUser(),
+      answers: result.answers || []
+    };
+
+    saved.push(record);
+    sessionStorage.setItem(PERFORMANCE_STORAGE_KEY, JSON.stringify(saved));
+    return true;
+  } catch (err) {
+    console.error("Failed to save to performance report:", err);
+    return false;
+  }
+}
+
+function addQuestion(cat, diff, question, answer, distractors, explanation) {
+  const options = [String(answer), ...distractors.map(String)];
+  questionBank.push({
+    id: ++idCounter,
+    category: cat,
+    difficulty: diff,
+    question,
+    answer: String(answer),
+    options,
+    explanation
+  });
+}
+
+function uniqueChoices(answer, values) {
+  const list = [];
+  for (const value of values) {
+    if (String(value) !== String(answer) && !list.includes(String(value))) {
+      list.push(String(value));
+    }
+  }
+  let n = 1;
+  while (list.length < 3) {
+    const candidate = String(answer) + " +" + n++;
+    if (!list.includes(candidate)) list.push(candidate);
+  }
+  return list.slice(0, 3);
+}
+
+/* ---------- 1. QUANTITATIVE APTITUDE ---------- */
+function generateQuantitative() {
+  const cat = CATEGORIES[0];
+
+  for (let i = 0; i < 100; i++) {
+    const a = 240 + i * 7;
+    const p = 12 + (i % 9) * 2;
+    const answer = Math.round(a * p / 100);
+    addQuestion(cat, "Medium",
+      `A product costs ₹${a}. Its price increases by ${p}%. What is the increase in rupees?`,
+      answer,
+      uniqueChoices(answer, [answer + 12, answer - 15, answer * 2]),
+      `Increase = ${a} × ${p}/100 = ₹${answer}.`
+    );
+
+    const principal = 1200 + i * 25;
+    const rate = 5 + (i % 7);
+    const years = 2 + (i % 4);
+    const interest = principal * rate * years / 100;
+    addQuestion(cat, "Hard",
+      `A principal of ₹${principal} earns simple interest at ${rate}% per year for ${years} years. Find the interest.`,
+      interest,
+      uniqueChoices(interest, [interest + 120, interest - 100, interest * 2]),
+      `Simple interest = P × R × T / 100 = ${principal} × ${rate} × ${years} / 100 = ₹${interest}.`
+    );
+  }
+
+  for (let i = 0; i < 100; i++) {
+    const x = 3 + (i % 17);
+    const y = 2 + (i % 11);
+    const total = (x + y) * (8 + (i % 13));
+    const answer = total * x / (x + y);
+    addQuestion(cat, "Medium",
+      `Two quantities are in the ratio ${x}:${y}. Their total is ${total}. What is the first quantity?`,
+      answer,
+      uniqueChoices(answer, [answer + x, answer - y, total - answer + 5]),
+      `Total parts = ${x}+${y}=${x+y}. First quantity = ${total} × ${x}/${x+y} = ${answer}.`
+    );
+
+    const speed = 36 + (i % 13) * 4;
+    const time = 2 + (i % 6);
+    const distance = speed * time;
+    const newSpeed = speed + 12;
+    const newTime = distance / newSpeed;
+    const formatted = Number(newTime.toFixed(2));
+    addQuestion(cat, "Hard",
+      `A vehicle travels ${distance} km at ${speed} km/h. At ${newSpeed} km/h, how long would the same journey take?`,
+      `${formatted} hours`,
+      uniqueChoices(`${formatted} hours`, [`${(formatted + 1).toFixed(2)} hours`, `${(formatted + 2).toFixed(2)} hours`, `${Math.max(0.5, formatted - 1).toFixed(2)} hours`]),
+      `Time = distance ÷ speed = ${distance} ÷ ${newSpeed} = ${formatted} hours (approximately).`
+    );
+  }
+
+  for (let i = 0; i < 100; i++) {
+    const cost = 400 + i * 9;
+    const profit = 10 + i % 16;
+    const selling = cost * (100 + profit) / 100;
+    addQuestion(cat, "Medium",
+      `An item costs ₹${cost} and is sold at a ${profit}% profit. Find its selling price.`,
+      `₹${selling}`,
+      uniqueChoices(`₹${selling}`, [`₹${selling + 20}`, `₹${selling - 30}`, `₹${cost + profit}`]),
+      `Selling price = cost × (100 + profit)% = ${cost} × ${(100+profit)/100} = ₹${selling}.`
+    );
+
+    const base = 1000 + i * 10;
+    const r = 5 + i % 8;
+    const amount = base * Math.pow(1 + r / 100, 2);
+    const rounded = Number(amount.toFixed(2));
+    addQuestion(cat, "Hard",
+      `₹${base} is invested at ${r}% compound interest per year. What is the amount after 2 years?`,
+      `₹${rounded}`,
+      uniqueChoices(`₹${rounded}`, [`₹${Number((base*(1+r/100)).toFixed(2))}`, `₹${Number((base+2*base*r/100).toFixed(2))}`, `₹${Number((rounded+100).toFixed(2))}`]),
+      `Amount = P(1+r/100)² = ${base}(1+${r}/100)² = ₹${rounded}.`
+    );
+  }
+
+  for (let i = 0; i < 100; i++) {
+    const x = 2 + i % 15;
+    const answer = 3 * x + 7;
+    addQuestion(cat, "Medium",
+      `If 3x + 7 = ${answer}, what is x?`,
+      x,
+      uniqueChoices(x, [x+2, x-1, x*2]),
+      `3x = ${answer}-7 = ${answer-7}; x = ${(answer-7)}/3 = ${x}.`
+    );
+
+    const n = 4 + i % 14;
+    const answerHard = n*n - 3*n + 8;
+    addQuestion(cat, "Hard",
+      `For the expression f(x) = x² − 3x + 8, find f(${n}).`,
+      answerHard,
+      uniqueChoices(answerHard, [answerHard+5, answerHard-7, n*n+3*n]),
+      `Substitute x=${n}: ${n}² − 3(${n}) + 8 = ${n*n} − ${3*n} + 8 = ${answerHard}.`
+    );
+  }
+
+  for (let i = 0; i < 100; i++) {
+    const workers = 4 + i % 12;
+    const days = 18 + i % 9;
+    const newWorkers = workers + 3;
+    const answer = workers * days / newWorkers;
+    const rounded = Number(answer.toFixed(2));
+    addQuestion(cat, "Medium",
+      `${workers} workers complete a job in ${days} days. At the same rate, how many days would ${newWorkers} workers take?`,
+      `${rounded} days`,
+      uniqueChoices(`${rounded} days`, [`${(rounded+2).toFixed(2)} days`, `${(rounded+4).toFixed(2)} days`, `${(days+newWorkers).toFixed(2)} days`]),
+      `Workers × days is constant. New time = ${workers} × ${days} / ${newWorkers} = ${rounded} days.`
+    );
+
+    const x1 = 2 + i % 10;
+    const x2 = 3 + i % 8;
+    const speed1 = 30 + i % 12 * 5;
+    const speed2 = speed1 + 10;
+    const answer2 = Number((x1 * speed1 + x2 * speed2).toFixed(2));
+    addQuestion(cat, "Hard",
+      `A vehicle travels ${x1} hours at ${speed1} km/h and ${x2} hours at ${speed2} km/h. What total distance does it cover?`,
+      `${answer2} km`,
+      uniqueChoices(`${answer2} km`, [`${answer2+10} km`, `${answer2-20} km`, `${answer2+30} km`]),
+      `Distance = speed × time for each part. Total = ${x1}×${speed1} + ${x2}×${speed2} = ${answer2} km.`
+    );
+  }
+}
+
+/* ---------- 2. LOGICAL REASONING ---------- */
+function generateReasoning() {
+  const cat = CATEGORIES[1];
+
+  for (let i = 0; i < 100; i++) {
+    const start = 5 + i;
+    const step = 3 + i % 9;
+    const seq = [start, start+step, start+2*step, start+3*step];
+    const answer = start+4*step;
+    addQuestion(cat, "Medium",
+      `Find the next number: ${seq.join(", ")}, ?`,
+      answer, uniqueChoices(answer, [answer+step, answer-2, answer+3]),
+      `The sequence increases by ${step} each time. The next number is ${seq[3]} + ${step} = ${answer}.`
+    );
+
+    const first = 2 + i % 6;
+    const ratio = 2 + i % 4;
+    const sequence = [first, first*ratio, first*ratio**2, first*ratio**3];
+    const next = first*ratio**4;
+    addQuestion(cat, "Hard",
+      `Find the next number in this geometric sequence: ${sequence.join(", ")}, ?`,
+      next, uniqueChoices(next, [next+ratio, next-ratio*2, next*2]),
+      `Each term is multiplied by ${ratio}. Therefore, the next term is ${sequence[3]} × ${ratio} = ${next}.`
+    );
+  }
+
+  for (let i = 0; i < 100; i++) {
+    const n = 11 + i % 20;
+    const answer = n + 7;
+    addQuestion(cat, "Medium",
+      `In a code, every letter is shifted 2 places forward. If A becomes C, how is the number ${n} changed when the rule is to add 7?`,
+      answer, uniqueChoices(answer, [answer+2, answer-3, n*2]),
+      `Apply the numerical rule: ${n} + 7 = ${answer}.`
+    );
+
+    const a = 10 + i % 15;
+    const b = 3 + i % 8;
+    const answerHard = a*b + a;
+    addQuestion(cat, "Hard",
+      `A coded pair (a,b) produces a × b + a. What is the output for (${a}, ${b})?`,
+      answerHard, uniqueChoices(answerHard, [a*b, a*b+b, answerHard+10]),
+      `Apply the rule: ${a} × ${b} + ${a} = ${a*b} + ${a} = ${answerHard}.`
+    );
+  }
+
+  for (let i = 0; i < 100; i++) {
+    addQuestion(cat, "Medium",
+      `A person faces north, turns right, then turns left. Which direction are they facing now?`,
+      "North", ["South", "East", "West"],
+      `A right turn from north points east; a left turn from east returns to north.`
+    );
+
+    const turns = i % 4;
+    const directions = ["North", "East", "South", "West"];
+    const result = directions[turns];
+    const rightTurns = (i + 1) % 4;
+    const finalDirection = directions[(turns + rightTurns) % 4];
+    addQuestion(cat, "Hard",
+      `A person faces ${result.toLowerCase()} and turns right ${rightTurns} quarter-turn(s). Which direction are they facing?`,
+      finalDirection, directions.filter(d => d !== finalDirection).slice(0,3),
+      `Each right quarter-turn moves one step clockwise. Starting at ${result}, ${rightTurns} right turn(s) ends at ${finalDirection}.`
+    );
+  }
+
+  for (let i = 0; i < 100; i++) {
+    const ages = [24+i%12, 30+i%15, 36+i%18];
+    const youngest = Math.min(...ages);
+    addQuestion(cat, "Medium",
+      `Three candidates have ages ${ages.join(", ")} years. Who is the youngest?`,
+      `The ${ages.indexOf(youngest)+1}${["st","nd","rd"][ages.indexOf(youngest)] || "th"} candidate`,
+      ["The oldest candidate", "The middle-aged candidate", "Cannot be determined"],
+      `The smallest age is ${youngest} years, belonging to candidate ${ages.indexOf(youngest)+1}.`
+    );
+
+    const total = 100 + i * 3;
+    const parts = [2 + i%4, 3 + i%5, 4 + i%6];
+    const sum = parts.reduce((a,b)=>a+b,0);
+    const answer = total * parts[0] / sum;
+    addQuestion(cat, "Hard",
+      `A total of ${total} units is divided in the ratio ${parts.join(":")}. How many units belong to the first share?`,
+      Number(answer.toFixed(2)),
+      uniqueChoices(Number(answer.toFixed(2)), [Number((answer+5).toFixed(2)), Number((answer-3).toFixed(2)), total/2]),
+      `Total ratio parts = ${sum}. First share = ${total} × ${parts[0]}/${sum} = ${Number(answer.toFixed(2))}.`
+    );
+  }
+
+  for (let i = 0; i < 100; i++) {
+    addQuestion(cat, "Medium",
+      `If today is Monday, what day will it be 10 days later?`,
+      "Thursday", ["Tuesday", "Wednesday", "Friday"],
+      `10 days = 7 days + 3 days. Three days after Monday is Thursday.`
+    );
+
+    const days = 50 + i % 100;
+    const remainder = days % 7;
+    const dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const startDay = i % 7;
+    const answer = dayNames[(startDay + remainder) % 7];
+    addQuestion(cat, "Hard",
+      `If day 1 of a period is ${dayNames[startDay]}, what day of the week is day ${days+1}?`,
+      answer, dayNames.filter(d=>d!==answer).slice(0,3),
+      `There are ${days} elapsed days. ${days} mod 7 = ${remainder}, so move ${remainder} days forward from ${dayNames[startDay]} to get ${answer}.`
+    );
+  }
+}
+
+/* ---------- 3. VERBAL ABILITY ---------- */
+function generateVerbal() {
+  const cat = CATEGORIES[2];
+
+  const vocab = [
+    ["Abundant","Plentiful",["Scarce","Limited","Rare"]],
+    ["Cautious","Careful",["Reckless","Careless","Hasty"]],
+    ["Diligent","Hardworking",["Lazy","Idle","Negligent"]],
+    ["Concise","Brief",["Lengthy","Confusing","Detailed"]],
+    ["Obsolete","Outdated",["Modern","Current","Recent"]],
+    ["Resilient","Adaptable",["Fragile","Weak","Rigid"]],
+    ["Reluctant","Unwilling",["Eager","Keen","Willing"]],
+    ["Transparent","Clear",["Opaque","Hidden","Vague"]],
+    ["Prudent","Wise",["Foolish","Impulsive","Careless"]],
+    ["Ambiguous","Unclear",["Certain","Obvious","Precise"]]
+  ];
+
+  const opposites = [
+    ["Expand","Contract",["Enlarge","Extend","Increase"]],
+    ["Optimistic","Pessimistic",["Hopeful","Positive","Confident"]],
+    ["Scarce","Abundant",["Rare","Limited","Insufficient"]],
+    ["Artificial","Natural",["Synthetic","Man-made","Fake"]],
+    ["Rigid","Flexible",["Stiff","Strict","Inflexible"]],
+    ["Hostile","Friendly",["Aggressive","Unkind","Antagonistic"]],
+    ["Temporary","Permanent",["Brief","Short-lived","Passing"]],
+    ["Inferior","Superior",["Lower","Worse","Weaker"]],
+    ["Transparent","Opaque",["Clear","Visible","Obvious"]],
+    ["Complex","Simple",["Difficult","Complicated","Intricate"]]
+  ];
+
+  for (let i = 0; i < 100; i++) {
+    const item = vocab[i % vocab.length];
+    addQuestion(cat, "Medium",
+      `Choose the closest meaning of "${item[0]}".`,
+      item[1], item[2],
+      `"${item[0]}" means "${item[1]}".`
+    );
+
+    const opp = opposites[i % opposites.length];
+    addQuestion(cat, "Hard",
+      `Choose the word most nearly opposite in meaning to "${opp[0]}".`,
+      opp[1], opp[2],
+      `The best antonym of "${opp[0]}" among the options is "${opp[1]}".`
+    );
+  }
+
+  const grammar = [
+    ["Neither of the applicants ___ qualified for the final round.","is",["are","were","have"]],
+    ["If she ___ earlier, she would have caught the train.","had left",["left","has left","would leave"]],
+    ["Each of the reports ___ been checked.","has",["have","are","were"]],
+    ["The manager, along with the employees, ___ attending.","is",["are","were","have"]],
+    ["By next June, he ___ here for five years.","will have worked",["will work","has worked","would work"]],
+    ["No sooner had we arrived ___ it started raining.","than",["when","then","while"]],
+    ["She is senior ___ me in this organisation.","to",["than","from","over"]],
+    ["The data ___ consistent with the original report.","are",["is","was","has"]],
+    ["Hardly had the meeting begun ___ the power failed.","when",["than","then","while"]],
+    ["He insisted that the application ___ submitted today.","be",["is","was","being"]]
+  ];
+
+  for (let i = 0; i < 100; i++) {
+    const g = grammar[i % grammar.length];
+    addQuestion(cat, "Medium",
+      `Choose the grammatically correct word or phrase: ${g[0]}`,
+      g[1], g[2],
+      `The correct completion is "${g[1]}". Read the full sentence to check its tense and grammatical agreement.`
+    );
+
+    const sentence = [
+      ["Despite the heavy rain, the match continued.", "Although it rained heavily, the match continued.", ["Because it rained, the match was cancelled.", "The match continued before it rained.", "The rain stopped the match permanently."]],
+      ["The report was too complex for a quick review.", "The report was so complex that it could not be reviewed quickly.", ["The report was easy to review.", "The report was reviewed instantly.", "The report contained no complex information."]],
+      ["Unless you practise, you may not improve.", "If you do not practise, you may not improve.", ["If you practise, you cannot improve.", "You will improve without any practice.", "Practice always prevents improvement."]],
+      ["The team succeeded because it collaborated.", "Collaboration helped the team succeed.", ["The team succeeded despite refusing to collaborate.", "Collaboration caused the team to fail.", "The team worked without communicating."]],
+      ["She completed the task in spite of the delay.", "She completed the task despite the delay.", ["She abandoned the task due to the delay.", "The task caused the delay.", "She completed the task before it began."]]
+    ][i % 5];
+    addQuestion(cat, "Hard",
+      `Choose the sentence that preserves the meaning: "${sentence[0]}"`,
+      sentence[1], sentence[2],
+      `The correct choice preserves the original sentence's meaning without adding a contradictory claim.`
+    );
+  }
+
+  const spellings = [
+    ["Accommodate","Accommodate",["Acommodate","Accomodate","Acomodate"]],
+    ["Entrepreneur","Entrepreneur",["Entreprenuer","Enterpreneur","Entreprenur"]],
+    ["Maintenance","Maintenance",["Maintainance","Maintanance","Maintenence"]],
+    ["Occurrence","Occurrence",["Occurence","Ocurrence","Occurrance"]],
+    ["Necessary","Necessary",["Neccessary","Necesary","Necassary"]],
+    ["Privilege","Privilege",["Priviledge","Privilage","Privelege"]],
+    ["Questionnaire","Questionnaire",["Questionaire","Questionnair","Questionnare"]],
+    ["Conscientious","Conscientious",["Consciencious","Conscientous","Conscienctious"]],
+    ["Separate","Separate",["Seperate","Seprate","Separete"]]
+  ];
+
+  for (let i = 0; i < 100; i++) {
+    const s = spellings[i % spellings.length];
+    addQuestion(cat, "Medium",
+      `Choose the correctly spelled word:`,
+      s[1], s[2],
+      `The correct spelling is "${s[1]}".`
+    );
+    addQuestion(cat, "Hard",
+      `Which of the following is the correct spelling of the word meaning the same as "${s[0]}"?`,
+      s[1], s[2],
+      `The only correctly spelled form among the options is "${s[1]}".`
+    );
+  }
+}
+
+/* ---------- 4 & 5. Abstract & Data ---------- */
+function generateAbstract() {
+  const cat = CATEGORIES[3];
+  for (let i = 0; i < 50; i++) {
+    addQuestion(cat, "Medium",
+      `Which shape comes next in a repeating pattern of triangle, square, circle?`,
+      "Triangle",
+      ["Square", "Circle", "Pentagon"],
+      `The pattern repeats every three shapes, so the next after circle is triangle.`
+    );
+    addQuestion(cat, "Hard",
+      `If a cube is painted on all sides and cut into 27 smaller cubes, how many have exactly two faces painted?`,
+      "12",
+      ["8", "6", "24"],
+      `Edge cubes (not corners) have exactly two faces painted; a 3×3×3 cube has 12 such edges.`
+    );
+  }
+}
+
+function generateData() {
+  const cat = CATEGORIES[4];
+  for (let i = 0; i < 50; i++) {
+    const a = 40 + i % 20;
+    const b = 60 + i % 15;
+    addQuestion(cat, "Medium",
+      `A table shows sales of 100 units of which ${a}% are product A and the rest product B. How many units of product B were sold?`,
+      100 - a,
+      uniqueChoices(100 - a, [a, 100 + a, b]),
+      `Product B = 100 − ${a} = ${100 - a}.`
+    );
+    addQuestion(cat, "Hard",
+      `Average of five numbers is ${b}. If one number is removed the average becomes ${b - 2}. What was the removed number?`,
+      b + 8,
+      uniqueChoices(b + 8, [b, b - 2, b * 2]),
+      `Total of five = 5×${b}. Total of remaining four = 4×(${b}-2). Removed = 5b − 4(b-2) = ${b + 8}.`
+    );
+  }
+}
+
+/* generate all banks */
+generateQuantitative();
+generateReasoning();
+generateVerbal();
+generateAbstract();
+generateData();
+
+/* ---------- timers & test flow ---------- */
+function clearTimers() {
+  clearInterval(overallInterval);
+  clearInterval(questionInterval);
+  clearTimeout(advanceTimeout);
+  overallInterval = null;
+  questionInterval = null;
+  advanceTimeout = null;
+}
+
+function startTest() {
+  clearTimers();
+
+  const category = $("categorySelect").value;
+  const difficulty = $("difficultySelect").value;
+  const duration = Number($("durationSelect").value);
+  const count = duration;
+
+  const attempted = new Set(attemptedQuestions());
+  let available = questionBank.filter(q =>
+    (category === "All" || q.category === category) &&
+    (difficulty === "All" || q.difficulty === difficulty) &&
+    !attempted.has(q.id)
+  );
+
+  if (!available.length) {
+    alert("You have completed all questions available for this selection. Choose another category or difficulty to continue.");
+    return;
+  }
+
+  const questions = shuffle(available).slice(0, Math.min(count, available.length));
+
+  session = {
+    questions,
+    duration,
+    totalSeconds: duration*60,
+    remainingSeconds: duration*60,
+    index: 0,
+    correct: 0,
+    wrong: 0,
+    skipped: 0,
+    timedOut: 0,
+    answered: 0,
+    currentSeconds: 45,
+    answers: [],
+    topic: {},
+    startTime: Date.now(),
+    finished: false,
+    reviewMode: false
+  };
+
+  questions.forEach(q => {
+    if (!session.topic[q.category]) session.topic[q.category] = {
+      correct: 0, wrong: 0, skipped: 0, time: 0, total: 0
+    };
+    session.topic[q.category].total++;
+  });
+
+  showScreen("testScreen");
+  renderQuestion();
+
+  overallInterval = setInterval(() => {
+    if (!session || session.finished) return;
+    session.remainingSeconds--;
+    $("overallTimer").textContent = formatTime(session.remainingSeconds);
+    if (session.remainingSeconds <= 60) $("overallTimer").classList.add("warning");
+    if (session.remainingSeconds <= 0) finishTest();
+  }, 1000);
+}
+
+function renderQuestion() {
+  if (!session || session.finished) return;
+  clearInterval(questionInterval);
+  clearTimeout(advanceTimeout);
+
+  if (session.index >= session.questions.length) {
+    enterReviewMode();
+    return;
+  }
+
+  const q = session.questions[session.index];
+  session.currentSeconds = 45;
+  session.currentAnswered = false;
+  session.currentChoice = null;
+  session.currentStart = Date.now();
+
+  $("questionCounter").textContent =
+    `Question ${session.index+1} of ${session.questions.length}`;
+  $("progressFill").style.width =
+    `${(session.index/session.questions.length)*100}%`;
+  $("categoryPill").textContent = q.category;
+  $("difficultyPill").textContent = q.difficulty;
+  $("difficultyPill").className =
+    "pill " + (q.difficulty === "Hard" ? "hard" : "medium");
+  $("questionText").textContent = q.question;
+  $("feedbackBox").classList.add("hidden");
+  $("liveActions").classList.remove("hidden");
+  $("liveHint").classList.remove("hidden");
+  $("reviewMode").classList.add("hidden");
+  $("skipBtn").classList.remove("hidden");
+  $("questionTimer").classList.remove("warning");
+
+  const optionBox = $("optionsBox");
+  optionBox.innerHTML = "";
+
+  q.displayOptions = shuffle(q.options);
+
+  q.displayOptions.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.className = "option";
+    button.innerHTML = `<strong>${String.fromCharCode(65+index)}.</strong> ${escapeHTML(option)}`;
+    button.onclick = () => chooseAnswer(option, button);
+    optionBox.appendChild(button);
+  });
+
+  $("questionTimer").textContent = "45s";
+  questionInterval = setInterval(() => {
+    if (!session || session.finished || session.currentAnswered) return;
+    session.currentSeconds--;
+    $("questionTimer").textContent = `${session.currentSeconds}s`;
+    if (session.currentSeconds <= 10) $("questionTimer").classList.add("warning");
+    if (session.currentSeconds <= 0) {
+      session.timedOut++;
+      session.skipped++;
+      session.topic[q.category].skipped++;
+      session.answers[session.index] = {
+        id:q.id, category:q.category, difficulty:q.difficulty,
+        question:q.question, chosen:null, answer:q.answer,
+        explanation:q.explanation, status:"Timed out", time:45
+      };
+      saveAttempted([...new Set([...attemptedQuestions(), q.id])]);
+      session.currentAnswered = true;
+      scheduleNext();
+    }
+  }, 1000);
+}
+
+function chooseAnswer(option, button) {
+  if (!session || session.currentAnswered || session.reviewMode) return;
+
+  const q = session.questions[session.index];
+  const elapsed = Math.min(45, Math.round((Date.now()-session.currentStart)/1000));
+  session.currentAnswered = true;
+  session.currentChoice = option;
+  clearInterval(questionInterval);
+
+  const correct = String(option) === String(q.answer);
+  const status = correct ? "Correct" : "Incorrect";
+  session.answered++;
+  session.topic[q.category].time += elapsed;
+
+  if (correct) {
+    session.correct++;
+    session.topic[q.category].correct++;
+  } else {
+    session.wrong++;
+    session.topic[q.category].wrong++;
+  }
+
+  session.answers[session.index] = {
+    id:q.id, category:q.category, difficulty:q.difficulty,
+    question:q.question, chosen:option, answer:q.answer,
+    explanation:q.explanation, status, time:elapsed
+  };
+  saveAttempted([...new Set([...attemptedQuestions(), q.id])]);
+
+  [...$("optionsBox").children].forEach(el => { el.disabled = true; });
+  scheduleNext();
+}
+
+function scheduleNext() {
+  clearTimeout(advanceTimeout);
+  advanceTimeout = setTimeout(() => nextQuestion(), 450);
+}
+
+function skipQuestion() {
+  if (!session || session.currentAnswered || session.reviewMode) return;
+  const q = session.questions[session.index];
+  const elapsed = Math.min(45, Math.round((Date.now()-session.currentStart)/1000));
+
+  session.currentAnswered = true;
+  session.skipped++;
+  session.topic[q.category].skipped++;
+  session.topic[q.category].time += elapsed;
+  clearInterval(questionInterval);
+
+  session.answers[session.index] = {
+    id:q.id, category:q.category, difficulty:q.difficulty,
+    question:q.question, chosen:null, answer:q.answer,
+    explanation:q.explanation, status:"Skipped", time:elapsed
+  };
+
+  saveAttempted([...new Set([...attemptedQuestions(), q.id])]);
+  scheduleNext();
+}
+
+function nextQuestion() {
+  if (!session || session.finished || session.reviewMode) return;
+  clearTimeout(advanceTimeout);
+  session.index++;
+  if (session.index >= session.questions.length) {
+    enterReviewMode();
+  } else {
+    renderQuestion();
+  }
+}
+
+function enterReviewMode() {
+  if (!session || session.finished) return;
+  clearInterval(questionInterval);
+  clearTimeout(advanceTimeout);
+  session.reviewMode = true;
+  session.index = Math.min(session.index, session.questions.length - 1);
+  $("liveActions").classList.add("hidden");
+  $("liveHint").classList.add("hidden");
+  $("reviewMode").classList.remove("hidden");
+  $("feedbackBox").classList.add("hidden");
+  $("questionTimer").textContent = "Review";
+  $("questionTimer").classList.remove("warning");
+  renderReviewQuestion();
+}
+
+function moveReview(direction) {
+  if (!session || !session.reviewMode || session.finished) return;
+  const nextIndex = session.index + direction;
+  if (nextIndex < 0 || nextIndex >= session.questions.length) return;
+  session.index = nextIndex;
+  renderReviewQuestion();
+}
+
+function renderReviewQuestion() {
+  if (!session || !session.reviewMode) return;
+  const q = session.questions[session.index];
+  const answer = session.answers[session.index] || {
+    chosen:null, answer:q.answer, explanation:q.explanation, status:"Not answered"
+  };
+
+  $("questionCounter").textContent = `Review ${session.index + 1} of ${session.questions.length}`;
+  $("progressFill").style.width = `${((session.index + 1) / session.questions.length) * 100}%`;
+  $("categoryPill").textContent = q.category;
+  $("difficultyPill").textContent = q.difficulty;
+  $("questionText").textContent = q.question;
+  const optionBox = $("optionsBox");
+  optionBox.innerHTML = "";
+  const choices = q.displayOptions || shuffle(q.options);
+
+  choices.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.className = "option";
+    if (answer.chosen !== null && String(option) === String(answer.chosen)) {
+      button.classList.add("selected");
+    }
+    button.innerHTML = `<strong>${String.fromCharCode(65 + index)}.</strong> ${escapeHTML(option)}`;
+    button.onclick = () => editReviewAnswer(option);
+    optionBox.appendChild(button);
+  });
+
+  $("reviewFeedback").innerHTML =
+    `<strong>Answer review mode</strong><br>` +
+    `<strong>Your current choice:</strong> ${escapeHTML(answer.chosen ?? "No answer selected")}<br>` +
+    `<span class="muted">Select any option to change your answer. Correct answers and explanations will be revealed only after you submit or the overall timer ends.</span>`;
+
+  $("previousReviewBtn").disabled = session.index === 0;
+  $("nextReviewBtn").disabled = session.index === session.questions.length - 1;
+}
+
+function editReviewAnswer(option) {
+  if (!session || !session.reviewMode || session.finished) return;
+  const q = session.questions[session.index];
+  const old = session.answers[session.index] || {};
+  const elapsed = old.time || 0;
+
+  session.answers[session.index] = {
+    id:q.id, category:q.category, difficulty:q.difficulty,
+    question:q.question, chosen:option, answer:q.answer,
+    explanation:q.explanation, status:"Answered", time:elapsed
+  };
+
+  saveAttempted([...new Set([...attemptedQuestions(), q.id])]);
+  renderReviewQuestion();
+}
+
+function recalculateSessionScore() {
+  session.correct = 0;
+  session.wrong = 0;
+  session.skipped = 0;
+  session.timedOut = 0;
+
+  Object.values(session.topic).forEach(t => {
+    t.correct = 0;
+    t.wrong = 0;
+    t.skipped = 0;
+  });
+
+  session.answers = session.questions.map((q, i) => {
+    const previous = session.answers[i] || {};
+    const chosen = previous.chosen ?? null;
+    let status = "Skipped";
+
+    if (chosen !== null && chosen !== undefined) {
+      status = String(chosen) === String(q.answer) ? "Correct" : "Incorrect";
+    } else if (previous.status === "Timed out") {
+      status = "Timed out";
+    }
+
+    if (status === "Correct") {
+      session.correct++;
+      session.topic[q.category].correct++;
+    } else if (status === "Incorrect") {
+      session.wrong++;
+      session.topic[q.category].wrong++;
+    } else {
+      session.skipped++;
+      session.topic[q.category].skipped++;
+      if (status === "Timed out") session.timedOut++;
+    }
+
+    return {
+      id:q.id, category:q.category, difficulty:q.difficulty,
+      question:q.question, chosen, answer:q.answer,
+      explanation:q.explanation, status,
+      time:previous.time || 0
+    };
+  });
+}
+
+function finishTest() {
+  if (!session || session.finished) return;
+  session.finished = true;
+  clearTimers();
+
+  const attempted = [...new Set([
+    ...attemptedQuestions(),
+    ...session.answers.map(a=>a.id)
+  ])];
+  saveAttempted(attempted);
+
+  recalculateSessionScore();
+
+  const total = session.questions.length;
+  const percent = total ? Math.round(session.correct/total*100) : 0;
+  const elapsedSeconds = Math.round((Date.now()-session.startTime)/1000);
+  const avgTime = session.answers.length
+    ? Math.round(session.answers.reduce((sum,a)=>sum+a.time,0)/session.answers.length)
+    : 0;
+
+  session.result = {
+    date: new Date().toLocaleString(),
+    timestamp: Date.now(),
+    category: $("categorySelect").value,
+    difficulty: $("difficultySelect").value,
+    duration: session.duration,
+    total,
+    correct: session.correct,
+    wrong: session.wrong,
+    skipped: session.skipped,
+    timedOut: session.timedOut,
+    percent,
+    avgTime,
+    elapsedSeconds,
+    topic: session.topic,
+    answers: session.answers
+  };
+
+  // 1. Save to local history (for this page's dashboard)
+  const history = historyData();
+  history.push(session.result);
+  saveHistory(history.slice(-100));
+
+  // 2. Save to the shared key that performance.html reads
+  //    → this is what makes the Performance Report update after every attempt
+  saveToPerformanceReport(session.result);
+
+  // Show the result screen first (with link to full Performance Report)
+  $("resultPercent").textContent = percent + "%";
+  $("correctStat").textContent = session.correct;
+  $("wrongStat").textContent = session.wrong;
+  $("skipStat").textContent = session.skipped;
+  $("avgTimeStat").textContent = avgTime + "s";
+
+  let message = "";
+  if (percent >= 80) message = "Excellent work! You are performing at a strong level.";
+  else if (percent >= 60) message = "Good effort. Keep practising the weaker topics.";
+  else message = "Keep going — every attempt improves your accuracy.";
+  $("resultMessage").textContent = message;
+
+  // Build question review
+  const reviewBox = $("reviewBox");
+  reviewBox.innerHTML = "";
+  session.answers.forEach((a, i) => {
+    const color = a.status === "Correct" ? "var(--green)" :
+      a.status === "Incorrect" ? "var(--red)" : "var(--yellow)";
+    const item = document.createElement("div");
+    item.className = "history-item";
+    item.innerHTML = `
+      <div class="topic-heading">
+        <strong>Q${i+1}. ${escapeHTML(a.category)}</strong>
+        <strong style="color:${color}">${escapeHTML(a.status)}</strong>
+      </div>
+      <p>${escapeHTML(a.question)}</p>
+      <p class="muted"><strong>Your answer:</strong> ${escapeHTML(a.chosen ?? "No answer")}<br>
+      <strong>Correct answer:</strong> ${escapeHTML(a.answer)}<br>
+      <strong>Explanation:</strong> ${escapeHTML(a.explanation)}</p>`;
+    reviewBox.appendChild(item);
+  });
+
+  showScreen("resultScreen");
+}
+
+function showDashboard() {
+  const history = historyData();
+  const results = history.filter(r=>typeof r.percent === "number");
+  const count = results.length;
+  const average = count
+    ? Math.round(results.reduce((sum,r)=>sum+r.percent,0)/count) : 0;
+  const best = count ? Math.max(...results.map(r=>r.percent)) : 0;
+  const attempted = results.reduce((sum,r)=>sum+r.total,0);
+
+  $("dashTests").textContent = count;
+  $("dashAccuracy").textContent = average + "%";
+  $("dashBest").textContent = best + "%";
+  $("dashAttempted").textContent = attempted;
+
+  renderTopicAccuracy(results);
+  renderTopicTime(results);
+  renderScoreTrend(results);
+  renderRecommendations(results);
+  renderFullHistory(results);
+  renderLatestAnswerAnalysis();
+  showScreen("dashboardScreen");
+}
+
+function renderLatestAnswerAnalysis() {
+  const box = $("latestAnswerAnalysis");
+  box.innerHTML = "";
+  const results = historyData();
+  const latest = results[results.length - 1];
+
+  if (!latest || !Array.isArray(latest.answers) || !latest.answers.length) {
+    box.textContent = "Complete a test to see answer-by-answer analysis.";
+    return;
+  }
+
+  latest.answers.forEach((a, i) => {
+    const item = document.createElement("div");
+    item.className = "history-item";
+    const color = a.status === "Correct" ? "var(--green)" :
+      a.status === "Incorrect" ? "var(--red)" : "var(--yellow)";
+
+    item.innerHTML = `
+      <div class="topic-heading">
+        <strong>Q${i + 1}. ${escapeHTML(a.category)}</strong>
+        <strong style="color:${color}">${escapeHTML(a.status)}</strong>
+      </div>
+      <p>${escapeHTML(a.question)}</p>
+      <p class="muted"><strong>Your final answer:</strong> ${escapeHTML(a.chosen ?? "No answer")}<br>
+      <strong>Correct answer:</strong> ${escapeHTML(a.answer)}<br>
+      <strong>Explanation:</strong> ${escapeHTML(a.explanation)}</p>`;
+    box.appendChild(item);
+  });
+}
+
+function renderTopicAccuracy(results) {
+  const box = $("topicAccuracy");
+  box.innerHTML = "";
+  const totals = {};
+
+  CATEGORIES.forEach(c => totals[c] = {correct:0,total:0});
+
+  results.forEach(r => Object.entries(r.topic || {}).forEach(([cat,t]) => {
+    if (!totals[cat]) totals[cat] = {correct:0,total:0};
+    totals[cat].correct += t.correct || 0;
+    totals[cat].total += t.total || 0;
+  }));
+
+  CATEGORIES.forEach(cat => {
+    const t = totals[cat];
+    const pct = t.total ? Math.round(t.correct/t.total*100) : 0;
+
+    box.innerHTML += `
+      <div class="topic-row">
+        <div class="topic-heading">
+          <span>${escapeHTML(cat)}</span>
+          <strong>${pct}%</strong>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width:${pct}%"></div>
+        </div>
+        <small class="muted">${t.correct} correct of ${t.total} questions</small>
+      </div>`;
+  });
+}
+
+function renderTopicTime(results) {
+  const box = $("topicTime");
+  box.innerHTML = "";
+  const totals = {};
+
+  results.forEach(r => Object.entries(r.topic || {}).forEach(([cat,t]) => {
+    totals[cat] = (totals[cat] || 0) + (t.time || 0);
+  }));
+
+  const max = Math.max(1, ...Object.values(totals));
+
+  CATEGORIES.forEach(cat => {
+    const seconds = totals[cat] || 0;
+
+    box.innerHTML += `
+      <div class="topic-row">
+        <div class="topic-heading">
+          <span>${escapeHTML(cat)}</span>
+          <strong>${Math.round(seconds/60)} min</strong>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width:${seconds/max*100}%"></div>
+        </div>
+      </div>`;
+  });
+}
+
+function renderScoreTrend(results) {
+  const box = $("scoreTrend");
+  box.innerHTML = "";
+  const recent = results.slice(-8);
+
+  if (!recent.length) {
+    box.textContent = "Complete a test to start tracking your score trend.";
+    return;
+  }
+
+  recent.forEach((r,i) => {
+    box.innerHTML += `
+      <div class="topic-row">
+        <div class="topic-heading">
+          <span>Test ${results.length-recent.length+i+1}</span>
+          <strong>${r.percent}%</strong>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width:${r.percent}%"></div>
+        </div>
+        <small class="muted">${escapeHTML(r.date || "")}</small>
+      </div>`;
+  });
+}
+
+function renderRecommendations(results) {
+  const box = $("recommendations");
+  box.innerHTML = "";
+
+  if (!results.length) {
+    box.textContent = "Complete your first test to receive recommendations.";
+    return;
+  }
+
+  const stats = {};
+
+  results.forEach(r => Object.entries(r.topic || {}).forEach(([cat,t]) => {
+    if (!stats[cat]) stats[cat] = {correct:0,total:0};
+    stats[cat].correct += t.correct || 0;
+    stats[cat].total += t.total || 0;
+  }));
+
+  const ranked = Object.entries(stats)
+    .filter(([,s]) => s.total > 0)
+    .map(([cat,s]) => ({
+      cat,
+      pct:Math.round(s.correct/s.total*100)
+    }))
+    .sort((a,b) => a.pct-b.pct);
+
+  const weakest = ranked[0];
+  const strongest = ranked[ranked.length-1];
+
+  if (weakest) {
+    box.innerHTML += `<p>🎯 <strong>Focus area:</strong> Practise ${escapeHTML(weakest.cat)}. Your recorded accuracy is ${weakest.pct}%.</p>`;
+  }
+
+  if (strongest) {
+    box.innerHTML += `<p>🏆 <strong>Strength:</strong> ${escapeHTML(strongest.cat)} has your highest recorded accuracy at ${strongest.pct}%.</p>`;
+  }
+
+  const last = results[results.length-1];
+
+  if (last.skipped) {
+    box.innerHTML += `<p>⏱️ <strong>Time management:</strong> You skipped or timed out on ${last.skipped} questions in your latest test.</p>`;
+  }
+
+  if (last.percent < 70) {
+    box.innerHTML += `<p>📘 Review explanations before attempting another timed test.</p>`;
+  } else {
+    box.innerHTML += `<p>🚀 Try Hard-only practice to challenge your current performance.</p>`;
+  }
+}
+
+function renderFullHistory(results) {
+  const box = $("fullHistory");
+  box.innerHTML = "";
+
+  if (!results.length) {
+    box.textContent = "No tests completed yet.";
+    return;
+  }
+
+  [...results].reverse().forEach(r => {
+    box.innerHTML += `
+      <div class="history-item">
+        <div class="topic-heading">
+          <strong>${escapeHTML(r.category || "Mixed test")}</strong>
+          <strong>${r.percent}%</strong>
+        </div>
+        <p class="muted">${escapeHTML(r.date || "")} · ${r.total} questions · ${r.correct} correct · ${r.wrong} incorrect · ${r.skipped} skipped/timed out</p>
+      </div>`;
+  });
+}
+
+function renderSetupHistory() {
+  const box = $("setupHistory");
+  const history = historyData().slice(-5).reverse();
+
+  if (!history.length) {
+    box.textContent = "Your completed tests will appear here.";
+    return;
+  }
+
+  box.innerHTML = "";
+
+  history.forEach(r => {
+    box.innerHTML += `
+      <div class="history-item">
+        <div class="topic-heading">
+          <strong>${escapeHTML(r.category || "Mixed test")}</strong>
+          <strong>${r.percent}%</strong>
+        </div>
+        <small class="muted">${escapeHTML(r.date || "")} · ${r.correct}/${r.total} correct</small>
+      </div>`;
+  });
+}
+
+function returnToSetup() {
+  clearTimers();
+  session = null;
+  $("overallTimer").classList.remove("warning");
+  showScreen("setupScreen");
+  renderSetupHistory();
+}
+
+// Display actual question-bank counts on the page.
+$("totalCount").textContent = questionBank.length.toLocaleString();
+$("mediumCount").textContent =
+  questionBank.filter(q=>q.difficulty==="Medium").length.toLocaleString();
+$("hardCount").textContent =
+  questionBank.filter(q=>q.difficulty==="Hard").length.toLocaleString();
+
+renderSetupHistory();
+</script>
+</body>
+</html>

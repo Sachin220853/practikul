@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070914">
+    <title>Performance Report | Praktikul</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: "#070914",
+                        panel: "#101326",
+                        cyan: "#51f6ff",
+                        violet: "#9c76ff",
+                        pink: "#ff75d8",
+                        muted: "#929ab5"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            background:
+                radial-gradient(ellipse at 10% 0%, #17234b 0%, transparent 32%),
+                radial-gradient(ellipse at 95% 20%, #29163e 0%, transparent 28%),
+                #070914;
+            color: #f4f5ff;
+            font-family: Inter, "Segoe UI", sans-serif;
+            min-height: 100vh;
+        }
+
+        .glass {
+            background: rgba(16, 19, 38, .84);
+            border: 1px solid rgba(156, 118, 255, .17);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #51f6ff, #9c76ff, #ff75d8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .metric-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform .25s, border-color .25s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(81, 246, 255, .45);
+        }
+
+        .track {
+            height: 8px;
+            background: #252943;
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .fill {
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #51f6ff, #9c76ff);
+        }
+
+        .chart-bar {
+            min-height: 3px;
+            width: min(38px, 70%);
+            background: linear-gradient(180deg, #51f6ff, #9c76ff);
+            border-radius: 8px 8px 2px 2px;
+        }
+
+        .donut {
+            background: #242944;
+            position: relative;
+        }
+
+        .donut::before {
+            content: "";
+            position: absolute;
+            inset: 12px;
+            background: #101326;
+            border-radius: 50%;
+        }
+
+        .donut-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .table-scroll { overflow-x: auto; }
+
+        th, td {
+            padding: 15px 13px;
+            border-bottom: 1px solid rgba(255,255,255,.07);
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            color: #929ab5;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        td { font-size: 13px; }
+
+        .nav-link { transition: color .2s; }
+        .nav-link:hover { color: #51f6ff; }
+
+        button:focus-visible, a:focus-visible, select:focus-visible {
+            outline: 2px solid #51f6ff;
+            outline-offset: 4px;
+        }
+
+        @media print {
+            body { background: white; color: #111; }
+            .glass { background: white; border: 1px solid #ddd; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+
+<body>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Navigation -->
+    <header class="flex flex-wrap items-center justify-between gap-4 py-6 border-b border-white/10">
+        <a href="home.html" class="flex items-center gap-3" aria-label="Praktikul home">
+            <div class="w-11 h-11 rounded-2xl grid place-items-center
+                        bg-gradient-to-br from-cyan to-violet
+                        text-ink text-xl font-black">
+                P
+            </div>
+            <div>
+                <div class="text-xl font-extrabold">
+                    Praktikul<span class="text-cyan">.</span>
+                </div>
+                <div class="text-[10px] text-muted tracking-[2px]">
+                    LEARN · PRACTICE · IMPROVE
+                </div>
+            </div>
+        </a>
+
+        <nav class="flex flex-wrap items-center gap-4 text-sm" aria-label="Main navigation">
+            <a href="home.html" class="nav-link text-gray-300">← Home</a>
+            <a href="aptitude.html" class="nav-link text-gray-300 font-semibold text-cyan">Aptitude</a>
+            <a href="technical.html" class="nav-link text-gray-300">Technical</a>
+
+            <button id="refreshBtn"
+                class="no-print rounded-xl border border-white/10 px-4 py-2 hover:text-cyan">
+                ↻ Refresh
+            </button>
+        </nav>
+    </header>
+
+    <!-- Introduction -->
+    <section class="py-10 sm:py-14">
+        <p class="text-cyan text-xs font-bold tracking-[3px] mb-4">
+            03 · MEASURE YOUR GROWTH
+        </p>
+
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div>
+                <h1 class="text-4xl sm:text-5xl font-black leading-tight">
+                    Your <span class="gradient-text">Performance</span><br>
+                    Report
+                </h1>
+                <p id="welcomeText" class="text-muted text-sm sm:text-base mt-5 max-w-2xl leading-7">
+                    Understand your scores, accuracy, time management, strengths, and what to practise next.
+                    Data updates automatically after every Aptitude test you complete.
+                </p>
+            </div>
+
+            <div class="no-print flex flex-wrap gap-3">
+                <select id="periodFilter"
+                    class="bg-panel border border-white/10 rounded-xl px-4 py-3 text-sm">
+                    <option value="all">All time</option>
+                    <option value="7">Last 7 days</option>
+                    <option value="30">Last 30 days</option>
+                </select>
+
+                <button id="exportBtn"
+                    class="rounded-xl px-4 py-3 text-sm font-bold text-ink
+                           bg-gradient-to-r from-cyan to-violet hover:opacity-90">
+                    Export CSV ↓
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary cards -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+        <article class="glass metric-card p-6">
+            <p class="text-sm text-muted">Tests Completed</p>
+            <p id="testsValue" class="text-4xl font-black mt-5">0</p>
+            <p id="testsNote" class="text-xs text-muted mt-3">No completed tests yet</p>
+        </article>
+
+        <article class="glass metric-card p-6">
+            <p class="text-sm text-muted">Average Score</p>
+            <p id="scoreValue" class="text-4xl font-black mt-5">0%</p>
+            <p class="text-xs text-muted mt-3">Average across completed tests</p>
+        </article>
+
+        <article class="glass metric-card p-6">
+            <p class="text-sm text-muted">Accuracy</p>
+            <p id="accuracyValue" class="text-4xl font-black mt-5">0%</p>
+            <p id="accuracyNote" class="text-xs text-muted mt-3">Based on attempted questions</p>
+        </article>
+
+        <article class="glass metric-card p-6">
+            <p class="text-sm text-muted">Practice Time</p>
+            <p id="timeValue" class="text-4xl font-black mt-5">0m</p>
+            <p class="text-xs text-muted mt-3">Total recorded test time</p>
+        </article>
+    </section>
+
+    <!-- Score overview and progress chart -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <article class="glass p-6 sm:p-7">
+            <h2 class="font-bold text-lg">Score Overview</h2>
+            <p class="text-xs text-muted mt-2 mb-7">Correct, incorrect, and skipped questions</p>
+
+            <div class="flex flex-col sm:flex-row items-center gap-8">
+                <div id="scoreDonut"
+                    class="donut w-44 h-44 rounded-full shrink-0 grid place-items-center">
+                    <div class="donut-content text-center">
+                        <p id="donutPercent" class="text-3xl font-black">0%</p>
+                        <p class="text-xs text-muted mt-1">Accuracy</p>
+                    </div>
+                </div>
+
+                <div class="w-full space-y-5">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-cyan">● Correct</span>
+                        <strong id="correctCount">0</strong>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-pink">● Incorrect</span>
+                        <strong id="incorrectCount">0</strong>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-400">● Skipped</span>
+                        <strong id="skippedCount">0</strong>
+                    </div>
+                    <div class="pt-4 border-t border-white/10 flex justify-between text-sm">
+                        <span class="text-muted">Attempted</span>
+                        <strong id="attemptedCount">0</strong>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="glass p-6 sm:p-7">
+            <h2 class="font-bold text-lg">Progress Over Time</h2>
+            <p class="text-xs text-muted mt-2 mb-5">Your latest seven test scores</p>
+            <div id="progressChart"
+                class="h-56 flex items-end gap-3 border-b border-white/10 pt-5">
+                <p class="text-sm text-muted m-auto">Complete a test to build your chart.</p>
+            </div>
+        </article>
+    </section>
+
+    <!-- Topic performance -->
+    <section class="glass p-6 sm:p-7 mb-6">
+        <h2 class="text-lg font-bold">Topic-wise Performance</h2>
+        <p class="text-sm text-muted mt-2 mb-7">
+            Find the subjects you understand and those that need more practice.
+        </p>
+        <div id="topicList" class="space-y-6">
+            <p class="text-sm text-muted">Topic results will appear after a completed test.</p>
+        </div>
+    </section>
+
+    <!-- Strengths and weaknesses -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <article class="glass p-6 sm:p-7">
+            <h2 class="font-bold mb-2 text-emerald-300">↗ Your Strengths</h2>
+            <p class="text-xs text-muted mb-4">Keep building on these topics</p>
+            <div id="strengthList" class="divide-y divide-white/10">
+                <p class="text-sm text-muted py-4">Your strongest topics will appear here.</p>
+            </div>
+        </article>
+
+        <article class="glass p-6 sm:p-7">
+            <h2 class="font-bold mb-2 text-pink">↘ Needs Improvement</h2>
+            <p class="text-xs text-muted mb-4">Your next areas of focus</p>
+            <div id="weaknessList" class="divide-y divide-white/10">
+                <p class="text-sm text-muted py-4">Your improvement plan will appear here.</p>
+            </div>
+        </article>
+    </section>
+
+    <!-- Test history -->
+    <section class="glass p-6 sm:p-7 mb-10">
+        <div class="mb-6">
+            <h2 class="text-lg font-bold">Recent Test History</h2>
+            <p class="text-sm text-muted mt-2">Your completed Aptitude sessions (updates after every attempt)</p>
+        </div>
+
+        <div class="table-scroll">
+            <table class="w-full">
+                <thead>
+                    <tr>
+                        <th>Test</th>
+                        <th>Date</th>
+                        <th>Score</th>
+                        <th>Accuracy</th>
+                        <th>Attempted</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody id="historyBody"></tbody>
+            </table>
+        </div>
+
+        <div id="historyEmpty" class="hidden text-center py-12">
+            <div class="text-4xl mb-4">✦</div>
+            <h3 class="font-bold mb-2">Your progress starts here</h3>
+            <p class="text-sm text-muted mb-5">
+                No results were found for this period. Complete an Aptitude test to populate your report.
+            </p>
+            <a href="aptitude.html"
+                class="inline-block rounded-xl px-5 py-3 font-bold text-sm text-ink
+                       bg-gradient-to-r from-cyan to-violet">
+                Go to Aptitude Test →
+            </a>
+        </div>
+    </section>
+
+    <footer class="py-6 border-t border-white/10 flex flex-wrap justify-between gap-3 text-xs text-muted">
+        <span>© Praktikul · Student Performance Analyzer</span>
+        <a href="aptitude.html" class="nav-link">Back to Aptitude ↑</a>
+    </footer>
+</div>
+
+<script>
+/* ==========================================================
+   PRAKTIKUL PERFORMANCE REPORT
+
+   Shared SESSION STORAGE key:
+   praktikul_test_results
+
+   - Data is kept only while the browser tab is open
+   - Multiple tests in the same session accumulate
+   - Closing the website deletes all practice data
+========================================================== */
+
+const STORAGE_KEY = "praktikul_test_results";
+
+/* Identify the current demo user. */
+function getCurrentUser() {
+    return (
+        sessionStorage.getItem("praktikulUserGmail") ||
+        sessionStorage.getItem("praktikulUserName") ||
+        localStorage.getItem("praktikulUserGmail") ||
+        localStorage.getItem("praktikulUserName") ||
+        "guest"
+    ).trim().toLowerCase();
+}
+
+/* Read results belonging to the current demo user. */
+function getResults() {
+    try {
+        const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "[]");
+
+        if (!Array.isArray(saved)) return [];
+
+        const currentUser = getCurrentUser();
+
+        return saved.filter(test => {
+            // Older records without userId are treated as guest records.
+            const owner = String(test.userId || "guest").trim().toLowerCase();
+            return owner === currentUser;
+        });
+    } catch (error) {
+        console.error("Unable to read results:", error);
+        return [];
+    }
+}
+
+/*
+  This function is also available for other pages if needed.
+  aptitude.html already has its own saveToPerformanceReport().
+*/
+function saveTestResult(result) {
+    try {
+        const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "[]");
+
+        if (!Array.isArray(saved)) {
+            throw new Error("Test results storage is not a list.");
+        }
+
+        const record = {
+            ...result,
+            userId: getCurrentUser(),
+            date: result.date || new Date().toISOString()
+        };
+
+        saved.push(record);
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+        return true;
+    } catch (error) {
+        console.error("Unable to save test result:", error);
+        alert("Unable to save your test result. Please check browser storage.");
+        return false;
+    }
+}
+
+/* Format a duration in seconds. */
+function formatDuration(seconds) {
+    seconds = Math.max(0, Number(seconds) || 0);
+
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+
+    if (hours) return `${hours}h ${minutes}m`;
+    if (minutes === 0 && remainingSeconds > 0) return `${remainingSeconds}s`;
+    return `${minutes}m`;
+}
+
+/* Format dates safely. */
+function formatDate(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "Unknown";
+
+    return date.toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+}
+
+/* Normalize results saved by different test pages. */
+function normalizeTest(test) {
+    const total = Math.max(0, Number(test.total) || 0);
+    const correct = Math.max(0, Number(test.correct) || 0);
+    const skipped = Math.max(0, Number(test.skipped) || 0);
+
+    const incorrect = Math.max(
+        0,
+        test.incorrect == null
+            ? Math.max(0, total - correct - skipped)
+            : Number(test.incorrect) || 0
+    );
+
+    const attempted = correct + incorrect;
+
+    const scorePercent = test.scorePercent != null
+        ? Math.max(0, Math.min(100, Number(test.scorePercent) || 0))
+        : total
+            ? Math.round(correct / total * 100)
+            : 0;
+
+    return {
+        ...test,
+        total,
+        correct,
+        incorrect,
+        skipped,
+        attempted,
+        scorePercent,
+        accuracy: attempted ? Math.round(correct / attempted * 100) : 0,
+        timeSpentSeconds: Math.max(0, Number(test.timeSpentSeconds) || 0),
+        topics: test.topics && typeof test.topics === "object"
+            ? test.topics : {}
+    };
+}
+
+/* Filter results by date. */
+function getFilteredResults() {
+    const tests = getResults().map(normalizeTest);
+    const period = document.getElementById("periodFilter").value;
+
+    if (period === "all") return tests;
+
+    const cutoff = Date.now() - Number(period) * 86400000;
+
+    return tests.filter(test => {
+        const timestamp = new Date(test.date).getTime();
+        return Number.isFinite(timestamp) && timestamp >= cutoff;
+    });
+}
+
+/* Update summary metrics and donut chart. */
+function renderMetrics(tests) {
+    const count = tests.length;
+
+    const correct = tests.reduce((sum, test) => sum + test.correct, 0);
+    const incorrect = tests.reduce((sum, test) => sum + test.incorrect, 0);
+    const skipped = tests.reduce((sum, test) => sum + test.skipped, 0);
+    const attempted = correct + incorrect;
+
+    const averageScore = count
+        ? Math.round(tests.reduce((sum, test) => sum + test.scorePercent, 0) / count)
+        : 0;
+
+    const accuracy = attempted ? Math.round(correct / attempted * 100) : 0;
+
+    const practiceSeconds = tests.reduce(
+        (sum, test) => sum + test.timeSpentSeconds, 0
+    );
+
+    document.getElementById("testsValue").textContent = count;
+    document.getElementById("testsNote").textContent =
+        count ? "Completed practice sessions" : "No completed tests yet";
+
+    document.getElementById("scoreValue").textContent = `${averageScore}%`;
+    document.getElementById("accuracyValue").textContent = `${accuracy}%`;
+    document.getElementById("accuracyNote").textContent =
+        `${correct} correct out of ${attempted} attempted`;
+
+    document.getElementById("timeValue").textContent = formatDuration(practiceSeconds);
+
+    document.getElementById("correctCount").textContent = correct;
+    document.getElementById("incorrectCount").textContent = incorrect;
+    document.getElementById("skippedCount").textContent = skipped;
+    document.getElementById("attemptedCount").textContent = attempted;
+    document.getElementById("donutPercent").textContent = `${accuracy}%`;
+
+    const allResponses = correct + incorrect + skipped;
+    const correctAngle = allResponses ? correct / allResponses * 360 : 0;
+    const incorrectAngle = allResponses
+        ? (correct + incorrect) / allResponses * 360
+        : 0;
+
+    document.getElementById("scoreDonut").style.background = allResponses
+        ? `conic-gradient(
+            #51f6ff 0deg ${correctAngle}deg,
+            #ff75d8 ${correctAngle}deg ${incorrectAngle}deg,
+            #505a78 ${incorrectAngle}deg 360deg
+        )`
+        : "#242944";
+}
+
+/* Build the latest-seven-tests chart. */
+function renderChart(tests) {
+    const chart = document.getElementById("progressChart");
+    chart.replaceChildren();
+
+    const recent = [...tests]
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .slice(-7);
+
+    if (!recent.length) {
+        const message = document.createElement("p");
+        message.className = "text-sm text-muted m-auto";
+        message.textContent = "Complete a test to build your chart.";
+        chart.appendChild(message);
+        return;
+    }
+
+    recent.forEach((test, index) => {
+        const column = document.createElement("div");
+        column.className =
+            "flex-1 h-full flex flex-col items-center justify-end gap-2 min-w-0";
+
+        const value = document.createElement("span");
+        value.className = "text-xs text-gray-300";
+        value.textContent = `${test.scorePercent}%`;
+
+        const bar = document.createElement("div");
+        bar.className = "chart-bar";
+        bar.style.height = `${Math.max(3, test.scorePercent)}%`;
+        bar.title = `${test.type || "Practice Test"}: ${test.scorePercent}%`;
+
+        const label = document.createElement("span");
+        label.className = "text-[10px] text-muted";
+        label.textContent = `Test ${index + 1}`;
+
+        column.append(value, bar, label);
+        chart.appendChild(column);
+    });
+}
+
+/* Combine topic statistics across all filtered tests. */
+function collectTopics(tests) {
+    const combined = {};
+
+    tests.forEach(test => {
+        Object.entries(test.topics).forEach(([name, data]) => {
+            if (!data || typeof data !== "object") return;
+
+            if (!combined[name]) {
+                combined[name] = {
+                    correct: 0,
+                    incorrect: 0,
+                    skipped: 0,
+                    timeSpentSeconds: 0
+                };
+            }
+
+            combined[name].correct += Number(data.correct) || 0;
+            combined[name].incorrect += Number(data.incorrect) || 0;
+            combined[name].skipped += Number(data.skipped) || 0;
+            combined[name].timeSpentSeconds += Number(data.timeSpentSeconds) || 0;
+        });
+    });
+
+    return Object.entries(combined).map(([name, data]) => {
+        const attempted = data.correct + data.incorrect;
+
+        return {
+            name,
+            ...data,
+            attempted,
+            accuracy: attempted ? Math.round(data.correct / attempted * 100) : 0
+        };
+    }).filter(topic => topic.attempted > 0)
+      .sort((a, b) => b.accuracy - a.accuracy);
+}
+
+/* Display topic-wise progress bars. */
+function renderTopics(topics) {
+    const container = document.getElementById("topicList");
+    container.replaceChildren();
+
+    if (!topics.length) {
+        const message = document.createElement("p");
+        message.className = "text-sm text-muted";
+        message.textContent =
+            "Topic-level analysis will appear when you complete an Aptitude test.";
+        container.appendChild(message);
+        return;
+    }
+
+    topics.forEach(topic => {
+        const wrapper = document.createElement("div");
+
+        const top = document.createElement("div");
+        top.className = "flex justify-between gap-4 text-sm mb-3";
+
+        const label = document.createElement("span");
+        label.className = "text-gray-300";
+        label.textContent = topic.name;
+
+        const percentage = document.createElement("strong");
+        percentage.className = topic.accuracy >= 75 ? "text-cyan" : "text-pink";
+        percentage.textContent = `${topic.accuracy}%`;
+
+        const track = document.createElement("div");
+        track.className = "track";
+
+        const fill = document.createElement("div");
+        fill.className = "fill";
+        fill.style.width = `${topic.accuracy}%`;
+
+        track.appendChild(fill);
+        top.append(label, percentage);
+        wrapper.append(top, track);
+        container.appendChild(wrapper);
+    });
+}
+
+/* Display strength and improvement insights. */
+function renderInsights(topics) {
+    const strengthList = document.getElementById("strengthList");
+    const weaknessList = document.getElementById("weaknessList");
+
+    strengthList.replaceChildren();
+    weaknessList.replaceChildren();
+
+    if (!topics.length) {
+        strengthList.textContent = "Complete a test to discover your strengths.";
+        weaknessList.textContent = "Complete a test to build your improvement plan.";
+        strengthList.className = "text-sm text-muted py-4";
+        weaknessList.className = "text-sm text-muted py-4";
+        return;
+    }
+
+    strengthList.className = "divide-y divide-white/10";
+    weaknessList.className = "divide-y divide-white/10";
+
+    [...topics]
+        .sort((a, b) => b.accuracy - a.accuracy)
+        .slice(0, 3)
+        .forEach(topic => strengthList.appendChild(createInsight(topic, false)));
+
+    [...topics]
+        .sort((a, b) => a.accuracy - b.accuracy)
+        .slice(0, 3)
+        .forEach(topic => weaknessList.appendChild(createInsight(topic, true)));
+}
+
+/* Create an individual insight row safely. */
+function createInsight(topic, isWeak) {
+    const row = document.createElement("div");
+    row.className = "py-4 flex justify-between items-center gap-4";
+
+    const name = document.createElement("span");
+    name.className = "text-sm text-gray-300";
+    name.textContent = topic.name;
+
+    const score = document.createElement("span");
+    score.className = isWeak
+        ? "text-xs font-bold rounded-lg px-3 py-2 bg-pink/10 text-pink"
+        : "text-xs font-bold rounded-lg px-3 py-2 bg-emerald-400/10 text-emerald-300";
+    score.textContent = `${topic.accuracy}%`;
+
+    row.append(name, score);
+    return row;
+}
+
+/* Display recent completed test history. */
+function renderHistory(tests) {
+    const body = document.getElementById("historyBody");
+    const empty = document.getElementById("historyEmpty");
+
+    body.replaceChildren();
+
+    const recent = [...tests]
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 10);
+
+    empty.classList.toggle("hidden", recent.length > 0);
+
+    recent.forEach(test => {
+        const row = document.createElement("tr");
+
+        const values = [
+            test.type || "Practice Test",
+            formatDate(test.date),
+            `${test.scorePercent}%`,
+            `${test.accuracy}%`,
+            `${test.attempted}/${test.total}`,
+            formatDuration(test.timeSpentSeconds)
+        ];
+
+        values.forEach((value, index) => {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+
+            if (index === 2) cell.className = "font-bold text-cyan";
+            row.appendChild(cell);
+        });
+
+        body.appendChild(row);
+    });
+}
+
+/* Refresh every section of the dashboard. */
+function renderReport() {
+    const tests = getFilteredResults();
+
+    renderMetrics(tests);
+    renderChart(tests);
+
+    const topics = collectTopics(tests);
+    renderTopics(topics);
+    renderInsights(topics);
+    renderHistory(tests);
+}
+
+/* Export the current filtered results as CSV. */
+function exportCSV() {
+    const tests = getFilteredResults();
+
+    if (!tests.length) {
+        alert("No completed test results are available to export.");
+        return;
+    }
+
+    const headers = [
+        "Test", "Date", "Score Percent", "Accuracy",
+        "Correct", "Incorrect", "Skipped", "Total",
+        "Attempted", "Time Spent Seconds"
+    ];
+
+    const rows = tests.map(test => [
+        test.type || "Practice Test",
+        test.date || "",
+        test.scorePercent,
+        test.accuracy,
+        test.correct,
+        test.incorrect,
+        test.skipped,
+        test.total,
+        test.attempted,
+        test.timeSpentSeconds
+    ]);
+
+    const escapeCSV = value =>
+        `"${String(value ?? "").replace(/"/g, '""')}"`;
+
+    const csv = [headers, ...rows]
+        .map(row => row.map(escapeCSV).join(","))
+        .join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "Praktikul-Performance-Report.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+}
+
+/* Display the current user's name when available. */
+function showWelcome() {
+    const name =
+        sessionStorage.getItem("praktikulUserName") ||
+        localStorage.getItem("praktikulUserName");
+
+    if (name) {
+        document.getElementById("welcomeText").textContent =
+            `Keep going, ${name}! Review your scores, accuracy, strengths, and what to practise next. Data updates after every Aptitude test and clears when you close the site.`;
+    }
+}
+
+/* Connect page controls. */
+document.getElementById("periodFilter").addEventListener("change", renderReport);
+document.getElementById("refreshBtn").addEventListener("click", renderReport);
+document.getElementById("exportBtn").addEventListener("click", exportCSV);
+
+/* Refresh when another same-origin page/tab saves new results. */
+window.addEventListener("storage", event => {
+    if (event.key === STORAGE_KEY) renderReport();
+});
+
+/* Also refresh when the page becomes visible again (user returns from aptitude) */
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") renderReport();
+});
+
+/* Initial page load. */
+showWelcome();
+renderReport();
+</script>
+</body>
+</html>

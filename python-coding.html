@@ -1,0 +1,3381 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d19">
+<title>Python Coding Academy | PRAKTIKUL</title>
+
+<style>
+/* =====================================================
+   PRAKTIKUL — Python Coding Interview Academy
+   Responsive layout, dark theme and neon accents
+   ===================================================== */
+:root {
+    --bg: #080d19;
+    --panel: #101a2b;
+    --panel2: #142137;
+    --border: rgba(143, 171, 213, .17);
+    --text: #edf4ff;
+    --muted: #91a2bc;
+    --cyan: #42e8ff;
+    --green: #48f0a8;
+    --purple: #a78bfa;
+    --pink: #ff78b7;
+    --orange: #ffbd69;
+    --danger: #ff687d;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background:
+        radial-gradient(ellipse at 10% 0%, rgba(66,232,255,.09), transparent 35%),
+        radial-gradient(ellipse at 90% 10%, rgba(167,139,250,.10), transparent 32%),
+        var(--bg);
+    color: var(--text);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+}
+
+button, input, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+
+button:focus-visible, a:focus-visible, input:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 5%;
+    background: rgba(8,13,25,.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+}
+
+.brand {
+    font-size: 21px;
+    font-weight: 950;
+    letter-spacing: 1px;
+}
+
+.brand span { color: var(--cyan); }
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.035);
+    color: var(--text);
+    padding: 10px 13px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 800;
+    transition: .2s;
+}
+
+.nav-btn:hover {
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+}
+
+.hero {
+    max-width: 1440px;
+    margin: auto;
+    padding: 42px 5% 25px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    background: rgba(72,240,168,.07);
+    border: 1px solid rgba(72,240,168,.2);
+    border-radius: 999px;
+}
+
+.hero h1 {
+    font-size: clamp(30px, 5vw, 57px);
+    line-height: 1.08;
+    letter-spacing: -1.8px;
+    margin: 20px 0 14px;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    color: var(--muted);
+    max-width: 750px;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 20px;
+}
+
+.hero-tag {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.035);
+    border-radius: 8px;
+    padding: 8px 11px;
+    font-size: 11px;
+    color: #c4d4eb;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 13px;
+    margin-top: 28px;
+}
+
+.stat {
+    background: linear-gradient(145deg, rgba(20,33,55,.9), rgba(12,20,35,.92));
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 17px;
+    min-width: 0;
+}
+
+.stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+}
+
+.stat-number {
+    font-size: 27px;
+    font-weight: 950;
+    margin-top: 8px;
+}
+
+.stat:nth-child(1) .stat-number { color: var(--cyan); }
+.stat:nth-child(2) .stat-number { color: var(--orange); }
+.stat:nth-child(3) .stat-number { color: var(--pink); }
+.stat:nth-child(4) .stat-number { color: var(--green); }
+
+.progress-track {
+    height: 6px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #202c40;
+    margin-top: 13px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--cyan), var(--green));
+    border-radius: inherit;
+    transition: width .3s ease;
+}
+
+.workspace {
+    max-width: 1440px;
+    margin: auto;
+    padding: 10px 5% 60px;
+    display: grid;
+    grid-template-columns: minmax(260px, 330px) minmax(0,1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.sidebar, .question-panel {
+    border: 1px solid var(--border);
+    background: rgba(13,22,39,.91);
+    border-radius: 19px;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.sidebar { position: sticky; top: 84px; }
+
+.sidebar-head {
+    padding: 19px;
+    border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+    font-size: 15px;
+    font-weight: 900;
+    margin: 0 0 14px;
+}
+
+.search {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: #0a1323;
+    color: var(--text);
+    padding: 12px;
+    border-radius: 10px;
+    outline: none;
+    font-size: 12px;
+}
+
+.search:focus { border-color: var(--cyan); }
+
+.filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.filters select {
+    min-width: 0;
+    width: 100%;
+    padding: 10px 7px;
+    border-radius: 9px;
+    color: var(--text);
+    background: #142137;
+    border: 1px solid var(--border);
+    font-size: 11px;
+}
+
+.question-count {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 13px;
+}
+
+.question-list {
+    padding: 9px;
+    max-height: 590px;
+    overflow-y: auto;
+}
+
+.question-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    width: 100%;
+    text-align: left;
+    padding: 12px 10px;
+    margin-bottom: 5px;
+    border-radius: 11px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: .18s;
+}
+
+.question-item:hover { background: rgba(255,255,255,.035); }
+
+.question-item.active {
+    background: linear-gradient(110deg, rgba(66,232,255,.11), rgba(167,139,250,.08));
+    border-color: rgba(66,232,255,.34);
+}
+
+.question-item.done .q-number { color: var(--green); }
+
+.q-number {
+    flex: 0 0 29px;
+    height: 29px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: #1b2940;
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.q-item-title {
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 750;
+}
+
+.q-item-meta {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+.done-mark { color: var(--green); }
+
+.question-head {
+    padding: 23px 25px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(110deg, rgba(66,232,255,.045), transparent 60%);
+}
+
+.question-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 9px;
+    border-radius: 7px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .3px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.035);
+}
+
+.pill.medium { color: var(--orange); }
+.pill.difficult { color: var(--pink); }
+.pill.topic { color: var(--cyan); }
+
+.question-title {
+    font-size: clamp(22px, 3vw, 31px);
+    letter-spacing: -.6px;
+    line-height: 1.25;
+    margin: 17px 0 10px;
+}
+
+.question-prompt {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #aebed5;
+    white-space: pre-line;
+}
+
+.panel-body { padding: 23px 25px; }
+
+.content-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 900;
+    margin: 0 0 12px;
+}
+
+.code-box {
+    border: 1px solid rgba(66,232,255,.19);
+    border-radius: 13px;
+    overflow: hidden;
+    background: #070d17;
+    margin-bottom: 22px;
+}
+
+.code-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 13px;
+    background: #111d30;
+    border-bottom: 1px solid var(--border);
+    font-size: 10px;
+    color: #b4c6df;
+}
+
+.code-language {
+    color: var(--green);
+    font-weight: 900;
+    letter-spacing: .8px;
+}
+
+.copy-btn {
+    border: 1px solid var(--border);
+    color: var(--cyan);
+    background: rgba(66,232,255,.05);
+    padding: 6px 9px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.copy-btn:hover { background: rgba(66,232,255,.13); }
+
+pre {
+    margin: 0;
+    padding: 17px;
+    overflow-x: auto;
+    color: #d9e8ff;
+    font: 12px/1.8 Consolas, "Courier New", monospace;
+    tab-size: 4;
+    white-space: pre;
+}
+
+.output-box {
+    border: 1px solid rgba(72,240,168,.18);
+    background: rgba(72,240,168,.035);
+    border-radius: 11px;
+    padding: 13px 15px;
+    margin-bottom: 22px;
+}
+
+.output-box .content-label { color: var(--green); }
+.output-text {
+    white-space: pre-wrap;
+    color: #c1f8dc;
+    font: 12px/1.7 Consolas, monospace;
+}
+
+.explanation {
+    color: #b3c3d9;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 22px;
+}
+
+.explanation ul { padding-left: 20px; }
+.explanation li { margin: 5px 0; }
+
+.memory-box {
+    padding: 15px;
+    background: rgba(167,139,250,.075);
+    border: 1px solid rgba(167,139,250,.23);
+    border-radius: 12px;
+    margin-bottom: 22px;
+}
+
+.memory-box strong {
+    display: block;
+    color: var(--purple);
+    font-size: 11px;
+    margin-bottom: 7px;
+}
+
+.memory-box p {
+    margin: 0;
+    color: #d2c9f8;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.complexity {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.complexity-card {
+    padding: 13px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.025);
+    border-radius: 11px;
+}
+
+.complexity-card span {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    margin-bottom: 6px;
+}
+
+.complexity-card strong {
+    font-size: 13px;
+    color: var(--cyan);
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    margin-top: 25px;
+}
+
+.action-btn {
+    padding: 12px 17px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #17243a;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 850;
+    transition: .2s;
+}
+
+.action-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    border-color: var(--cyan);
+}
+
+.action-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+.action-btn.primary {
+    color: #06131d;
+    border-color: transparent;
+    background: linear-gradient(100deg, var(--cyan), var(--green));
+}
+
+.action-btn.marked {
+    color: var(--green);
+    border-color: rgba(72,240,168,.5);
+    background: rgba(72,240,168,.08);
+}
+
+.tip {
+    margin-top: 17px;
+    padding: 14px;
+    border-radius: 11px;
+    background: rgba(255,189,105,.055);
+    border: 1px solid rgba(255,189,105,.16);
+    color: #e8c99d;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+.empty-state {
+    padding: 30px 15px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.footer {
+    text-align: center;
+    color: #6e809b;
+    font-size: 11px;
+    padding: 0 20px 30px;
+}
+
+@media (max-width: 900px) {
+    .workspace { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .question-list { max-height: 320px; }
+}
+
+@media (max-width: 600px) {
+    .topbar { padding: 12px 4%; }
+    .brand { font-size: 17px; }
+    .nav-btn { padding: 9px; font-size: 10px; }
+    .hero { padding: 30px 4% 20px; }
+    .workspace { padding: 8px 4% 40px; }
+    .stats { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+    .stat { padding: 13px; }
+    .stat-number { font-size: 23px; }
+    .question-head, .panel-body { padding: 18px 15px; }
+    .complexity { grid-template-columns: 1fr 1fr; }
+    .navigation .action-btn { padding: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<header class="topbar">
+    <a class="brand" href="index.html" aria-label="PRAKTIKUL home">
+        PRAKTI<span>KUL</span>
+    </a>
+    <div class="top-actions">
+        <!-- Change this href if your theory file has a different name. -->
+        <a class="nav-btn" href="python-interview.html">← Theory Questions</a>
+        <button class="nav-btn" id="resetProgress" type="button">↻ Reset Progress</button>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="eyebrow">💻 Coding Interview Arena</div>
+    <h1>Think in logic.<br><span class="gradient-text">Code with confidence.</span></h1>
+    <p>
+        Practise 51 Python coding problems across arrays, strings, searching,
+        sorting, recursion, data structures and algorithms. Study the solution,
+        understand the logic, and track your progress as you prepare for technical interviews.
+    </p>
+
+    <div class="hero-tags">
+        <span class="hero-tag">🐍 Python 3</span>
+        <span class="hero-tag">⚡ Medium + Difficult</span>
+        <span class="hero-tag">🧠 Logic Building</span>
+        <span class="hero-tag">📊 Saved Progress</span>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-label">Total Problems</div>
+            <div class="stat-number" id="totalCount">51</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">Medium</div>
+            <div class="stat-number" id="mediumCount">0</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">Difficult</div>
+            <div class="stat-number" id="hardCount">0</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">Completed</div>
+            <div class="stat-number" id="completedCount">0</div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<main class="workspace">
+    <aside class="sidebar">
+        <div class="sidebar-head">
+            <h2 class="section-title">📚 Coding Questions</h2>
+            <input id="searchInput" class="search" type="search"
+                   placeholder="Search questions or topics..." aria-label="Search questions">
+
+            <div class="filters">
+                <select id="difficultyFilter" aria-label="Filter by difficulty">
+                    <option value="All">All difficulties</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Difficult">Difficult</option>
+                </select>
+                <select id="topicFilter" aria-label="Filter by topic">
+                    <option value="All">All topics</option>
+                </select>
+            </div>
+            <div class="question-count" id="visibleCount" aria-live="polite">51 questions</div>
+        </div>
+        <div class="question-list" id="questionList"></div>
+    </aside>
+
+    <section class="question-panel" aria-live="polite">
+        <div class="question-head">
+            <div class="question-meta">
+                <span class="pill topic" id="topicBadge">ARRAYS</span>
+                <span class="pill medium" id="difficultyBadge">MEDIUM</span>
+                <span class="pill" id="questionNumber">QUESTION 01 / 51</span>
+            </div>
+            <h2 class="question-title" id="questionTitle">Loading question...</h2>
+            <div class="question-prompt" id="questionPrompt"></div>
+        </div>
+
+        <div class="panel-body">
+            <h3 class="content-label">🧩 Python Solution</h3>
+            <div class="code-box">
+                <div class="code-toolbar">
+                    <span class="code-language">PYTHON 3</span>
+                    <button class="copy-btn" id="copyCode" type="button">Copy code ⧉</button>
+                </div>
+                <pre><code id="solutionCode"></code></pre>
+            </div>
+
+            <div class="output-box">
+                <h3 class="content-label">▶ Example Output</h3>
+                <div class="output-text" id="sampleOutput"></div>
+            </div>
+
+            <h3 class="content-label">🔍 How It Works</h3>
+            <div class="explanation" id="explanation"></div>
+
+            <div class="complexity">
+                <div class="complexity-card">
+                    <span>⏱ Time Complexity</span>
+                    <strong id="timeComplexity"></strong>
+                </div>
+                <div class="complexity-card">
+                    <span>💾 Space Complexity</span>
+                    <strong id="spaceComplexity"></strong>
+                </div>
+            </div>
+
+            <div class="memory-box">
+                <strong>🧠 Interview Memory Tip</strong>
+                <p id="memoryTip"></p>
+            </div>
+
+            <div class="navigation">
+                <button class="action-btn" id="previousBtn" type="button">← Previous</button>
+                <button class="action-btn primary" id="markDoneBtn" type="button">✓ Mark Completed</button>
+                <button class="action-btn" id="nextBtn" type="button">Next →</button>
+            </div>
+
+            <div class="tip">
+                💡 <strong>Practice strategy:</strong> Try solving the problem yourself
+                before reading the solution. Explain the approach aloud, test edge cases,
+                and state the time and space complexity as if you were in an interview.
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    PRAKTIKUL · Learn consistently. Think clearly. Code confidently.
+</footer>
+
+<script>
+/* =====================================================
+   QUESTION BANK
+   51 medium and difficult Python coding interview problems.
+   Solutions are educational examples, not an online code runner.
+   ===================================================== */
+
+const questions = [
+{
+title:"Two Sum",
+difficulty:"Medium", topic:"Arrays",
+prompt:"Given an array of integers and a target, return the indices of two distinct elements whose sum equals the target. Assume exactly one solution exists.",
+code:`def two_sum(nums, target):
+    seen = {}
+
+    for i, num in enumerate(nums):
+        needed = target - num
+
+        if needed in seen:
+            return [seen[needed], i]
+
+        seen[num] = i
+
+    return []
+
+
+print(two_sum([2, 7, 11, 15], 9))`,
+output:"[0, 1]",
+explanation:"1. Visit each number once.\n2. Calculate the complementary value: target - num.\n3. If the complement is already in the dictionary, return its index and the current index.\n4. Otherwise, store the current number and index.",
+time:"O(n)", space:"O(n)",
+memory:"Store numbers already seen. Search for the complement before storing the current number."
+},
+{
+title:"Longest Substring Without Repeating Characters",
+difficulty:"Medium", topic:"Strings",
+prompt:"Return the length of the longest substring containing no repeated characters.",
+code:`def longest_unique(s):
+    last_seen = {}
+    left = 0
+    best = 0
+
+    for right, char in enumerate(s):
+        if char in last_seen and last_seen[char] >= left:
+            left = last_seen[char] + 1
+
+        last_seen[char] = right
+        best = max(best, right - left + 1)
+
+    return best
+
+
+print(longest_unique("abcabcbb"))`,
+output:"3",
+explanation:"Use a sliding window. The left pointer marks the beginning of the current valid substring. When a repeated character appears inside the window, move left past its previous position. Update the maximum window length.",
+time:"O(n)", space:"O(k)",
+memory:"Sliding window + last-seen index. Never move the left pointer backwards."
+},
+{
+title:"Group Anagrams",
+difficulty:"Medium", topic:"Strings",
+prompt:"Group words that contain the same letters in different orders.",
+code:`from collections import defaultdict
+
+def group_anagrams(words):
+    groups = defaultdict(list)
+
+    for word in words:
+        key = tuple(sorted(word))
+        groups[key].append(word)
+
+    return list(groups.values())
+
+
+print(group_anagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))`,
+output:"[['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']] (group order may vary)",
+explanation:"Sorting each word creates a canonical key. Words with the same letters produce the same sorted key and are collected together.",
+time:"O(n × k log k)", space:"O(n × k)",
+memory:"Anagrams share a sorted-character signature. A 26-letter frequency tuple is another option."
+},
+{
+title:"Product of Array Except Self",
+difficulty:"Medium", topic:"Arrays",
+prompt:"Return an array where each position contains the product of every input element except the element at that position. Do not use division.",
+code:`def product_except_self(nums):
+    result = [1] * len(nums)
+
+    prefix = 1
+    for i in range(len(nums)):
+        result[i] = prefix
+        prefix *= nums[i]
+
+    suffix = 1
+    for i in range(len(nums) - 1, -1, -1):
+        result[i] *= suffix
+        suffix *= nums[i]
+
+    return result
+
+
+print(product_except_self([1, 2, 3, 4]))`,
+output:"[24, 12, 8, 6]",
+explanation:"The first pass stores the product of all elements to the left. The second pass multiplies each position by the product of all elements to the right.",
+time:"O(n)", space:"O(1) auxiliary, excluding output",
+memory:"Build left products, then multiply by right products. No division is needed."
+},
+{
+title:"Maximum Subarray Sum",
+difficulty:"Medium", topic:"Arrays",
+prompt:"Find the largest possible sum of a non-empty contiguous subarray.",
+code:`def max_subarray(nums):
+    current = best = nums[0]
+
+    for num in nums[1:]:
+        current = max(num, current + num)
+        best = max(best, current)
+
+    return best
+
+
+print(max_subarray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))`,
+output:"6",
+explanation:"At every position, either start a new subarray at the current value or extend the previous subarray. Track the best sum seen so far.",
+time:"O(n)", space:"O(1)",
+memory:"Kadane's algorithm: current = max(number, current + number)."
+},
+{
+title:"Merge Overlapping Intervals",
+difficulty:"Medium", topic:"Intervals",
+prompt:"Merge all overlapping intervals and return the resulting non-overlapping intervals.",
+code:`def merge_intervals(intervals):
+    intervals.sort(key=lambda x: x[0])
+    merged = []
+
+    for start, end in intervals:
+        if not merged or start > merged[-1][1]:
+            merged.append([start, end])
+        else:
+            merged[-1][1] = max(merged[-1][1], end)
+
+    return merged
+
+
+print(merge_intervals([[1, 3], [2, 6], [8, 10], [15, 18]]))`,
+output:"[[1, 6], [8, 10], [15, 18]]",
+explanation:"Sort intervals by start. If the next interval starts after the previous merged interval ends, add it. Otherwise, extend the previous end to the larger endpoint.",
+time:"O(n log n)", space:"O(n)",
+memory:"Sort first, then compare each interval with the last merged interval."
+},
+{
+title:"Rotate Array Right",
+difficulty:"Medium", topic:"Arrays",
+prompt:"Rotate an array to the right by k positions. Handle k values larger than the array length.",
+code:`def rotate(nums, k):
+    if not nums:
+        return nums
+
+    k %= len(nums)
+    nums[:] = nums[-k:] + nums[:-k] if k else nums
+    return nums
+
+
+print(rotate([1, 2, 3, 4, 5, 6, 7], 3))`,
+output:"[5, 6, 7, 1, 2, 3, 4]",
+explanation:"Reduce k using modulo because a full rotation changes nothing. The last k elements move to the front. Slice assignment updates the original list.",
+time:"O(n)", space:"O(n)",
+memory:"Use k % n, then concatenate the last k elements with the preceding elements."
+},
+{
+title:"Find the Missing Number",
+difficulty:"Medium", topic:"Arrays",
+prompt:"An array contains distinct values from 0 to n with one number missing. Find the missing number.",
+code:`def missing_number(nums):
+    n = len(nums)
+    expected = n * (n + 1) // 2
+    return expected - sum(nums)
+
+
+print(missing_number([3, 0, 1]))`,
+output:"2",
+explanation:"The sum of integers from 0 through n is n(n+1)/2. Subtract the actual array sum to obtain the missing value.",
+time:"O(n)", space:"O(1)",
+memory:"Expected sum minus actual sum. XOR is another solution that avoids sum overflow in fixed-width languages."
+},
+{
+title:"Majority Element",
+difficulty:"Medium", topic:"Arrays",
+prompt:"Find the element that appears more than half the time. Assume such an element exists.",
+code:`def majority_element(nums):
+    candidate = None
+    count = 0
+
+    for num in nums:
+        if count == 0:
+            candidate = num
+
+        count += 1 if num == candidate else -1
+
+    return candidate
+
+
+print(majority_element([2, 2, 1, 1, 1, 2, 2]))`,
+output:"2",
+explanation:"Boyer–Moore voting pairs different values against each other. Because the majority occurs more than all other values combined, it remains the final candidate.",
+time:"O(n)", space:"O(1)",
+memory:"Boyer–Moore: select a candidate when the count is zero, then increment or decrement."
+},
+{
+title:"Container With Most Water",
+difficulty:"Medium", topic:"Two Pointers",
+prompt:"Given vertical line heights, choose two lines that hold the maximum amount of water.",
+code:`def max_water(height):
+    left, right = 0, len(height) - 1
+    best = 0
+
+    while left < right:
+        area = min(height[left], height[right]) * (right - left)
+        best = max(best, area)
+
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+
+    return best
+
+
+print(max_water([1, 8, 6, 2, 5, 4, 8, 3, 7]))`,
+output:"49",
+explanation:"Area depends on the shorter line and the distance between the pointers. Move the pointer at the shorter line because keeping it cannot improve the height.",
+time:"O(n)", space:"O(1)",
+memory:"Two pointers. Calculate area, then move the shorter side inward."
+},
+{
+title:"Three Sum",
+difficulty:"Medium", topic:"Two Pointers",
+prompt:"Return all unique triplets whose values sum to zero. Do not return duplicate triplets.",
+code:`def three_sum(nums):
+    nums.sort()
+    result = []
+
+    for i in range(len(nums) - 2):
+        if i and nums[i] == nums[i - 1]:
+            continue
+
+        left, right = i + 1, len(nums) - 1
+
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+
+            if total == 0:
+                result.append([nums[i], nums[left], nums[right]])
+                left += 1
+                right -= 1
+
+                while left < right and nums[left] == nums[left - 1]:
+                    left += 1
+                while left < right and nums[right] == nums[right + 1]:
+                    right -= 1
+            elif total < 0:
+                left += 1
+            else:
+                right -= 1
+
+    return result
+
+
+print(three_sum([-1, 0, 1, 2, -1, -4]))`,
+output:"[[-1, -1, 2], [-1, 0, 1]]",
+explanation:"Sort the array. Fix one value and use two pointers to find pairs that complete a zero sum. Skip duplicate fixed values and duplicate pointer values.",
+time:"O(n²)", space:"O(1) auxiliary, excluding output",
+memory:"Sort + fix one number + two pointers. Skipping duplicates prevents repeated triplets."
+},
+{
+title:"Sort Colors",
+difficulty:"Medium", topic:"Sorting",
+prompt:"Sort an array containing only 0, 1 and 2 in place, using a single pass.",
+code:`def sort_colors(nums):
+    low = current = 0
+    high = len(nums) - 1
+
+    while current <= high:
+        if nums[current] == 0:
+            nums[low], nums[current] = nums[current], nums[low]
+            low += 1
+            current += 1
+        elif nums[current] == 1:
+            current += 1
+        else:
+            nums[current], nums[high] = nums[high], nums[current]
+            high -= 1
+
+    return nums
+
+
+print(sort_colors([2, 0, 2, 1, 1, 0]))`,
+output:"[0, 0, 1, 1, 2, 2]",
+explanation:"The Dutch National Flag algorithm maintains three regions: zeros, ones and unknown values, with twos placed at the end. When swapping with the high pointer, inspect the current position again.",
+time:"O(n)", space:"O(1)",
+memory:"Three pointers: low, current and high. Do not advance current after swapping with high."
+},
+{
+title:"Binary Search",
+difficulty:"Medium", topic:"Searching",
+prompt:"Return the index of target in a sorted ascending array, or -1 if the target is absent.",
+code:`def binary_search(nums, target):
+    left, right = 0, len(nums) - 1
+
+    while left <= right:
+        mid = left + (right - left) // 2
+
+        if nums[mid] == target:
+            return mid
+        if nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1
+
+
+print(binary_search([1, 3, 5, 7, 9], 7))`,
+output:"3",
+explanation:"Check the middle element. If it is too small, discard the left half; if too large, discard the right half. The sorted order makes this elimination possible.",
+time:"O(log n)", space:"O(1)",
+memory:"Sorted data allows halving the search interval after every comparison."
+},
+{
+title:"Search in Rotated Sorted Array",
+difficulty:"Medium", topic:"Searching",
+prompt:"Search for a target in a rotated sorted array of distinct integers. Return its index or -1.",
+code:`def search_rotated(nums, target):
+    left, right = 0, len(nums) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+
+        if nums[mid] == target:
+            return mid
+
+        if nums[left] <= nums[mid]:
+            if nums[left] <= target < nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        else:
+            if nums[mid] < target <= nums[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+
+    return -1
+
+
+print(search_rotated([4, 5, 6, 7, 0, 1, 2], 0))`,
+output:"4",
+explanation:"At least one half is sorted. Identify the sorted half and check whether the target lies inside its range; continue searching the appropriate half.",
+time:"O(log n)", space:"O(1)",
+memory:"Determine which half is sorted before deciding which boundary to move."
+},
+{
+title:"Find First and Last Position",
+difficulty:"Medium", topic:"Searching",
+prompt:"In a sorted array, find the first and last indices of a target. Return [-1, -1] if absent.",
+code:`def search_range(nums, target):
+    def boundary(find_first):
+        left, right = 0, len(nums) - 1
+        answer = -1
+
+        while left <= right:
+            mid = (left + right) // 2
+
+            if nums[mid] == target:
+                answer = mid
+                if find_first:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            elif nums[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+
+        return answer
+
+    return [boundary(True), boundary(False)]
+
+
+print(search_range([5, 7, 7, 8, 8, 10], 8))`,
+output:"[3, 4]",
+explanation:"Run binary search twice. When a match is found, save its index but continue searching left for the first occurrence or right for the last.",
+time:"O(log n)", space:"O(1)",
+memory:"Two modified binary searches: one finds the left boundary, the other the right."
+},
+{
+title:"Find Kth Largest Element",
+difficulty:"Medium", topic:"Heaps",
+prompt:"Return the kth largest element in an unsorted array. Duplicate values count as separate positions.",
+code:`import heapq
+
+def kth_largest(nums, k):
+    heap = []
+
+    for num in nums:
+        heapq.heappush(heap, num)
+        if len(heap) > k:
+            heapq.heappop(heap)
+
+    return heap[0]
+
+
+print(kth_largest([3, 2, 1, 5, 6, 4], 2))`,
+output:"5",
+explanation:"Maintain a min-heap containing the largest k elements encountered. If its size exceeds k, remove the smallest. The heap root is the kth largest value.",
+time:"O(n log k)", space:"O(k)",
+memory:"A min-heap of size k keeps the kth largest value at the root."
+},
+{
+title:"Top K Frequent Elements",
+difficulty:"Medium", topic:"Hash Maps",
+prompt:"Return the k most frequent elements in an integer array.",
+code:`from collections import Counter
+import heapq
+
+def top_k_frequent(nums, k):
+    counts = Counter(nums)
+    return [
+        num for num, freq in
+        heapq.nlargest(k, counts.items(), key=lambda item: item[1])
+    ]
+
+
+print(top_k_frequent([1, 1, 1, 2, 2, 3], 2))`,
+output:"[1, 2]",
+explanation:"Count occurrences with Counter, then select the k entries with the highest frequencies. If frequencies tie, this example does not guarantee a particular order.",
+time:"O(n + u log k) approximately", space:"O(u)",
+memory:"Count first, rank second. Here u is the number of distinct values."
+},
+{
+title:"Subarray Sum Equals K",
+difficulty:"Medium", topic:"Hash Maps",
+prompt:"Count the number of contiguous subarrays whose sum equals k. Values may be negative.",
+code:`def subarray_sum(nums, k):
+    prefix_count = {0: 1}
+    prefix = 0
+    result = 0
+
+    for num in nums:
+        prefix += num
+        result += prefix_count.get(prefix - k, 0)
+        prefix_count[prefix] = prefix_count.get(prefix, 0) + 1
+
+    return result
+
+
+print(subarray_sum([1, 1, 1], 2))`,
+output:"2",
+explanation:"If the current prefix sum is P, a previous prefix sum of P-k means the intervening subarray sums to k. Store how often each prefix sum has occurred.",
+time:"O(n)", space:"O(n)",
+memory:"Prefix sum + frequency map. Query prefix-k before recording the current prefix."
+},
+{
+title:"Longest Consecutive Sequence",
+difficulty:"Medium", topic:"Hash Sets",
+prompt:"Find the length of the longest sequence of consecutive integers in an unsorted array. Target O(n) time.",
+code:`def longest_consecutive(nums):
+    values = set(nums)
+    best = 0
+
+    for num in values:
+        if num - 1 not in values:
+            length = 1
+
+            while num + length in values:
+                length += 1
+
+            best = max(best, length)
+
+    return best
+
+
+print(longest_consecutive([100, 4, 200, 1, 3, 2]))`,
+output:"4",
+explanation:"Only begin counting from values that have no predecessor. Each sequence is traversed from its smallest value, avoiding repeated scans from the middle.",
+time:"O(n) average", space:"O(n)",
+memory:"Use a set and start a sequence only when number-1 is absent."
+},
+{
+title:"Valid Parentheses",
+difficulty:"Medium", topic:"Stacks",
+prompt:"Determine whether brackets in a string are correctly opened and closed in the proper order.",
+code:`def valid_parentheses(s):
+    stack = []
+    pairs = {')': '(', ']': '[', '}': '{'}
+
+    for char in s:
+        if char in '([{':
+            stack.append(char)
+        elif char in pairs:
+            if not stack or stack.pop() != pairs[char]:
+                return False
+
+    return not stack
+
+
+print(valid_parentheses("({[]})"))`,
+output:"True",
+explanation:"Push opening brackets. For each closing bracket, the stack must contain the matching opener at its top. At the end, no unmatched opening brackets may remain.",
+time:"O(n)", space:"O(n)",
+memory:"Last opened bracket must be the first one closed: LIFO stack."
+},
+{
+title:"Min Stack",
+difficulty:"Medium", topic:"Stacks",
+prompt:"Design a stack supporting push, pop, top and retrieving the minimum value in constant time.",
+code:`class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.mins = []
+
+    def push(self, val):
+        self.stack.append(val)
+        if not self.mins or val <= self.mins[-1]:
+            self.mins.append(val)
+
+    def pop(self):
+        val = self.stack.pop()
+        if val == self.mins[-1]:
+            self.mins.pop()
+        return val
+
+    def top(self):
+        return self.stack[-1]
+
+    def get_min(self):
+        return self.mins[-1]
+
+
+s = MinStack()
+s.push(3)
+s.push(1)
+s.push(2)
+print(s.get_min())`,
+output:"1",
+explanation:"Keep a second stack of minimum values. Push a value to the minimum stack whenever it is less than or equal to the current minimum; remove it when that value is popped from the main stack.",
+time:"O(1) per operation", space:"O(n)",
+memory:"An auxiliary minimum stack preserves the current minimum through pushes and pops."
+},
+{
+title:"Daily Temperatures",
+difficulty:"Medium", topic:"Monotonic Stack",
+prompt:"For each day's temperature, return how many days must pass until a warmer temperature. Use 0 if no warmer day exists.",
+code:`def daily_temperatures(temps):
+    answer = [0] * len(temps)
+    stack = []
+
+    for i, temp in enumerate(temps):
+        while stack and temps[stack[-1]] < temp:
+            old = stack.pop()
+            answer[old] = i - old
+
+        stack.append(i)
+
+    return answer
+
+
+print(daily_temperatures([73, 74, 75, 71, 69, 72, 76, 73]))`,
+output:"[1, 1, 4, 2, 1, 1, 0, 0]",
+explanation:"Store indices of days that have not found a warmer day. When a warmer temperature arrives, resolve every cooler day at the top of the stack.",
+time:"O(n)", space:"O(n)",
+memory:"Monotonic decreasing stack of indices. Each index is pushed and popped at most once."
+},
+{
+title:"Largest Rectangle in Histogram",
+difficulty:"Difficult", topic:"Monotonic Stack",
+prompt:"Given bar heights in a histogram, find the area of the largest rectangle.",
+code:`def largest_rectangle(heights):
+    stack = []
+    best = 0
+    bars = heights + [0]
+
+    for i, height in enumerate(bars):
+        while stack and bars[stack[-1]] > height:
+            h = bars[stack.pop()]
+            left = stack[-1] if stack else -1
+            width = i - left - 1
+            best = max(best, h * width)
+
+        stack.append(i)
+
+    return best
+
+
+print(largest_rectangle([2, 1, 5, 6, 2, 3]))`,
+output:"10",
+explanation:"Maintain increasing bar heights on a stack. When a shorter bar appears, popped bars can no longer extend right, so calculate their maximal width and area. The trailing zero flushes the stack.",
+time:"O(n)", space:"O(n)",
+memory:"A lower bar closes taller rectangles. Width = right index - left boundary - 1."
+},
+{
+title:"Reverse a Linked List",
+difficulty:"Medium", topic:"Linked Lists",
+prompt:"Reverse a singly linked list in place and return the new head.",
+code:`class Node:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reverse_list(head):
+    previous = None
+    current = head
+
+    while current:
+        following = current.next
+        current.next = previous
+        previous = current
+        current = following
+
+    return previous
+
+
+head = Node(1, Node(2, Node(3)))
+new_head = reverse_list(head)
+while new_head:
+    print(new_head.val, end=" ")
+    new_head = new_head.next`,
+output:"3 2 1",
+explanation:"Save the next node before reversing the current pointer. Advance previous and current until all links point backwards.",
+time:"O(n)", space:"O(1)",
+memory:"Three references: previous, current and following. Save next before changing a link."
+},
+{
+title:"Detect a Cycle in a Linked List",
+difficulty:"Medium", topic:"Linked Lists",
+prompt:"Return True if a linked list contains a cycle, without using extra memory proportional to its length.",
+code:`def has_cycle(head):
+    slow = fast = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        if slow is fast:
+            return True
+
+    return False
+
+
+a = Node(1)
+b = Node(2)
+c = Node(3)
+a.next = b
+b.next = c
+c.next = b
+print(has_cycle(a))`,
+output:"True",
+explanation:"The slow pointer moves one node per step and the fast pointer moves two. If a cycle exists, the fast pointer eventually catches the slow pointer.",
+time:"O(n)", space:"O(1)",
+memory:"Floyd's tortoise-and-hare algorithm: move one pointer twice as fast."
+},
+{
+title:"Merge Two Sorted Linked Lists",
+difficulty:"Medium", topic:"Linked Lists",
+prompt:"Merge two sorted linked lists into a single sorted list.",
+code:`def merge_lists(a, b):
+    dummy = Node()
+    tail = dummy
+
+    while a and b:
+        if a.val <= b.val:
+            tail.next = a
+            a = a.next
+        else:
+            tail.next = b
+            b = b.next
+        tail = tail.next
+
+    tail.next = a or b
+    return dummy.next
+
+
+a = Node(1, Node(3, Node(5)))
+b = Node(2, Node(4, Node(6)))
+head = merge_lists(a, b)
+while head:
+    print(head.val, end=" ")
+    head = head.next`,
+output:"1 2 3 4 5 6",
+explanation:"Compare the current nodes and attach the smaller one to the result. Once one list is empty, attach the remaining sorted suffix of the other list.",
+time:"O(n + m)", space:"O(1) auxiliary",
+memory:"A dummy node simplifies handling the first node of the merged list."
+},
+{
+title:"Remove Nth Node From End",
+difficulty:"Medium", topic:"Linked Lists",
+prompt:"Remove the nth node from the end of a singly linked list and return its head.",
+code:`def remove_nth_from_end(head, n):
+    dummy = Node(0, head)
+    fast = slow = dummy
+
+    for _ in range(n + 1):
+        fast = fast.next
+
+    while fast:
+        fast = fast.next
+        slow = slow.next
+
+    slow.next = slow.next.next
+    return dummy.next
+
+
+head = Node(1, Node(2, Node(3, Node(4, Node(5)))))
+head = remove_nth_from_end(head, 2)
+while head:
+    print(head.val, end=" ")
+    head = head.next`,
+output:"1 2 3 5",
+explanation:"Move fast n+1 steps ahead of slow. When fast reaches the end, slow is just before the node to remove. A dummy node handles removing the head.",
+time:"O(n)", space:"O(1)",
+memory:"Create a gap of n+1 nodes between fast and slow, using a dummy head."
+},
+{
+title:"Binary Tree Level Order Traversal",
+difficulty:"Medium", topic:"Trees",
+prompt:"Return the values of a binary tree grouped by level from top to bottom.",
+code:`from collections import deque
+
+def level_order(root):
+    if not root:
+        return []
+
+    result = []
+    queue = deque([root])
+
+    while queue:
+        level = []
+
+        for _ in range(len(queue)):
+            node = queue.popleft()
+            level.append(node.val)
+
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+
+        result.append(level)
+
+    return result
+
+
+class TreeNode:
+    def __init__(self, val, left=None, right=None):
+        self.val, self.left, self.right = val, left, right
+
+root = TreeNode(1, TreeNode(2), TreeNode(3))
+print(level_order(root))`,
+output:"[[1], [2, 3]]",
+explanation:"Breadth-first search uses a queue. Capture the queue's current length before processing a level so newly added children belong to the next level.",
+time:"O(n)", space:"O(n)",
+memory:"BFS + queue. Process the queue length captured at the start of each level."
+},
+{
+title:"Validate a Binary Search Tree",
+difficulty:"Medium", topic:"Trees",
+prompt:"Determine whether a binary tree satisfies the strict binary search tree property.",
+code:`def is_valid_bst(root):
+    def validate(node, low, high):
+        if not node:
+            return True
+
+        if not low < node.val < high:
+            return False
+
+        return (
+            validate(node.left, low, node.val)
+            and validate(node.right, node.val, high)
+        )
+
+    return validate(root, float("-inf"), float("inf"))
+
+
+root = TreeNode(2, TreeNode(1), TreeNode(3))
+print(is_valid_bst(root))`,
+output:"True",
+explanation:"Every node must fall inside bounds inherited from all its ancestors. Checking only a node against its immediate children is insufficient.",
+time:"O(n)", space:"O(h)",
+memory:"Carry lower and upper bounds down the tree. h is the tree height."
+},
+{
+title:"Lowest Common Ancestor in a BST",
+difficulty:"Medium", topic:"Trees",
+prompt:"Find the lowest common ancestor of two nodes in a binary search tree.",
+code:`def lowest_common_ancestor(root, p, q):
+    node = root
+
+    while node:
+        if p.val < node.val and q.val < node.val:
+            node = node.left
+        elif p.val > node.val and q.val > node.val:
+            node = node.right
+        else:
+            return node
+
+    return None
+
+
+root = TreeNode(6, TreeNode(2), TreeNode(8))
+print(lowest_common_ancestor(root, root.left, root.right).val)`,
+output:"6",
+explanation:"If both target values are smaller, move left. If both are larger, move right. Otherwise, the current node is where their paths split, or one target is the ancestor.",
+time:"O(h)", space:"O(1)",
+memory:"Use BST ordering to move toward the split point of the two target values."
+},
+{
+title:"Maximum Depth of a Binary Tree",
+difficulty:"Medium", topic:"Trees",
+prompt:"Return the maximum number of nodes along a path from the root to any leaf.",
+code:`def max_depth(root):
+    if not root:
+        return 0
+
+    return 1 + max(max_depth(root.left), max_depth(root.right))
+
+
+root = TreeNode(1, TreeNode(2, TreeNode(4)), TreeNode(3))
+print(max_depth(root))`,
+output:"3",
+explanation:"An empty tree has depth zero. For a non-empty node, add one to the larger depth of its left and right subtrees.",
+time:"O(n)", space:"O(h)",
+memory:"Depth = 1 + max(left depth, right depth)."
+},
+{
+title:"Number of Islands",
+difficulty:"Medium", topic:"Graphs",
+prompt:"Given a grid of 1s (land) and 0s (water), count connected islands using horizontal and vertical adjacency.",
+code:`def num_islands(grid):
+    if not grid:
+        return 0
+
+    rows, cols = len(grid), len(grid[0])
+    count = 0
+
+    def visit(r, c):
+        if (r < 0 or r >= rows or c < 0 or c >= cols
+                or grid[r][c] != "1"):
+            return
+
+        grid[r][c] = "0"
+        visit(r + 1, c)
+        visit(r - 1, c)
+        visit(r, c + 1)
+        visit(r, c - 1)
+
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == "1":
+                count += 1
+                visit(r, c)
+
+    return count
+
+
+grid = [list("110"), list("010"), list("001")]
+print(num_islands(grid))`,
+output:"2",
+explanation:"Every time an unvisited land cell is found, increment the island count and explore its connected land. Mark visited land as water to avoid counting it again. This implementation modifies the grid.",
+time:"O(rows × cols)", space:"O(rows × cols) worst-case recursion",
+memory:"Count each new land component once, then mark every connected cell visited."
+},
+{
+title:"Clone an Undirected Graph",
+difficulty:"Difficult", topic:"Graphs",
+prompt:"Create a deep copy of a connected undirected graph. Each node has a value and a list of neighbors.",
+code:`class GraphNode:
+    def __init__(self, val=0, neighbors=None):
+        self.val = val
+        self.neighbors = neighbors or []
+
+def clone_graph(node):
+    if not node:
+        return None
+
+    copies = {node: GraphNode(node.val)}
+    stack = [node]
+
+    while stack:
+        current = stack.pop()
+
+        for neighbor in current.neighbors:
+            if neighbor not in copies:
+                copies[neighbor] = GraphNode(neighbor.val)
+                stack.append(neighbor)
+
+            copies[current].neighbors.append(copies[neighbor])
+
+    return copies[node]
+
+
+a = GraphNode(1)
+b = GraphNode(2)
+a.neighbors = [b]
+b.neighbors = [a]
+copy = clone_graph(a)
+print(copy.val, copy.neighbors[0].val)`,
+output:"1 2",
+explanation:"Map every original node to its cloned node. When a neighbor has no clone, create one and schedule it for traversal. Add edges between cloned nodes, preserving cycles and shared neighbors.",
+time:"O(V + E)", space:"O(V)",
+memory:"A dictionary maps original nodes to copies. Create each copy only once."
+},
+{
+title:"Course Schedule",
+difficulty:"Medium", topic:"Graphs",
+prompt:"Given course prerequisites, determine whether all courses can be completed. Each pair [a, b] means b must be completed before a.",
+code:`from collections import deque
+
+def can_finish(num_courses, prerequisites):
+    graph = [[] for _ in range(num_courses)]
+    indegree = [0] * num_courses
+
+    for course, prereq in prerequisites:
+        graph[prereq].append(course)
+        indegree[course] += 1
+
+    queue = deque(
+        i for i in range(num_courses) if indegree[i] == 0
+    )
+    completed = 0
+
+    while queue:
+        node = queue.popleft()
+        completed += 1
+
+        for nxt in graph[node]:
+            indegree[nxt] -= 1
+            if indegree[nxt] == 0:
+                queue.append(nxt)
+
+    return completed == num_courses
+
+
+print(can_finish(2, [[1, 0]]))`,
+output:"True",
+explanation:"Kahn's topological-sort algorithm repeatedly removes courses with no remaining prerequisites. If every course is processed, there is no directed cycle.",
+time:"O(V + E)", space:"O(V + E)",
+memory:"Repeatedly remove zero-indegree nodes. Unprocessed nodes indicate a cycle."
+},
+{
+title:"Dijkstra's Shortest Path",
+difficulty:"Difficult", topic:"Graphs",
+prompt:"Find shortest distances from a source in a weighted graph with non-negative edge weights. Graph format: node -> [(neighbor, weight), ...].",
+code:`import heapq
+
+def dijkstra(graph, source):
+    distances = {source: 0}
+    heap = [(0, source)]
+
+    while heap:
+        distance, node = heapq.heappop(heap)
+
+        if distance != distances[node]:
+            continue
+
+        for neighbor, weight in graph.get(node, []):
+            new_distance = distance + weight
+
+            if new_distance < distances.get(neighbor, float("inf")):
+                distances[neighbor] = new_distance
+                heapq.heappush(heap, (new_distance, neighbor))
+
+    return distances
+
+
+graph = {
+    "A": [("B", 4), ("C", 1)],
+    "C": [("B", 2)],
+    "B": []
+}
+print(dijkstra(graph, "A"))`,
+output:"{'A': 0, 'C': 1, 'B': 3}",
+explanation:"A min-heap chooses the node with the smallest tentative distance. Relax each outgoing edge when a shorter route is found. The stale-entry check skips outdated heap entries.",
+time:"O((V + E) log V)", space:"O(V + E)",
+memory:"Dijkstra requires non-negative edge weights. Relax neighbors using a min-heap."
+},
+{
+title:"Implement Trie (Prefix Tree)",
+difficulty:"Medium", topic:"Tries",
+prompt:"Implement a trie with insert, exact word search and prefix search.",
+code:`class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.end = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            node = node.children.setdefault(char, TrieNode())
+        node.end = True
+
+    def _find(self, text):
+        node = self.root
+        for char in text:
+            if char not in node.children:
+                return None
+            node = node.children[char]
+        return node
+
+    def search(self, word):
+        node = self._find(word)
+        return node is not None and node.end
+
+    def starts_with(self, prefix):
+        return self._find(prefix) is not None
+
+
+trie = Trie()
+trie.insert("python")
+print(trie.search("python"), trie.starts_with("py"))`,
+output:"True True",
+explanation:"Each node maps characters to child nodes. The end flag distinguishes a complete inserted word from a prefix that only leads to longer words.",
+time:"O(L) per operation", space:"O(total characters)",
+memory:"A trie shares common prefixes. Mark the final character node as a complete word."
+},
+{
+title:"Generate All Subsets",
+difficulty:"Medium", topic:"Backtracking",
+prompt:"Return the power set: all possible subsets of a list of distinct integers.",
+code:`def subsets(nums):
+    result = []
+    path = []
+
+    def backtrack(index):
+        if index == len(nums):
+            result.append(path.copy())
+            return
+
+        backtrack(index + 1)
+
+        path.append(nums[index])
+        backtrack(index + 1)
+        path.pop()
+
+    backtrack(0)
+    return result
+
+
+print(subsets([1, 2]))`,
+output:"[[], [2], [1], [1, 2]]",
+explanation:"For every element, explore two choices: exclude it or include it. Copy the current path when all elements have been considered.",
+time:"O(n × 2ⁿ)", space:"O(n) auxiliary, excluding output",
+memory:"Backtracking explores include/exclude choices. Copy the path before storing it."
+},
+{
+title:"Permutations of an Array",
+difficulty:"Medium", topic:"Backtracking",
+prompt:"Generate all possible orderings of distinct numbers.",
+code:`def permutations(nums):
+    result = []
+    path = []
+    used = [False] * len(nums)
+
+    def backtrack():
+        if len(path) == len(nums):
+            result.append(path.copy())
+            return
+
+        for i, num in enumerate(nums):
+            if used[i]:
+                continue
+
+            used[i] = True
+            path.append(num)
+            backtrack()
+            path.pop()
+            used[i] = False
+
+    backtrack()
+    return result
+
+
+print(permutations([1, 2, 3]))`,
+output:"All 6 permutations of [1, 2, 3]",
+explanation:"Choose an unused element for the next position. Recurse, then undo the choice so it can be used in a different branch.",
+time:"O(n × n!)", space:"O(n) auxiliary, excluding output",
+memory:"Choose, recurse, undo. Track which elements are currently used."
+},
+{
+title:"Combination Sum",
+difficulty:"Medium", topic:"Backtracking",
+prompt:"Find combinations of positive candidate numbers that sum to a target. Each candidate may be used repeatedly.",
+code:`def combination_sum(candidates, target):
+    result = []
+    path = []
+    candidates.sort()
+
+    def backtrack(start, remaining):
+        if remaining == 0:
+            result.append(path.copy())
+            return
+
+        for i in range(start, len(candidates)):
+            num = candidates[i]
+
+            if num > remaining:
+                break
+
+            path.append(num)
+            backtrack(i, remaining - num)
+            path.pop()
+
+    backtrack(0, target)
+    return result
+
+
+print(combination_sum([2, 3, 6, 7], 7))`,
+output:"[[2, 2, 3], [7]]",
+explanation:"Pass the current index again after selecting a candidate, allowing reuse. Sorting permits stopping as soon as a candidate exceeds the remaining target. Candidates must be positive.",
+time:"Exponential in the worst case", space:"O(target/min candidate) recursion, excluding output",
+memory:"Pass the same index to allow reuse; pass i+1 when reuse is forbidden."
+},
+{
+title:"N-Queens",
+difficulty:"Difficult", topic:"Backtracking",
+prompt:"Count the valid arrangements of n queens on an n×n chessboard so that no two queens attack each other.",
+code:`def total_n_queens(n):
+    columns = set()
+    diagonals1 = set()
+    diagonals2 = set()
+    count = 0
+
+    def place(row):
+        nonlocal count
+
+        if row == n:
+            count += 1
+            return
+
+        for col in range(n):
+            d1 = row - col
+            d2 = row + col
+
+            if (col in columns or d1 in diagonals1
+                    or d2 in diagonals2):
+                continue
+
+            columns.add(col)
+            diagonals1.add(d1)
+            diagonals2.add(d2)
+
+            place(row + 1)
+
+            columns.remove(col)
+            diagonals1.remove(d1)
+            diagonals2.remove(d2)
+
+    place(0)
+    return count
+
+
+print(total_n_queens(4))`,
+output:"2",
+explanation:"Place one queen per row. Sets track occupied columns and both diagonal directions. Reject a placement if any constraint is violated, then backtrack after exploring it.",
+time:"Exponential", space:"O(n)",
+memory:"Row-by-row backtracking; column, row-col and row+col identify attacks."
+},
+{
+title:"Word Search in a Grid",
+difficulty:"Medium", topic:"Backtracking",
+prompt:"Return True if a word can be formed from adjacent horizontal or vertical cells. A cell cannot be reused in the same path.",
+code:`def word_exists(board, word):
+    rows, cols = len(board), len(board[0])
+
+    def dfs(r, c, i):
+        if i == len(word):
+            return True
+
+        if (r < 0 or r >= rows or c < 0 or c >= cols
+                or board[r][c] != word[i]):
+            return False
+
+        char = board[r][c]
+        board[r][c] = "#"
+
+        found = (
+            dfs(r + 1, c, i + 1)
+            or dfs(r - 1, c, i + 1)
+            or dfs(r, c + 1, i + 1)
+            or dfs(r, c - 1, i + 1)
+        )
+
+        board[r][c] = char
+        return found
+
+    for r in range(rows):
+        for c in range(cols):
+            if dfs(r, c, 0):
+                return True
+
+    return False
+
+
+print(word_exists([list("ABCE"), list("SFCS"), list("ADEE")], "ABCCED"))`,
+output:"True",
+explanation:"Start DFS at each cell. Temporarily mark a matched cell as visited, search its four neighbors, then restore the original character during backtracking.",
+time:"O(rows × cols × 4ᴸ) upper bound", space:"O(L)",
+memory:"Mark a cell before exploring neighbors and always restore it afterward."
+},
+{
+title:"Coin Change",
+difficulty:"Medium", topic:"Dynamic Programming",
+prompt:"Given coin denominations and an amount, return the minimum number of coins needed. Return -1 if impossible.",
+code:`def coin_change(coins, amount):
+    dp = [amount + 1] * (amount + 1)
+    dp[0] = 0
+
+    for value in range(1, amount + 1):
+        for coin in coins:
+            if coin <= value:
+                dp[value] = min(
+                    dp[value],
+                    dp[value - coin] + 1
+                )
+
+    return dp[amount] if dp[amount] <= amount else -1
+
+
+print(coin_change([1, 2, 5], 11))`,
+output:"3",
+explanation:"dp[value] stores the minimum coins needed for that value. Try every coin that fits and build the answer from a smaller amount.",
+time:"O(amount × number of coins)", space:"O(amount)",
+memory:"Bottom-up DP: dp[0]=0 and dp[x]=min(dp[x-coin]+1)."
+},
+{
+title:"Longest Increasing Subsequence",
+difficulty:"Medium", topic:"Dynamic Programming",
+prompt:"Find the length of the longest strictly increasing subsequence. Elements do not need to be adjacent.",
+code:`from bisect import bisect_left
+
+def lis_length(nums):
+    tails = []
+
+    for num in nums:
+        i = bisect_left(tails, num)
+
+        if i == len(tails):
+            tails.append(num)
+        else:
+            tails[i] = num
+
+    return len(tails)
+
+
+print(lis_length([10, 9, 2, 5, 3, 7, 101, 18]))`,
+output:"4",
+explanation:"tails[i] stores the smallest possible tail of an increasing subsequence of length i+1. Binary search finds where each number can improve a tail. The tails list itself is not necessarily a subsequence.",
+time:"O(n log n)", space:"O(n)",
+memory:"Maintain minimal tails and use binary search to replace the first tail >= current value."
+},
+{
+title:"Longest Common Subsequence",
+difficulty:"Medium", topic:"Dynamic Programming",
+prompt:"Return the length of the longest subsequence shared by two strings. Characters need not be contiguous.",
+code:`def lcs(a, b):
+    dp = [0] * (len(b) + 1)
+
+    for char_a in a:
+        current = [0] * (len(b) + 1)
+
+        for j, char_b in enumerate(b, 1):
+            if char_a == char_b:
+                current[j] = dp[j - 1] + 1
+            else:
+                current[j] = max(dp[j], current[j - 1])
+
+        dp = current
+
+    return dp[-1]
+
+
+print(lcs("abcde", "ace"))`,
+output:"3",
+explanation:"When characters match, extend the previous diagonal subsequence. Otherwise, choose the better result from skipping a character in either string. The rolling row saves memory.",
+time:"O(m × n)", space:"O(n)",
+memory:"Match: diagonal + 1. Mismatch: maximum of top and left."
+},
+{
+title:"0/1 Knapsack",
+difficulty:"Medium", topic:"Dynamic Programming",
+prompt:"Each item has a weight and value. Find the maximum value within capacity, using each item at most once.",
+code:`def knapsack(weights, values, capacity):
+    dp = [0] * (capacity + 1)
+
+    for weight, value in zip(weights, values):
+        for cap in range(capacity, weight - 1, -1):
+            dp[cap] = max(
+                dp[cap],
+                dp[cap - weight] + value
+            )
+
+    return dp[capacity]
+
+
+print(knapsack([1, 3, 4, 5], [1, 4, 5, 7], 7))`,
+output:"9",
+explanation:"For each item, compare skipping it with taking it and adding its value to the best solution for the remaining capacity. Iterate capacities downward so an item cannot be reused in the same pass.",
+time:"O(number of items × capacity)", space:"O(capacity)",
+memory:"For 0/1 knapsack, iterate capacity in descending order."
+},
+{
+title:"House Robber",
+difficulty:"Medium", topic:"Dynamic Programming",
+prompt:"Given non-negative amounts in houses, find the maximum total without robbing adjacent houses.",
+code:`def rob(nums):
+    two_back = 0
+    one_back = 0
+
+    for money in nums:
+        current = max(one_back, two_back + money)
+        two_back = one_back
+        one_back = current
+
+    return one_back
+
+
+print(rob([2, 7, 9, 3, 1]))`,
+output:"12",
+explanation:"For each house, either skip it and keep the previous best, or rob it and add its money to the best from two houses back.",
+time:"O(n)", space:"O(1)",
+memory:"current = max(skip current, rob current + best two steps back)."
+},
+{
+title:"Edit Distance",
+difficulty:"Difficult", topic:"Dynamic Programming",
+prompt:"Find the minimum insertions, deletions and replacements needed to convert one string into another.",
+code:`def edit_distance(a, b):
+    dp = list(range(len(b) + 1))
+
+    for i, char_a in enumerate(a, 1):
+        current = [i] + [0] * len(b)
+
+        for j, char_b in enumerate(b, 1):
+            if char_a == char_b:
+                current[j] = dp[j - 1]
+            else:
+                current[j] = 1 + min(
+                    dp[j],
+                    current[j - 1],
+                    dp[j - 1]
+                )
+
+        dp = current
+
+    return dp[-1]
+
+
+print(edit_distance("horse", "ros"))`,
+output:"3",
+explanation:"Each DP cell considers converting prefixes. If characters match, no operation is needed. Otherwise, take one plus the minimum of deletion, insertion and replacement.",
+time:"O(m × n)", space:"O(n)",
+memory:"Mismatch = 1 + min(delete, insert, replace). Match = diagonal."
+},
+{
+title:"Word Break",
+difficulty:"Medium", topic:"Dynamic Programming",
+prompt:"Determine whether a string can be segmented into one or more dictionary words.",
+code:`def word_break(s, word_dict):
+    words = set(word_dict)
+    dp = [False] * (len(s) + 1)
+    dp[0] = True
+
+    for end in range(1, len(s) + 1):
+        for start in range(end):
+            if dp[start] and s[start:end] in words:
+                dp[end] = True
+                break
+
+    return dp[-1]
+
+
+print(word_break("leetcode", ["leet", "code"]))`,
+output:"True",
+explanation:"dp[end] is true when the prefix ending there can be segmented. Try earlier split positions where the previous prefix is valid and the next substring is a dictionary word.",
+time:"O(n²) substring checks, plus hashing costs", space:"O(n + dictionary)",
+memory:"A valid prefix plus a dictionary word makes a longer valid prefix."
+},
+{
+title:"Unique Paths",
+difficulty:"Medium", topic:"Dynamic Programming",
+prompt:"A robot moves only right or down in an m×n grid. Count the paths from the top-left to bottom-right.",
+code:`def unique_paths(m, n):
+    dp = [1] * n
+
+    for _ in range(1, m):
+        for col in range(1, n):
+            dp[col] += dp[col - 1]
+
+    return dp[-1]
+
+
+print(unique_paths(3, 7))`,
+output:"28",
+explanation:"The number of ways to reach a cell is the sum of ways from above and from the left. The one-dimensional array stores the previous row and is updated left to right.",
+time:"O(m × n)", space:"O(n)",
+memory:"Paths at a cell = paths from above + paths from left."
+},
+{
+title:"Maximum Product Subarray",
+difficulty:"Medium", topic:"Dynamic Programming",
+prompt:"Find the maximum product of a non-empty contiguous subarray. Negative values may change the sign.",
+code:`def max_product(nums):
+    high = low = best = nums[0]
+
+    for num in nums[1:]:
+        if num < 0:
+            high, low = low, high
+
+        high = max(num, high * num)
+        low = min(num, low * num)
+        best = max(best, high)
+
+    return best
+
+
+print(max_product([2, 3, -2, 4]))`,
+output:"6",
+explanation:"Track both maximum and minimum products ending at the current position. A negative number can turn the previous minimum into the new maximum, so swap the states before updating.",
+time:"O(n)", space:"O(1)",
+memory:"Track both max and min products because multiplying by a negative flips signs."
+},
+{
+title:"Decode Ways",
+difficulty:"Medium", topic:"Dynamic Programming",
+prompt:"Digits map from 1 to 26 as letters. Count valid decodings of a digit string. A leading zero is invalid.",
+code:`def num_decodings(s):
+    if not s or s[0] == "0":
+        return 0
+
+    two_back, one_back = 1, 1
+
+    for i in range(1, len(s)):
+        current = 0
+
+        if s[i] != "0":
+            current += one_back
+
+        pair = int(s[i - 1:i + 1])
+        if 10 <= pair <= 26:
+            current += two_back
+
+        two_back, one_back = one_back, current
+
+    return one_back
+
+
+print(num_decodings("226"))`,
+output:"3",
+explanation:"At each position, count valid ways from a single nonzero digit and from a valid two-digit number between 10 and 26. A zero can only be decoded as part of 10 or 20.",
+time:"O(n)", space:"O(1)",
+memory:"Add the one-digit contribution and valid two-digit contribution separately."
+},
+{
+title:"Implement LRU Cache",
+difficulty:"Difficult", topic:"Design",
+prompt:"Design a least-recently-used cache with get and put operations in average O(1) time.",
+code:`from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.cache = OrderedDict()
+
+    def get(self, key):
+        if key not in self.cache:
+            return -1
+
+        self.cache.move_to_end(key)
+        return self.cache[key]
+
+    def put(self, key, value):
+        if key in self.cache:
+            self.cache.move_to_end(key)
+
+        self.cache[key] = value
+
+        if len(self.cache) > self.capacity:
+            self.cache.popitem(last=False)
+
+
+cache = LRUCache(2)
+cache.put(1, 10)
+cache.put(2, 20)
+cache.get(1)
+cache.put(3, 30)
+print(cache.get(2))`,
+output:"-1",
+explanation:"OrderedDict maintains access order. Moving an accessed or updated key to the end marks it most recently used. When capacity is exceeded, remove the first item.",
+time:"O(1) average per operation", space:"O(capacity)",
+memory:"Hash-based lookup + recency ordering. OrderedDict supplies both operations conveniently."
+},
+{
+title:"Median of Two Sorted Arrays",
+difficulty:"Difficult", topic:"Binary Search",
+prompt:"Find the median of two sorted arrays in O(log(min(m,n))) time.",
+code:`def median_two_sorted(a, b):
+    if len(a) > len(b):
+        a, b = b, a
+
+    m, n = len(a), len(b)
+    left, right = 0, m
+
+    while left <= right:
+        i = (left + right) // 2
+        j = (m + n + 1) // 2 - i
+
+        a_left = a[i - 1] if i else float("-inf")
+        a_right = a[i] if i < m else float("inf")
+        b_left = b[j - 1] if j else float("-inf")
+        b_right = b[j] if j < n else float("inf")
+
+        if a_left <= b_right and b_left <= a_right:
+            if (m + n) % 2:
+                return max(a_left, b_left)
+            return (max(a_left, b_left) + min(a_right, b_right)) / 2
+
+        if a_left > b_right:
+            right = i - 1
+        else:
+            left = i + 1
+
+    raise ValueError("Inputs must be sorted")
+
+
+print(median_two_sorted([1, 3], [2]))`,
+output:"2",
+explanation:"Binary-search a partition in the smaller array and derive the partition in the other array. A valid partition places all left values before all right values. Use boundary infinities when a partition reaches an end.",
+time:"O(log(min(m,n)))", space:"O(1)",
+memory:"Binary-search the partition, not the median position directly. Ensure max(lefts) <= min(rights)."
+},
+{
+title:"Trapping Rain Water",
+difficulty:"Difficult", topic:"Two Pointers",
+prompt:"Given non-negative bar heights, calculate how much rainwater can be trapped between them.",
+code:`def trap(height):
+    left, right = 0, len(height) - 1
+    left_max = right_max = 0
+    water = 0
+
+    while left < right:
+        if height[left] < height[right]:
+            left_max = max(left_max, height[left])
+            water += left_max - height[left]
+            left += 1
+        else:
+            right_max = max(right_max, height[right])
+            water += right_max - height[right]
+            right -= 1
+
+    return water
+
+
+print(trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]))`,
+output:"6",
+explanation:"Water at a position is bounded by the smaller of the maximum heights on its left and right. Process the side with the smaller current boundary because its water level is already determined.",
+time:"O(n)", space:"O(1)",
+memory:"Water = boundary maximum - current height. Advance the side with the smaller boundary."
+},
+{
+title:"Find Median From a Data Stream",
+difficulty:"Difficult", topic:"Heaps",
+prompt:"Design a structure that accepts numbers one at a time and returns the median of all values inserted so far.",
+code:`import heapq
+
+class MedianFinder:
+    def __init__(self):
+        self.low = []   # Max-heap using negative values
+        self.high = []  # Min-heap
+
+    def add_num(self, num):
+        heapq.heappush(self.low, -num)
+        heapq.heappush(self.high, -heapq.heappop(self.low))
+
+        if len(self.high) > len(self.low):
+            heapq.heappush(self.low, -heapq.heappop(self.high))
+
+    def find_median(self):
+        if len(self.low) > len(self.high):
+            return -self.low[0]
+        return (-self.low[0] + self.high[0]) / 2
+
+
+finder = MedianFinder()
+for num in [1, 2, 3]:
+    finder.add_num(num)
+print(finder.find_median())`,
+output:"2",
+explanation:"The max-heap stores the lower half; the min-heap stores the upper half. Balance their sizes so the lower half has either the same number of elements or one extra.",
+time:"Add: O(log n); median: O(1)", space:"O(n)",
+memory:"Two heaps: lower max-heap, upper min-heap. Their roots reveal the middle values."
+},
+{
+title:"Serialize and Deserialize a Binary Tree",
+difficulty:"Difficult", topic:"Trees",
+prompt:"Convert a binary tree into a string and reconstruct the same tree from that string, preserving missing children.",
+code:`class Codec:
+    def serialize(self, root):
+        values = []
+
+        def preorder(node):
+            if not node:
+                values.append("#")
+                return
+            values.append(str(node.val))
+            preorder(node.left)
+            preorder(node.right)
+
+        preorder(root)
+        return ",".join(values)
+
+    def deserialize(self, data):
+        values = iter(data.split(","))
+
+        def build():
+            value = next(values)
+            if value == "#":
+                return None
+
+            node = TreeNode(int(value))
+            node.left = build()
+            node.right = build()
+            return node
+
+        return build()
+
+
+codec = Codec()
+root = TreeNode(1, TreeNode(2), TreeNode(3))
+encoded = codec.serialize(root)
+print(encoded)
+print(codec.deserialize(encoded).val)`,
+output:"1,2,#,#,3,#,#\n1",
+explanation:"Preorder traversal records a node before its children. A marker represents each missing child, making the structure unambiguous. Deserialization consumes the sequence in the same order.",
+time:"O(n)", space:"O(n)",
+memory:"A traversal plus null markers preserves the tree structure."
+},
+{
+title:"Implement a Word Dictionary with Wildcards",
+difficulty:"Medium", topic:"Tries",
+prompt:"Support add_word(word) and search(pattern), where a dot matches any single character.",
+code:`class WordDictionary:
+    def __init__(self):
+        self.root = {}
+
+    def add_word(self, word):
+        node = self.root
+        for char in word:
+            node = node.setdefault(char, {})
+        node["#"] = True
+
+    def search(self, pattern):
+        def dfs(node, index):
+            if index == len(pattern):
+                return "#" in node
+
+            char = pattern[index]
+
+            if char == ".":
+                return any(
+                    dfs(child, index + 1)
+                    for key, child in node.items()
+                    if key != "#"
+                )
+
+            if char not in node:
+                return False
+
+            return dfs(node[char], index + 1)
+
+        return dfs(self.root, 0)
+
+
+wd = WordDictionary()
+wd.add_word("bad")
+wd.add_word("dad")
+print(wd.search(".ad"))`,
+output:"True",
+explanation:"Store words in a trie. Normal characters follow one child; a dot branches into all character children. The terminal marker indicates that a full word ends at that node.",
+time:"O(L) without wildcards; worst case branches exponentially", space:"O(total characters)",
+memory:"A wildcard means branching over every child at that trie position."
+},
+{
+title:"Find the Kth Smallest in a BST",
+difficulty:"Medium", topic:"Trees",
+prompt:"Return the kth smallest value in a binary search tree, where k is 1-indexed.",
+code:`def kth_smallest(root, k):
+    stack = []
+    node = root
+
+    while stack or node:
+        while node:
+            stack.append(node)
+            node = node.left
+
+        node = stack.pop()
+        k -= 1
+
+        if k == 0:
+            return node.val
+
+        node = node.right
+
+    raise ValueError("k is out of range")
+
+
+root = TreeNode(3, TreeNode(1, None, TreeNode(2)), TreeNode(4))
+print(kth_smallest(root, 1))`,
+output:"1",
+explanation:"In-order traversal of a BST visits values in ascending order. An explicit stack performs this traversal without recursive calls. Stop as soon as the kth node is visited.",
+time:"O(h + k) in a typical traversal", space:"O(h)",
+memory:"BST in-order traversal gives sorted order: left, node, right."
+},
+{
+title:"Find a Peak Element",
+difficulty:"Medium", topic:"Searching",
+prompt:"Find any index whose value is greater than its adjacent values. Treat values outside the array as negative infinity.",
+code:`def find_peak(nums):
+    left, right = 0, len(nums) - 1
+
+    while left < right:
+        mid = (left + right) // 2
+
+        if nums[mid] > nums[mid + 1]:
+            right = mid
+        else:
+            left = mid + 1
+
+    return left
+
+
+print(find_peak([1, 2, 3, 1]))`,
+output:"2",
+explanation:"Compare the middle value with the value to its right. If the slope descends, a peak exists at or to the left; otherwise, a peak exists to the right. This assumes a non-empty array and the usual peak definition.",
+time:"O(log n)", space:"O(1)",
+memory:"Follow the slope: descending means keep the left half; ascending means move right."
+},
+{
+title:"Count Inversions in an Array",
+difficulty:"Difficult", topic:"Sorting",
+prompt:"Count pairs i < j for which nums[i] > nums[j]. Aim for O(n log n) time.",
+code:`def count_inversions(nums):
+    def sort_count(arr):
+        if len(arr) < 2:
+            return arr, 0
+
+        mid = len(arr) // 2
+        left, a = sort_count(arr[:mid])
+        right, b = sort_count(arr[mid:])
+
+        merged = []
+        i = j = 0
+        count = a + b
+
+        while i < len(left) and j < len(right):
+            if left[i] <= right[j]:
+                merged.append(left[i])
+                i += 1
+            else:
+                merged.append(right[j])
+                count += len(left) - i
+                j += 1
+
+        merged.extend(left[i:])
+        merged.extend(right[j:])
+        return merged, count
+
+    return sort_count(nums)[1]
+
+
+print(count_inversions([2, 4, 1, 3, 5]))`,
+output:"3",
+explanation:"Merge sort counts inversions within each half. When a right-side value is smaller than the current left-side value, it is smaller than every remaining left value, so add the number of remaining left elements.",
+time:"O(n log n)", space:"O(n)",
+memory:"During merge, choosing a right value before remaining left values adds len(left)-i inversions."
+},
+{
+title:"Implement Merge Sort",
+difficulty:"Medium", topic:"Sorting",
+prompt:"Sort a list of comparable values using merge sort.",
+code:`def merge_sort(nums):
+    if len(nums) <= 1:
+        return nums
+
+    mid = len(nums) // 2
+    left = merge_sort(nums[:mid])
+    right = merge_sort(nums[mid:])
+
+    result = []
+    i = j = 0
+
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+
+print(merge_sort([38, 27, 43, 3, 9, 82, 10]))`,
+output:"[3, 9, 10, 27, 38, 43, 82]",
+explanation:"Divide the array into halves until each part contains at most one element. Recursively sort both halves and merge them by repeatedly selecting the smaller front element.",
+time:"O(n log n)", space:"O(n)",
+memory:"Divide, recursively sort, merge. Merge sort has predictable O(n log n) time."
+},
+{
+title:"Quick Sort",
+difficulty:"Medium", topic:"Sorting",
+prompt:"Sort a list using quick sort. This educational version creates new lists for the partitions.",
+code:`def quick_sort(nums):
+    if len(nums) <= 1:
+        return nums
+
+    pivot = nums[len(nums) // 2]
+    lower = [x for x in nums if x < pivot]
+    equal = [x for x in nums if x == pivot]
+    upper = [x for x in nums if x > pivot]
+
+    return quick_sort(lower) + equal + quick_sort(upper)
+
+
+print(quick_sort([8, 3, 1, 7, 0, 10, 2]))`,
+output:"[0, 1, 2, 3, 7, 8, 10]",
+explanation:"Choose a pivot and partition values into lower, equal and upper groups. Sort the lower and upper groups recursively, then concatenate the results. This version handles duplicates explicitly.",
+time:"Average O(n log n); worst O(n²)", space:"O(n) or more for partitions and recursion",
+memory:"Partition around a pivot. Pivot selection affects performance; this version is not in-place."
+},
+{
+title:"Find All Duplicates in an Array",
+difficulty:"Medium", topic:"Arrays",
+prompt:"An array of length n contains values from 1 to n. Some values may appear twice. Return all values that appear twice.",
+code:`def find_duplicates(nums):
+    seen = set()
+    duplicates = []
+
+    for num in nums:
+        if num in seen:
+            duplicates.append(num)
+        else:
+            seen.add(num)
+
+    return duplicates
+
+
+print(find_duplicates([4, 3, 2, 7, 8, 2, 3, 1]))`,
+output:"[2, 3]",
+explanation:"Maintain a set of values already encountered. A value encountered for a second time is added to the answer. Under the stated constraints, each value can appear at most twice.",
+time:"O(n) average", space:"O(n)",
+memory:"A set provides fast membership checks and identifies repeated values."
+},
+{
+title:"Spiral Matrix Traversal",
+difficulty:"Medium", topic:"Matrices",
+prompt:"Return the elements of a matrix in clockwise spiral order.",
+code:`def spiral_order(matrix):
+    if not matrix or not matrix[0]:
+        return []
+
+    top, bottom = 0, len(matrix) - 1
+    left, right = 0, len(matrix[0]) - 1
+    result = []
+
+    while top <= bottom and left <= right:
+        for c in range(left, right + 1):
+            result.append(matrix[top][c])
+        top += 1
+
+        for r in range(top, bottom + 1):
+            result.append(matrix[r][right])
+        right -= 1
+
+        if top <= bottom:
+            for c in range(right, left - 1, -1):
+                result.append(matrix[bottom][c])
+            bottom -= 1
+
+        if left <= right:
+            for r in range(bottom, top - 1, -1):
+                result.append(matrix[r][left])
+            left += 1
+
+    return result
+
+
+print(spiral_order([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))`,
+output:"[1, 2, 3, 6, 9, 8, 7, 4, 5]",
+explanation:"Traverse the top row, right column, bottom row and left column, shrinking the corresponding boundary after each pass. Check boundaries before the final two traversals to avoid duplicates.",
+time:"O(rows × cols)", space:"O(1) auxiliary, excluding output",
+memory:"Maintain four shrinking boundaries: top, bottom, left and right."
+},
+{
+title:"Rotate a Matrix 90 Degrees",
+difficulty:"Medium", topic:"Matrices",
+prompt:"Rotate an n×n matrix 90 degrees clockwise in place without allocating another matrix.",
+code:`def rotate_matrix(matrix):
+    n = len(matrix)
+
+    # Transpose the matrix in place.
+    for r in range(n):
+        for c in range(r + 1, n):
+            matrix[r][c], matrix[c][r] = matrix[c][r], matrix[r][c]
+
+    # Reverse each row in place.
+    for row in matrix:
+        row.reverse()
+
+    return matrix
+
+
+print(rotate_matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))`,
+output:"[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+explanation:"First transpose across the main diagonal, swapping matrix[r][c] with matrix[c][r]. Then reverse every row. Together, these operations produce a clockwise rotation without a second matrix.",
+time:"O(n²)", space:"O(1) auxiliary",
+memory:"Clockwise 90° rotation = transpose + reverse each row. The input must be square."
+},
+{
+title:"Implement a Queue Using Two Stacks",
+difficulty:"Medium", topic:"Stacks and Queues",
+prompt:"Implement a FIFO queue with append, pop and peek operations using two stacks.",
+code:`class MyQueue:
+    def __init__(self):
+        self.in_stack = []
+        self.out_stack = []
+
+    def push(self, value):
+        self.in_stack.append(value)
+
+    def _transfer(self):
+        if not self.out_stack:
+            while self.in_stack:
+                self.out_stack.append(self.in_stack.pop())
+
+    def pop(self):
+        self._transfer()
+        return self.out_stack.pop()
+
+    def peek(self):
+        self._transfer()
+        return self.out_stack[-1]
+
+    def empty(self):
+        return not self.in_stack and not self.out_stack
+
+
+q = MyQueue()
+q.push(1)
+q.push(2)
+print(q.peek(), q.pop())`,
+output:"1 1",
+explanation:"New elements go into the input stack. When the output stack is empty, transfer all input elements to reverse their order. The oldest element then sits at the top of the output stack.",
+time:"Amortized O(1) per operation", space:"O(n)",
+memory:"Two stacks reverse order during transfer, producing FIFO behavior."
+},
+{
+title:"Find the Shortest Path in an Unweighted Graph",
+difficulty:"Medium", topic:"Graphs",
+prompt:"Use BFS to find the shortest distance from a source to every reachable node in an unweighted adjacency-list graph.",
+code:`from collections import deque
+
+def shortest_distances(graph, source):
+    distance = {source: 0}
+    queue = deque([source])
+
+    while queue:
+        node = queue.popleft()
+
+        for neighbor in graph.get(node, []):
+            if neighbor not in distance:
+                distance[neighbor] = distance[node] + 1
+                queue.append(neighbor)
+
+    return distance
+
+
+graph = {
+    "A": ["B", "C"],
+    "B": ["D"],
+    "C": ["D"],
+    "D": []
+}
+print(shortest_distances(graph, "A"))`,
+output:"{'A': 0, 'B': 1, 'C': 1, 'D': 2}",
+explanation:"BFS explores nodes by increasing distance from the source. Mark a node when it is first discovered so it enters the queue only once and receives its shortest distance.",
+time:"O(V + E)", space:"O(V)",
+memory:"For unweighted graphs, BFS finds shortest paths by exploring one distance layer at a time."
+},
+{
+title:"Find a Cycle in a Directed Graph",
+difficulty:"Difficult", topic:"Graphs",
+prompt:"Determine whether a directed graph contains a cycle. Nodes are numbered from 0 to n-1.",
+code:`def has_directed_cycle(n, edges):
+    graph = [[] for _ in range(n)]
+
+    for u, v in edges:
+        graph[u].append(v)
+
+    # 0 = unvisited, 1 = visiting, 2 = fully processed
+    state = [0] * n
+
+    def dfs(node):
+        if state[node] == 1:
+            return True
+        if state[node] == 2:
+            return False
+
+        state[node] = 1
+
+        for neighbor in graph[node]:
+            if dfs(neighbor):
+                return True
+
+        state[node] = 2
+        return False
+
+    return any(
+        state[node] == 0 and dfs(node)
+        for node in range(n)
+    )
+
+
+print(has_directed_cycle(3, [(0, 1), (1, 2), (2, 0)]))`,
+output:"True",
+explanation:"DFS uses three states. Reaching a visiting node means an edge points back into the active recursion path, revealing a cycle. Fully processed nodes can be skipped.",
+time:"O(V + E)", space:"O(V + E)",
+memory:"A back edge to a node in the current DFS path signals a directed cycle."
+},
+{
+title:"Minimum Window Substring",
+difficulty:"Difficult", topic:"Sliding Window",
+prompt:"Find the smallest substring of s containing every character of t, including duplicate character counts. Return an empty string if no window exists.",
+code:`from collections import Counter
+
+def min_window(s, t):
+    if not t or not s:
+        return ""
+
+    need = Counter(t)
+    missing = len(t)
+    left = 0
+    best_start = 0
+    best_len = float("inf")
+
+    for right, char in enumerate(s):
+        if need[char] > 0:
+            missing -= 1
+        need[char] -= 1
+
+        while missing == 0:
+            length = right - left + 1
+
+            if length < best_len:
+                best_start, best_len = left, length
+
+            left_char = s[left]
+            need[left_char] += 1
+
+            if need[left_char] > 0:
+                missing += 1
+
+            left += 1
+
+    if best_len == float("inf"):
+        return ""
+
+    return s[best_start:best_start + best_len]
+
+
+print(min_window("ADOBECODEBANC", "ABC"))`,
+output:"BANC",
+explanation:"Counter tracks the remaining required character counts. Expand the right edge until the window contains all required characters, then shrink from the left while it remains valid, recording the shortest window.",
+time:"O(len(s) + len(t)) average", space:"O(character set)",
+memory:"Expand until valid; shrink while valid. Count duplicate target characters too."
+},
+{
+title:"Find the Median of a Running Array Prefix",
+difficulty:"Medium", topic:"Heaps",
+prompt:"After each inserted integer, return the median of all numbers seen so far.",
+code:`import heapq
+
+def running_medians(nums):
+    lower = []
+    upper = []
+    result = []
+
+    for num in nums:
+        heapq.heappush(lower, -num)
+        heapq.heappush(upper, -heapq.heappop(lower))
+
+        if len(upper) > len(lower):
+            heapq.heappush(lower, -heapq.heappop(upper))
+
+        if len(lower) > len(upper):
+            result.append(-lower[0])
+        else:
+            result.append((-lower[0] + upper[0]) / 2)
+
+    return result
+
+
+print(running_medians([5, 15, 1, 3]))`,
+output:"[5, 10.0, 5, 4.0]",
+explanation:"Maintain a max-heap for the lower half and a min-heap for the upper half. Rebalance after every insertion; the roots give either the middle value or the average of two middle values.",
+time:"O(n log n)", space:"O(n)",
+memory:"Balance two heaps after each insertion to read the median in O(1)."
+},
+{
+title:"Find the Longest Palindromic Substring",
+difficulty:"Medium", topic:"Strings",
+prompt:"Return a longest contiguous substring that reads the same forwards and backwards.",
+code:`def longest_palindrome(s):
+    best = ""
+
+    def expand(left, right):
+        while (left >= 0 and right < len(s)
+               and s[left] == s[right]):
+            left -= 1
+            right += 1
+        return s[left + 1:right]
+
+    for i in range(len(s)):
+        odd = expand(i, i)
+        even = expand(i, i + 1)
+
+        if len(odd) > len(best):
+            best = odd
+        if len(even) > len(best):
+            best = even
+
+    return best
+
+
+print(longest_palindrome("babad"))`,
+output:"'bab' (or 'aba')",
+explanation:"Every palindrome has a center, either a character or a gap between characters. Expand outward from each possible center while the characters match and keep the longest result.",
+time:"O(n²)", space:"O(1) auxiliary, excluding result",
+memory:"Expand around both odd and even centers; a palindrome grows symmetrically."
+},
+{
+title:"Check if a String Is a Valid Palindrome",
+difficulty:"Medium", topic:"Strings",
+prompt:"Check whether a string is a palindrome after ignoring non-alphanumeric characters and letter case.",
+code:`def is_palindrome(s):
+    left, right = 0, len(s) - 1
+
+    while left < right:
+        while left < right and not s[left].isalnum():
+            left += 1
+        while left < right and not s[right].isalnum():
+            right -= 1
+
+        if s[left].lower() != s[right].lower():
+            return False
+
+        left += 1
+        right -= 1
+
+    return True
+
+
+print(is_palindrome("A man, a plan, a canal: Panama"))`,
+output:"True",
+explanation:"Use two pointers from opposite ends. Skip punctuation and spaces, compare lowercase characters, then move both pointers inward.",
+time:"O(n)", space:"O(1)",
+memory:"Two pointers + alphanumeric filtering + case-insensitive comparison."
+},
+{
+title:"Evaluate Reverse Polish Notation",
+difficulty:"Medium", topic:"Stacks",
+prompt:"Evaluate an expression in Reverse Polish Notation. Division truncates toward zero.",
+code:`def eval_rpn(tokens):
+    stack = []
+
+    for token in tokens:
+        if token not in {"+", "-", "*", "/"}:
+            stack.append(int(token))
+            continue
+
+        b = stack.pop()
+        a = stack.pop()
+
+        if token == "+":
+            stack.append(a + b)
+        elif token == "-":
+            stack.append(a - b)
+        elif token == "*":
+            stack.append(a * b)
+        else:
+            quotient = abs(a) // abs(b)
+            stack.append(-quotient if (a < 0) != (b < 0) else quotient)
+
+    return stack[-1]
+
+
+print(eval_rpn(["2", "1", "+", "3", "*"]))`,
+output:"9",
+explanation:"Push operands onto a stack. When an operator appears, pop the right operand first, then the left operand, perform the operation, and push the result. The division logic truncates toward zero.",
+time:"O(n)", space:"O(n)",
+memory:"For an operator, pop b then a; operand order matters for subtraction and division."
+},
+{
+title:"Implement Fast Exponentiation",
+difficulty:"Medium", topic:"Recursion",
+prompt:"Calculate x raised to integer power n in O(log |n|) time, including negative powers.",
+code:`def power(x, n):
+    if n < 0:
+        x = 1 / x
+        n = -n
+
+    result = 1
+
+    while n:
+        if n & 1:
+            result *= x
+
+        x *= x
+        n >>= 1
+
+    return result
+
+
+print(power(2, 10))
+print(power(2, -2))`,
+output:"1024\n0.25",
+explanation:"Use exponentiation by squaring. When the current exponent is odd, multiply the result by the current base. Square the base and halve the exponent at each step.",
+time:"O(log |n|)", space:"O(1)",
+memory:"Square the base and halve the exponent. Multiply the result when the exponent is odd."
+},
+{
+title:"Find the Median of Two Sorted Arrays — Merge Approach",
+difficulty:"Medium", topic:"Arrays",
+prompt:"Find the median of two sorted arrays. This simpler solution merges the arrays and is useful as a baseline before learning the logarithmic partition approach.",
+code:`def median_by_merge(a, b):
+    merged = []
+    i = j = 0
+
+    while i < len(a) and j < len(b):
+        if a[i] <= b[j]:
+            merged.append(a[i])
+            i += 1
+        else:
+            merged.append(b[j])
+            j += 1
+
+    merged.extend(a[i:])
+    merged.extend(b[j:])
+
+    if not merged:
+        raise ValueError("Both arrays are empty")
+
+    mid = len(merged) // 2
+
+    if len(merged) % 2:
+        return merged[mid]
+
+    return (merged[mid - 1] + merged[mid]) / 2
+
+
+print(median_by_merge([1, 3], [2, 4]))`,
+output:"2.5",
+explanation:"Merge the two sorted arrays in order, then inspect the middle element or the two middle elements. This is straightforward but uses extra memory and is slower than the optimal partition solution.",
+time:"O(m + n)", space:"O(m + n)",
+memory:"A simple merge is a useful correctness baseline; the optimal interview solution uses binary-search partitioning."
+}
+];
+
+/* =====================================================
+   PAGE LOGIC: filters, navigation, progress and copying
+   ===================================================== */
+
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = "praktikul_python_coding_progress_v1";
+
+let currentIndex = 0;
+let visibleQuestions = questions.map((_, index) => index);
+let completed = loadProgress();
+
+function loadProgress() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        return new Set(Array.isArray(saved) ? saved : []);
+    } catch (error) {
+        return new Set();
+    }
+}
+
+function saveProgress() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed]));
+    } catch (error) {
+        console.warn("Progress could not be saved in this browser.", error);
+    }
+}
+
+function updateStats() {
+    $("totalCount").textContent = questions.length;
+    $("mediumCount").textContent =
+        questions.filter(q => q.difficulty === "Medium").length;
+    $("hardCount").textContent =
+        questions.filter(q => q.difficulty === "Difficult").length;
+    $("completedCount").textContent = completed.size;
+    $("progressFill").style.width =
+        (completed.size / questions.length * 100) + "%";
+}
+
+function populateTopics() {
+    const topics = [...new Set(questions.map(q => q.topic))].sort();
+    const select = $("topicFilter");
+
+    topics.forEach(topic => {
+        const option = document.createElement("option");
+        option.value = topic;
+        option.textContent = topic;
+        select.appendChild(option);
+    });
+}
+
+function applyFilters() {
+    const query = $("searchInput").value.trim().toLowerCase();
+    const difficulty = $("difficultyFilter").value;
+    const topic = $("topicFilter").value;
+
+    visibleQuestions = questions
+        .map((q, index) => ({ q, index }))
+        .filter(({ q }) => {
+            const matchesQuery =
+                (q.title + " " + q.topic + " " + q.prompt)
+                    .toLowerCase().includes(query);
+            const matchesDifficulty =
+                difficulty === "All" || q.difficulty === difficulty;
+            const matchesTopic = topic === "All" || q.topic === topic;
+
+            return matchesQuery && matchesDifficulty && matchesTopic;
+        })
+        .map(item => item.index);
+
+    $("visibleCount").textContent =
+        visibleQuestions.length + " question" +
+        (visibleQuestions.length === 1 ? "" : "s");
+
+    if (!visibleQuestions.includes(currentIndex)) {
+        currentIndex = visibleQuestions.length ? visibleQuestions[0] : -1;
+    }
+
+    renderList();
+    renderQuestion();
+}
+
+function renderList() {
+    const list = $("questionList");
+    list.replaceChildren();
+
+    if (!visibleQuestions.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent = "No questions match your filters. Try another search.";
+        list.appendChild(empty);
+        return;
+    }
+
+    visibleQuestions.forEach(index => {
+        const q = questions[index];
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "question-item";
+        if (index === currentIndex) button.classList.add("active");
+        if (completed.has(index)) button.classList.add("done");
+
+        const number = document.createElement("span");
+        number.className = "q-number";
+        number.textContent = String(index + 1).padStart(2, "0");
+
+        const details = document.createElement("span");
+        details.style.minWidth = "0";
+        details.style.flex = "1";
+
+        const title = document.createElement("span");
+        title.className = "q-item-title";
+        title.textContent = q.title;
+
+        const meta = document.createElement("div");
+        meta.className = "q-item-meta";
+        meta.textContent = q.topic + " · " + q.difficulty;
+
+        details.append(title, meta);
+
+        if (completed.has(index)) {
+            const mark = document.createElement("span");
+            mark.className = "done-mark";
+            mark.textContent = "✓";
+            mark.setAttribute("aria-label", "Completed");
+            details.appendChild(mark);
+        }
+
+        button.append(number, details);
+        button.addEventListener("click", () => {
+            currentIndex = index;
+            renderList();
+            renderQuestion();
+        });
+
+        list.appendChild(button);
+    });
+}
+
+function renderQuestion() {
+    const hasQuestion = currentIndex >= 0 && currentIndex < questions.length;
+
+    $("previousBtn").disabled =
+        !hasQuestion || visibleQuestions.indexOf(currentIndex) <= 0;
+    $("nextBtn").disabled =
+        !hasQuestion ||
+        visibleQuestions.indexOf(currentIndex) === visibleQuestions.length - 1;
+    $("markDoneBtn").disabled = !hasQuestion;
+
+    if (!hasQuestion) {
+        $("topicBadge").textContent = "NO RESULTS";
+        $("difficultyBadge").textContent = "—";
+        $("questionNumber").textContent = "0 QUESTIONS";
+        $("questionTitle").textContent = "No matching questions";
+        $("questionPrompt").textContent =
+            "Try changing the search term, difficulty or topic filter.";
+        $("solutionCode").textContent = "";
+        $("sampleOutput").textContent = "No example available.";
+        $("explanation").textContent = "";
+        $("timeComplexity").textContent = "—";
+        $("spaceComplexity").textContent = "—";
+        $("memoryTip").textContent = "Clear your filters to explore all questions.";
+        $("markDoneBtn").textContent = "✓ Mark Completed";
+        $("markDoneBtn").classList.remove("marked");
+        return;
+    }
+
+    const q = questions[currentIndex];
+
+    $("topicBadge").textContent = q.topic.toUpperCase();
+    $("difficultyBadge").textContent = q.difficulty.toUpperCase();
+    $("difficultyBadge").className =
+        "pill " + (q.difficulty === "Difficult" ? "difficult" : "medium");
+
+    $("questionNumber").textContent =
+        "QUESTION " + String(currentIndex + 1).padStart(2, "0") +
+        " / " + questions.length;
+    $("questionTitle").textContent = q.title;
+    $("questionPrompt").textContent = q.prompt;
+    $("solutionCode").textContent = q.code;
+    $("sampleOutput").textContent = q.output;
+    $("timeComplexity").textContent = q.time;
+    $("spaceComplexity").textContent = q.space;
+    $("memoryTip").textContent = q.memory;
+
+    // Use textContent, not innerHTML, so question text is not interpreted as HTML.
+    $("explanation").textContent = q.explanation;
+
+    const isDone = completed.has(currentIndex);
+    $("markDoneBtn").textContent =
+        isDone ? "✓ Completed — Undo" : "✓ Mark Completed";
+    $("markDoneBtn").classList.toggle("marked", isDone);
+
+    $("previousBtn").disabled =
+        visibleQuestions.indexOf(currentIndex) <= 0;
+    $("nextBtn").disabled =
+        visibleQuestions.indexOf(currentIndex) === visibleQuestions.length - 1;
+
+    $("copyCode").textContent = "Copy code ⧉";
+}
+
+function goToRelativeQuestion(direction) {
+    const position = visibleQuestions.indexOf(currentIndex);
+    const nextPosition = position + direction;
+
+    if (nextPosition >= 0 && nextPosition < visibleQuestions.length) {
+        currentIndex = visibleQuestions[nextPosition];
+        renderList();
+        renderQuestion();
+        $("questionTitle").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+}
+
+$("searchInput").addEventListener("input", applyFilters);
+$("difficultyFilter").addEventListener("change", applyFilters);
+$("topicFilter").addEventListener("change", applyFilters);
+
+$("previousBtn").addEventListener("click", () => goToRelativeQuestion(-1));
+$("nextBtn").addEventListener("click", () => goToRelativeQuestion(1));
+
+$("markDoneBtn").addEventListener("click", () => {
+    if (currentIndex < 0) return;
+
+    if (completed.has(currentIndex)) {
+        completed.delete(currentIndex);
+    } else {
+        completed.add(currentIndex);
+    }
+
+    saveProgress();
+    updateStats();
+    renderList();
+    renderQuestion();
+});
+
+$("copyCode").addEventListener("click", async () => {
+    const code = $("solutionCode").textContent;
+    const button = $("copyCode");
+
+    try {
+        await navigator.clipboard.writeText(code);
+        button.textContent = "Copied ✓";
+    } catch (error) {
+        // Fallback for browsers that block clipboard access.
+        const textarea = document.createElement("textarea");
+        textarea.value = code;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+
+        try {
+            const success = document.execCommand("copy");
+            button.textContent = success ? "Copied ✓" : "Select code to copy";
+        } catch (copyError) {
+            button.textContent = "Select code to copy";
+        }
+
+        textarea.remove();
+    }
+
+    setTimeout(() => {
+        button.textContent = "Copy code ⧉";
+    }, 1600);
+});
+
+$("resetProgress").addEventListener("click", () => {
+    const confirmed = confirm(
+        "Reset your completed-question progress? This will not delete the question bank."
+    );
+
+    if (!confirmed) return;
+
+    completed.clear();
+    saveProgress();
+    updateStats();
+    renderList();
+    renderQuestion();
+});
+
+/* =====================================================
+   Lightweight animated background particles
+   ===================================================== */
+(function createParticles() {
+    const canvas = $("particles");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let width = 0;
+    let height = 0;
+    let particles = [];
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    function resize() {
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+
+        canvas.width = width * ratio;
+        canvas.height = height * ratio;
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+        const count = reduceMotion
+            ? 0
+            : Math.min(65, Math.floor(width / 22));
+
+        particles = Array.from({ length: count }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            r: Math.random() * 1.6 + .4,
+            dx: (Math.random() - .5) * .35,
+            dy: (Math.random() - .5) * .35,
+            alpha: Math.random() * .4 + .1
+        }));
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (const p of particles) {
+            p.x += p.dx;
+            p.y += p.dy;
+
+            if (p.x < 0 || p.x > width) p.dx *= -1;
+            if (p.y < 0 || p.y > height) p.dy *= -1;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(66,232,255," + p.alpha + ")";
+            ctx.fill();
+        }
+
+        if (!reduceMotion) requestAnimationFrame(draw);
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+    draw();
+})();
+
+/* Start the page. */
+populateTopics();
+updateStats();
+applyFilters();
+</script>
+</body>
+</html>

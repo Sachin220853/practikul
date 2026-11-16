@@ -1,0 +1,2448 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRAKTIKUL | Coding Quiz</title>
+
+<style>
+:root {
+    --bg: #080d1b;
+    --panel: #101a2d;
+    --line: #293c59;
+    --text: #edf5ff;
+    --muted: #9aacc6;
+    --cyan: #42e8ff;
+    --mint: #48f0a8;
+    --purple: #ad8bff;
+    --pink: #ff79b7;
+    --red: #ff657a;
+    --yellow: #ffd166;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at 10% 0%, #172b50, transparent 35%),
+        radial-gradient(ellipse at 90% 5%, #25173e, transparent 30%),
+        var(--bg);
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.wrap {
+    max-width: 1400px;
+    padding: 22px;
+    margin: auto;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.brand {
+    font-weight: 950;
+    font-size: 22px;
+    letter-spacing: 2px;
+}
+
+.brand span {
+    color: var(--cyan);
+}
+
+.brand small {
+    display: block;
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-top: 5px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 11px 15px;
+    color: var(--text);
+    background: #14213a;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    font-weight: 800;
+    transition: .2s;
+}
+
+.btn:hover {
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+}
+
+.btn.primary {
+    background: linear-gradient(100deg, var(--cyan), var(--mint));
+    color: #07111d;
+    border: 0;
+    box-shadow: 0 0 22px #42e8ff30;
+}
+
+.btn.purple {
+    background: linear-gradient(100deg, #a98aff, #e0a5ff);
+    color: #130d25;
+    border: 0;
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(25px, 5vw, 50px);
+    border: 1px solid #334967;
+    border-radius: 24px;
+    background: linear-gradient(120deg, #122541ef, #15182fef);
+}
+
+.hero::after {
+    content: "</>";
+    position: absolute;
+    right: 4%;
+    top: 5%;
+    font-size: clamp(80px, 15vw, 160px);
+    font-weight: 1000;
+    color: #42e8ff0b;
+    pointer-events: none;
+}
+
+.eyebrow {
+    color: var(--mint);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: clamp(34px, 5vw, 58px);
+    line-height: 1.05;
+    margin: 15px 0;
+}
+
+.hero h1 span {
+    color: transparent;
+    background: linear-gradient(90deg, var(--cyan), var(--mint), var(--purple));
+    background-clip: text;
+}
+
+.hero p {
+    max-width: 760px;
+    color: #b5c6df;
+    line-height: 1.8;
+}
+
+.chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.chip {
+    padding: 9px 12px;
+    border: 1px solid #3a526e;
+    border-radius: 99px;
+    background: #0c1729;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.chip b {
+    color: var(--mint);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 13px;
+    margin: 18px 0;
+}
+
+.stat {
+    padding: 17px;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    background: #0f192b;
+}
+
+.stat strong {
+    display: block;
+    color: var(--cyan);
+    font-size: 27px;
+}
+
+.stat span {
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.section, .quiz-card, .sidebar {
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: #0e1728;
+}
+
+.section {
+    padding: 22px;
+    margin-top: 18px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 17px;
+}
+
+.section-title h2 {
+    margin: 0;
+    font-size: 19px;
+}
+
+.section-title p {
+    margin: 7px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.badge {
+    padding: 7px 9px;
+    border-radius: 7px;
+    background: #18324b;
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .7px;
+}
+
+.badge.medium {
+    color: var(--yellow);
+    background: #3b2d17;
+}
+
+.badge.hard {
+    color: var(--pink);
+    background: #3c1d35;
+}
+
+.setup-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 850;
+    text-transform: uppercase;
+}
+
+.field select, .field input {
+    width: 100%;
+    padding: 12px;
+    color: var(--text);
+    background: #0a1322;
+    border: 1px solid #30435f;
+    border-radius: 10px;
+    outline: none;
+}
+
+.field select:focus, .field input:focus {
+    border-color: var(--cyan);
+}
+
+.setup-footer, .quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.note, .tiny {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+.quiz-layout {
+    display: grid;
+    grid-template-columns: 285px minmax(0, 1fr);
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.sidebar {
+    padding: 18px;
+    align-self: start;
+}
+
+.sidebar h3 {
+    margin: 0 0 12px;
+    font-size: 13px;
+}
+
+.progress-track {
+    height: 8px;
+    margin: 10px 0;
+    overflow: hidden;
+    background: #25334b;
+    border-radius: 99px;
+}
+
+.progress-fill {
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--mint));
+    transition: width .3s;
+}
+
+.quiz-card {
+    padding: clamp(16px, 3vw, 28px);
+    min-width: 0;
+}
+
+.quiz-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #273952;
+}
+
+.badge-group, .button-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.timer {
+    color: var(--mint);
+    font-size: 19px;
+    font-weight: 950;
+    font-variant-numeric: tabular-nums;
+}
+
+.timer.warn {
+    color: var(--red);
+}
+
+.q-meta {
+    margin: 18px 0 8px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.question {
+    margin: 0 0 18px;
+    font-size: clamp(19px, 2.2vw, 25px);
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.codebox {
+    overflow: auto;
+    padding: 15px;
+    margin: 14px 0;
+    color: #d9e9ff;
+    background: #070d17;
+    border: 1px solid #283d58;
+    border-radius: 12px;
+    font: 13px/1.7 Consolas, monospace;
+    white-space: pre;
+}
+
+.options {
+    display: grid;
+    gap: 10px;
+    margin: 18px 0;
+}
+
+.option {
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+    width: 100%;
+    padding: 13px;
+    text-align: left;
+    color: var(--text);
+    background: #111e31;
+    border: 1px solid #2a3c56;
+    border-radius: 12px;
+    line-height: 1.5;
+}
+
+.option:hover {
+    border-color: var(--cyan);
+    background: #14243a;
+}
+
+.option.selected {
+    border-color: var(--cyan);
+    background: #123144;
+}
+
+.option.correct {
+    border-color: var(--mint);
+    background: #103326;
+}
+
+.option.wrong {
+    border-color: var(--red);
+    background: #3b1b2a;
+}
+
+.option:disabled {
+    cursor: default;
+}
+
+.letter {
+    flex: 0 0 25px;
+    height: 25px;
+    display: grid;
+    place-items: center;
+    color: var(--cyan);
+    background: #22334d;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.topic-list {
+    display: grid;
+    gap: 8px;
+    margin-top: 13px;
+}
+
+.topic-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid #293b56;
+    border-radius: 10px;
+    background: #111e32;
+    font-size: 12px;
+}
+
+.topic-item span:last-child {
+    color: var(--mint);
+    font-weight: 900;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.explanation {
+    display: none;
+    padding: 16px;
+    margin: 15px 0;
+    border: 1px solid #28644e;
+    border-radius: 13px;
+    background: #102b25;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.explanation.show {
+    display: block;
+}
+
+.explanation strong {
+    color: var(--mint);
+}
+
+.report-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.report-stat {
+    padding: 16px;
+    border: 1px solid #2c405b;
+    border-radius: 13px;
+    background: #111f33;
+}
+
+.report-stat strong {
+    display: block;
+    color: var(--mint);
+    font-size: 25px;
+}
+
+.report-stat span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.report-topic {
+    display: grid;
+    grid-template-columns: 1.3fr 2fr 50px;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #263751;
+    font-size: 12px;
+}
+
+.report-bar {
+    height: 8px;
+    overflow: hidden;
+    background: #25344c;
+    border-radius: 9px;
+}
+
+.report-bar i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--purple), var(--cyan));
+}
+
+.footer {
+    padding: 28px 10px;
+    text-align: center;
+    color: #7286a3;
+    font-size: 11px;
+}
+
+.toast {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90%;
+    padding: 12px 18px;
+    color: #08111f;
+    background: #e7f9ff;
+    border-radius: 11px;
+    font-size: 12px;
+    font-weight: 850;
+}
+
+@media(max-width: 900px) {
+    .setup-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .quiz-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .report-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media(max-width: 560px) {
+    .wrap {
+        padding: 13px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .setup-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .section {
+        padding: 15px;
+    }
+
+    .hero {
+        padding: 24px 18px;
+    }
+
+    .report-topic {
+        grid-template-columns: 1fr 1.5fr 35px;
+    }
+}
+
+@media(prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<header class="topbar">
+    <a class="brand" href="index.html">
+        PRAKTI<span>KUL</span>
+        <small>LEARN · PRACTICE · IMPROVE</small>
+    </a>
+
+    <div class="actions">
+        <!-- Change this href if your theory page uses another filename -->
+        <a class="btn" href="python-interview.html">← Python Theory</a>
+        <button class="btn" id="resetProgressBtn">Reset saved progress</button>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="eyebrow">✦ Test your knowledge · coding arena</div>
+
+    <h1>Coding <span>Quiz</span></h1>
+
+    <p>
+        Test your programming fundamentals with timed questions,
+        code-output prediction, find-the-error challenges, and technical MCQs.
+        Practise Python, Java, C, SQL, and web technologies, then review
+        explanations and performance insights.
+    </p>
+
+    <div class="chips">
+        <span class="chip"><b>✓</b> Python, Java, C, SQL & Web</span>
+        <span class="chip"><b>✓</b> Predict the output</span>
+        <span class="chip"><b>✓</b> Find the error</span>
+        <span class="chip"><b>✓</b> Explanations & analysis</span>
+        <span class="chip"><b>✓</b> Saved question history</span>
+    </div>
+</section>
+
+<div class="stats">
+    <div class="stat">
+        <strong id="bankCount">1,000</strong>
+        <span>Question bank</span>
+    </div>
+    <div class="stat">
+        <strong id="answeredCount">0</strong>
+        <span>Answered this test</span>
+    </div>
+    <div class="stat">
+        <strong id="bestScore">—</strong>
+        <span>Best score</span>
+    </div>
+    <div class="stat">
+        <strong id="attemptCount">0</strong>
+        <span>Completed tests</span>
+    </div>
+</div>
+
+<section class="section" id="setupPanel">
+    <div class="section-title">
+        <div>
+            <h2>Configure your quiz</h2>
+            <p>Choose your subjects, challenge level, and test length.</p>
+        </div>
+        <span class="badge">MEDIUM + HARD</span>
+    </div>
+
+    <div class="setup-grid">
+        <div class="field">
+            <label for="topicSelect">Subject</label>
+            <select id="topicSelect">
+                <option value="all">All subjects</option>
+                <option>Python</option>
+                <option>Java</option>
+                <option>C</option>
+                <option>SQL</option>
+                <option>Web Technologies</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="typeSelect">Question type</label>
+            <select id="typeSelect">
+                <option value="all">All question types</option>
+                <option value="Output Prediction">Output prediction</option>
+                <option value="Find the Error">Find the error</option>
+                <option value="Technical MCQ">Technical MCQ</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="difficultySelect">Difficulty</label>
+            <select id="difficultySelect">
+                <option value="all">Medium + Hard</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="countSelect">Questions per test</label>
+            <select id="countSelect">
+                <option>10</option>
+                <option selected>20</option>
+                <option>30</option>
+                <option>50</option>
+                <option>100</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="durationSelect">Total timer</label>
+            <select id="durationSelect">
+                <option value="10">10 minutes</option>
+                <option value="20" selected>20 minutes</option>
+                <option value="45">45 minutes</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="perQuestionSelect">Per-question timer</label>
+            <select id="perQuestionSelect">
+                <option value="30">30 seconds</option>
+                <option value="45" selected>45 seconds</option>
+                <option value="60">60 seconds</option>
+                <option value="0">No per-question timer</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="modeSelect">Quiz mode</label>
+            <select id="modeSelect">
+                <option value="practice">Practice + final review</option>
+                <option value="exam">Exam mode</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="nameInput">Your name (optional)</label>
+            <input id="nameInput" maxlength="40" placeholder="Enter your name">
+        </div>
+    </div>
+
+    <div class="setup-footer">
+        <div class="note">
+            Questions are shuffled. Used question IDs are saved in this browser
+            to reduce repeats. If no unused questions match your filters, reset
+            the question history.
+        </div>
+        <button class="btn primary" id="startBtn">Start quiz →</button>
+    </div>
+</section>
+
+<section class="quiz-layout hidden" id="quizPanel">
+    <aside class="sidebar">
+        <h3>
+            TEST PROGRESS
+            <span id="progressLabel" class="tiny">0 / 20</span>
+        </h3>
+
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="tiny" id="remainingLabel">Questions remaining: 20</div>
+
+        <div style="height:18px"></div>
+
+        <h3>QUESTION NAVIGATOR</h3>
+        <div class="tiny">Green = answered · Yellow underline = flagged</div>
+
+        <div id="navigator"
+             style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px">
+        </div>
+
+        <div style="height:18px"></div>
+
+        <h3>SUBJECT MIX</h3>
+        <div id="quizTopicMix" class="topic-list"></div>
+
+        <div style="height:18px"></div>
+        <button class="btn" id="quitBtn" style="width:100%">Exit test</button>
+    </aside>
+
+    <main class="quiz-card">
+        <div class="quiz-head">
+            <div class="badge-group">
+                <span id="topicBadge" class="badge">PYTHON</span>
+                <span id="typeBadge" class="badge">MCQ</span>
+                <span id="difficultyBadge" class="badge medium">MEDIUM</span>
+            </div>
+
+            <div style="text-align:right">
+                <div class="tiny">TOTAL TIME LEFT</div>
+                <div class="timer" id="totalTimer">20:00</div>
+                <div class="tiny">QUESTION TIME LEFT</div>
+                <div class="timer" style="font-size:15px" id="questionTimer">00:45</div>
+            </div>
+        </div>
+
+        <div class="q-meta" id="questionMeta">QUESTION 1 OF 20</div>
+        <h2 class="question" id="questionText">Question loads here</h2>
+
+        <pre class="codebox hidden" id="codeBox"></pre>
+        <div class="options" id="optionsBox"></div>
+        <div class="explanation" id="explanationBox"></div>
+
+        <div class="quiz-footer">
+            <div class="button-group">
+                <button class="btn" id="prevBtn">← Previous</button>
+                <button class="btn" id="skipBtn">Skip</button>
+            </div>
+
+            <div class="button-group">
+                <button class="btn" id="flagBtn">⚑ Mark for review</button>
+                <button class="btn primary" id="nextBtn">Save & Next →</button>
+                <button class="btn purple hidden" id="submitBtn">Review test</button>
+            </div>
+        </div>
+
+        <p class="note">
+            Answers are hidden until final review. When a question timer expires,
+            the quiz automatically moves on. You can revisit questions and change
+            answers before submitting, as long as the total timer has not expired.
+        </p>
+    </main>
+</section>
+
+<section class="section hidden" id="reviewPanel">
+    <div class="section-title">
+        <div>
+            <h2>Review your answers</h2>
+            <p>Navigate through your test and change any answer before submitting.</p>
+        </div>
+        <span class="badge">FINAL REVIEW</span>
+    </div>
+
+    <p class="note" id="reviewSummary"></p>
+
+    <div class="setup-footer">
+        <div class="button-group">
+            <button class="btn" id="reviewPrevBtn">← Previous</button>
+            <button class="btn" id="reviewNextBtn">Next →</button>
+        </div>
+        <button class="btn primary" id="finalSubmitBtn">Submit & analyse</button>
+    </div>
+
+    <div class="quiz-card" style="margin-top:15px">
+        <div class="quiz-head">
+            <div class="badge-group">
+                <span id="reviewTopicBadge" class="badge">PYTHON</span>
+                <span id="reviewTypeBadge" class="badge">MCQ</span>
+            </div>
+            <span class="tiny" id="reviewIndex"></span>
+        </div>
+
+        <h3 class="question" id="reviewQuestion" style="font-size:19px"></h3>
+        <pre id="reviewCode" class="codebox hidden"></pre>
+        <div id="reviewOptions" class="options"></div>
+    </div>
+</section>
+
+<section class="section hidden" id="reportPanel">
+    <div class="section-title">
+        <div>
+            <h2 id="reportHeading">Performance report</h2>
+            <p>Your score, speed, missed questions, and topic-level strengths.</p>
+        </div>
+        <span id="reportGrade" class="badge">RESULT</span>
+    </div>
+
+    <div class="report-grid">
+        <div class="report-stat">
+            <strong id="scoreStat">0%</strong>
+            <span>Score</span>
+        </div>
+        <div class="report-stat">
+            <strong id="correctStat">0 / 0</strong>
+            <span>Correct answers</span>
+        </div>
+        <div class="report-stat">
+            <strong id="timeStat">0:00</strong>
+            <span>Time used</span>
+        </div>
+        <div class="report-stat">
+            <strong id="speedStat">0s</strong>
+            <span>Average time per question</span>
+        </div>
+    </div>
+
+    <div class="section" style="padding:17px;margin-top:15px;background:#0a1424">
+        <h3>Topic performance</h3>
+        <div id="topicReport"></div>
+    </div>
+
+    <div class="section" style="padding:17px;margin-top:15px;background:#0a1424">
+        <h3>Question-by-question analysis</h3>
+        <div id="answerReview"></div>
+    </div>
+
+    <div class="setup-footer">
+        <div class="note" id="recommendation"></div>
+        <div class="button-group">
+            <button class="btn" id="retryBtn">New quiz</button>
+            <button class="btn primary" id="resetBankBtn">Reset question history</button>
+        </div>
+    </div>
+</section>
+
+<div class="footer">
+    PRAKTIKUL · Practice consistently. Review honestly. Improve deliberately.
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/*
+  PRAKTIKUL Coding Quiz
+
+  1. Five subjects: Python, Java, C, SQL and Web Technologies.
+  2. Three types: output prediction, find the error and technical MCQs.
+  3. 1,000 generated question records: 200 per subject.
+  4. localStorage stores question history and completed test summaries.
+  5. This is a frontend demo; client-side scores can be modified by the user.
+*/
+
+const $ = id => document.getElementById(id);
+
+const USED_KEY = "praktikul_coding_used_v1";
+const HISTORY_KEY = "praktikul_coding_history_v1";
+
+const TOPICS = [
+    "Python",
+    "Java",
+    "C",
+    "SQL",
+    "Web Technologies"
+];
+
+let bank = [];
+let test = [];
+let answers = {};
+let flags = new Set();
+let secondsSpent = {};
+
+let current = 0;
+let reviewCurrent = 0;
+let totalLeft = 1200;
+let questionLeft = 45;
+
+let active = false;
+let reviewing = false;
+let submitted = false;
+
+let totalInterval = null;
+let questionInterval = null;
+let questionStarted = 0;
+let testStarted = 0;
+
+function shuffle(array) {
+    const result = [...array];
+
+    for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+    }
+
+    return result;
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function question(
+    id, topic, type, difficulty, concept,
+    prompt, code, options, answer, explanation
+) {
+    return {
+        id,
+        topic,
+        type,
+        difficulty,
+        concept,
+        prompt,
+        code,
+        options,
+        answer,
+        explanation
+    };
+}
+
+function addQuestion(
+    topic, type, difficulty, concept,
+    prompt, code, options, answer, explanation
+) {
+    bank.push(question(
+        "cq_" + bank.length,
+        topic,
+        type,
+        difficulty,
+        concept,
+        prompt,
+        code,
+        options,
+        answer,
+        explanation
+    ));
+}
+
+/* Build 200 Python questions. */
+function buildPythonQuestions() {
+    const concepts = [
+        ["Which collection stores unique values?",
+         ["list", "tuple", "set", "str"], 2,
+         "A set stores unique hashable values."],
+
+        ["Which keyword handles an exception?",
+         ["catch", "except", "error", "rescue"], 1,
+         "Python uses try/except to handle exceptions."],
+
+        ["What does len([4, 5, 6]) return?",
+         ["2", "3", "4", "15"], 1,
+         "The list contains three elements."],
+
+        ["Which operator tests object identity?",
+         ["==", "is", "in", "!="], 1,
+         "is tests identity; == tests equality."],
+
+        ["What does dict.get('x', 0) return when x is absent?",
+         ["Raises KeyError", "Returns None only", "Returns 0",
+          "Adds x automatically"], 2,
+         "get returns the supplied default when a key is missing."],
+
+        ["Which expression creates a generator expression?",
+         ["[x*x for x in nums]", "(x*x for x in nums)",
+          "{x*x for x in nums}", "x*x for nums"], 1,
+         "Parentheses around the comprehension create a generator."],
+
+        ["What is the purpose of __init__?",
+         ["Destroy an object", "Initialize an instance",
+          "Import a module", "Compare objects"], 1,
+         "__init__ initializes instance state."],
+
+        ["Which statement helps close a file automatically?",
+         ["open() alone", "with open(...) as f:",
+          "close open", "tryfile"], 1,
+         "A with statement uses a context manager."],
+
+        ["What is the average dictionary lookup time?",
+         ["O(1)", "O(n log n)", "Always O(n)", "O(2^n)"], 0,
+         "Dictionary lookup is O(1) on average."],
+
+        ["What does enumerate(items) provide?",
+         ["Only sorted items", "Index-value pairs",
+          "Only reversed values", "A dictionary"], 1,
+         "enumerate yields a counter and each item."]
+    ];
+
+    for (let i = 0; i < 40; i++) {
+        const a = 2 + (i * 3) % 17;
+        const b = 1 + (i * 7) % 11;
+        const op = i % 4;
+
+        const expression = op === 0 ? `${a} + ${b}`
+            : op === 1 ? `${a} * ${b}`
+            : op === 2 ? `${a} // ${b}`
+            : `${a} % ${b}`;
+
+        const result = op === 0 ? a + b
+            : op === 1 ? a * b
+            : op === 2 ? Math.floor(a / b)
+            : a % b;
+
+        addQuestion(
+            "Python", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Arithmetic",
+            "What is printed by this Python expression?",
+            `print(${expression})`,
+            [String(result), String(result + 1),
+             String(a + b + 1), String(a * b + 1)],
+            0,
+            `The expression ${expression} evaluates to ${result}.`
+        );
+
+        const x = i % 10 + 1;
+        const y = (i * 2) % 9 + 1;
+
+        addQuestion(
+            "Python", "Output Prediction",
+            i % 3 ? "Medium" : "Hard",
+            "Lists and indexing",
+            "What does this code print?",
+            `values = [${x}, ${y}, ${x + y}]\nprint(values[0], values[-1])`,
+            [`${x} ${x + y}`, `${y} ${x}`,
+             `${x + y} ${y}`, `${x} ${y}`],
+            0,
+            "Index 0 selects the first item; index -1 selects the last."
+        );
+
+        const n = i % 8 + 2;
+        const sum = n * (n + 1) / 2;
+
+        addQuestion(
+            "Python", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Loops",
+            "What is the final value of total?",
+            `total = 0\nfor n in range(1, ${n + 1}):\n    total += n\nprint(total)`,
+            [String(sum), String(sum - 1), String(n * n),
+             String(sum + n)],
+            0,
+            `The loop sums 1 through ${n}, giving ${sum}.`
+        );
+
+        const word = ["python", "coding", "logic", "quiz", "data"][i % 5];
+        const cut = 1 + i % (word.length - 1);
+
+        addQuestion(
+            "Python", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Strings",
+            "What is printed?",
+            `word = "${word}"\nprint(word[${cut}:])`,
+            [word.slice(cut), word.slice(0, cut),
+             word.split("").reverse().join(""), word],
+            0,
+            `The slice word[${cut}:] returns characters from that index onward.`
+        );
+
+        addQuestion(
+            "Python", "Find the Error",
+            i % 2 ? "Hard" : "Medium",
+            "Syntax",
+            "Which issue prevents this code from running?",
+            "def multiply(a, b)\n    return a * b",
+            ["A colon is missing after the function header",
+             "return must be outside the function",
+             "Functions cannot accept two arguments",
+             "Multiplication is invalid"],
+            0,
+            "Function headers must end with a colon."
+        );
+
+        addQuestion(
+            "Python", "Find the Error",
+            i % 2 ? "Hard" : "Medium",
+            "Mutable defaults",
+            "What is the main problem with this function?",
+            "def add_item(item, items=[]):\n    items.append(item)\n    return items",
+            ["The default list is shared between calls",
+             "append returns a new list",
+             "Functions cannot return lists",
+             "Default arguments are never allowed"],
+            0,
+            "Mutable defaults are created once. Use None and create a new list inside."
+        );
+
+        const c = concepts[i % concepts.length];
+
+        addQuestion(
+            "Python", "Technical MCQ",
+            i % 3 === 0 ? "Hard" : "Medium",
+            "Python fundamentals",
+            c[0], "", c[1], c[2], c[3]
+        );
+    }
+}
+
+/* Build 200 Java questions. */
+function buildJavaQuestions() {
+    const concepts = [
+        ["Which collection does not allow duplicates?",
+         ["ArrayList", "HashSet", "LinkedList", "ArrayDeque"], 1,
+         "Set implementations such as HashSet do not allow duplicate elements."],
+
+        ["Which keyword creates a subclass?",
+         ["implements", "extends", "inherits", "super"], 1,
+         "A class uses extends to inherit from another class."],
+
+        ["What does JVM stand for?",
+         ["Java Variable Method", "Java Virtual Machine",
+          "Joint Virtual Memory", "Java Verified Module"], 1,
+         "The JVM executes Java bytecode."],
+
+        ["Which block is commonly used for cleanup after try/catch?",
+         ["catch", "throws", "finally", "final"], 2,
+         "finally is used for cleanup and normally runs after try/catch."],
+
+        ["Which type stores true or false?",
+         ["bool", "Boolean only", "boolean", "bit"], 2,
+         "boolean is the primitive type; Boolean is its wrapper."],
+
+        ["Which access modifier is most restrictive?",
+         ["public", "protected", "private", "default"], 2,
+         "private limits access to the declaring class."],
+
+        ["What is method overloading?",
+         ["Same name with different parameter lists",
+          "Replacing a method in a subclass",
+          "Deleting a method", "Making a method static"], 0,
+         "Overloading uses distinct parameter signatures."],
+
+        ["Which interface represents an ordered collection?",
+         ["Runnable", "List", "Comparable", "AutoCloseable"], 1,
+         "List represents an ordered collection and permits duplicates."],
+
+        ["What does == compare for object references?",
+         ["Deep values", "Reference identity",
+          "Always string contents", "Class names"], 1,
+         "For references, == checks whether both point to the same object."],
+
+        ["Which keyword prevents a class from being subclassed?",
+         ["static", "const", "final", "private"], 2,
+         "A final class cannot be extended."]
+    ];
+
+    for (let i = 0; i < 40; i++) {
+        const a = 1 + i % 12;
+        const b = 2 + (i * 3) % 9;
+        const sum = a + b;
+
+        addQuestion(
+            "Java", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Operators",
+            "What is printed by this Java expression?",
+            `int a = ${a};\nint b = ${b};\nSystem.out.println(a + b);`,
+            [String(sum), String("" + a + b), String(a * b), String(sum + 1)],
+            0,
+            `The + operator adds the two integer values: ${a} + ${b} = ${sum}.`
+        );
+
+        const word = ["Java", "Code", "Logic", "Quiz", "Stack"][i % 5];
+
+        addQuestion(
+            "Java", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Strings",
+            "What does this print?",
+            `String s = "${word}";\nSystem.out.println(s.length());`,
+            [String(word.length), String(word.length - 1),
+             word, String(word.length + 1)],
+            0,
+            `String.length() returns ${word.length} for this ASCII string.`
+        );
+
+        const n = 2 + i % 8;
+
+        addQuestion(
+            "Java", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Loops",
+            "What is printed after this loop?",
+            `int sum = 0;\nfor (int i = 1; i <= ${n}; i++) sum += i;\nSystem.out.println(sum);`,
+            [String(n * (n + 1) / 2), String(n * n),
+             String(n), String(n + 1)],
+            0,
+            `The loop sums 1 through ${n}.`
+        );
+
+        addQuestion(
+            "Java", "Find the Error",
+            i % 2 ? "Hard" : "Medium",
+            "Types",
+            "Which issue causes a compile-time error?",
+            'int count = 5;\ncount = "five";',
+            ["A String cannot be assigned to an int",
+             "int variables cannot be reassigned",
+             "Semicolons are not allowed",
+             "The variable name is reserved"],
+            0,
+            "Java is statically typed. The String value cannot be assigned to an int."
+        );
+
+        addQuestion(
+            "Java", "Find the Error",
+            i % 2 ? "Hard" : "Medium",
+            "Static methods",
+            "What is wrong with this code?",
+            "class Demo {\n  int value = 10;\n  static void show() { System.out.println(value); }\n}",
+            ["A static method cannot directly access an instance field",
+             "println cannot print integers",
+             "Fields cannot be initialized",
+             "Every class must be abstract"],
+            0,
+            "A static method has no implicit instance. Use an object to access an instance field."
+        );
+
+        const c = concepts[i % concepts.length];
+
+        addQuestion(
+            "Java", "Technical MCQ",
+            i % 3 === 0 ? "Hard" : "Medium",
+            "Java fundamentals",
+            c[0], "", c[1], c[2], c[3]
+        );
+    }
+}
+
+/* Build 200 C questions. */
+function buildCQuestions() {
+    const concepts = [
+        ["Which header declares printf?",
+         ["<stdlib.h>", "<stdio.h>", "<string.h>", "<math.h>"], 1,
+         "printf is declared in stdio.h."],
+
+        ["What does sizeof return?",
+         ["A pointer address", "A size in bytes as size_t",
+          "Number of array elements always", "A signed int always"], 1,
+         "sizeof yields a size in bytes and its result type is size_t."],
+
+        ["Which operator accesses a structure member through a pointer?",
+         [".", "->", "::", "&"], 1,
+         "The -> operator accesses a member through a structure pointer."],
+
+        ["What does malloc return on allocation failure?",
+         ["-1", "An empty array", "NULL", "false"], 2,
+         "malloc returns NULL if it cannot allocate memory."],
+
+        ["Which loop checks its condition before each iteration?",
+         ["do-while only", "while", "Both while and for", "Neither"], 2,
+         "while and for check the condition before each iteration."],
+
+        ["What does a static local variable retain?",
+         ["No value after a call", "Its value between calls",
+          "A new value per call", "Only its address"], 1,
+         "A static local variable retains its value between calls."],
+
+        ["Which format specifier prints an int?",
+         ["%s", "%c", "%d", "%f"], 2,
+         "%d is commonly used to print an int."],
+
+        ["What is sizeof(char) in C?",
+         ["Always 2", "Always 4", "Always 1", "Depends on the string"], 2,
+         "sizeof(char) is defined as 1 byte."],
+
+        ["Which function compares C strings?",
+         ["strcpy", "strcmp", "strlen", "strcat"], 1,
+         "strcmp compares null-terminated strings."],
+
+        ["What is undefined behavior?",
+         ["A guaranteed compile error",
+          "Behavior the C standard does not define",
+          "A warning only", "A fixed runtime exception"], 1,
+         "Undefined behavior means the C standard imposes no requirements."]
+    ];
+
+    for (let i = 0; i < 40; i++) {
+        const a = 2 + i % 13;
+        const b = 1 + (i * 2) % 7;
+
+        addQuestion(
+            "C", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Operators",
+            "What is the output?",
+            `int a = ${a}, b = ${b};\nprintf("%d", a % b);`,
+            [String(a % b), String(Math.floor(a / b)),
+             String(a + b), String(a * b)],
+            0,
+            `The remainder of ${a} divided by ${b} is ${a % b}.`
+        );
+
+        const n = 2 + i % 9;
+
+        addQuestion(
+            "C", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Loops",
+            "What value is printed?",
+            `int sum = 0;\nfor (int i = 1; i <= ${n}; i++) sum += i;\nprintf("%d", sum);`,
+            [String(n * (n + 1) / 2), String(n * n),
+             String(n), String(n * (n + 1) / 2 + 1)],
+            0,
+            `The loop sums 1 through ${n}.`
+        );
+
+        const arr = [i % 9 + 1, (i * 3) % 10 + 2, (i * 5) % 8 + 3];
+
+        addQuestion(
+            "C", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Arrays",
+            "Assume the array is valid. What is printed?",
+            `int values[3] = {${arr.join(", ")}};\nprintf("%d", values[1]);`,
+            [String(arr[1]), String(arr[0]),
+             String(arr[2]), String(arr[1] + 1)],
+            0,
+            "Array index 1 refers to the second element."
+        );
+
+        addQuestion(
+            "C", "Find the Error",
+            i % 2 ? "Hard" : "Medium",
+            "Syntax",
+            "Which issue is present?",
+            'int main(void) {\n    printf("Hello")\n    return 0;\n}',
+            ["The printf statement is missing a semicolon",
+             "main cannot return int",
+             "Text must use single quotes",
+             "return 0 is invalid"],
+            0,
+            'Add a semicolon after printf("Hello").'
+        );
+
+        addQuestion(
+            "C", "Find the Error",
+            i % 2 ? "Hard" : "Medium",
+            "Pointers",
+            "What is unsafe about this code?",
+            "int *p;\n*p = 10;",
+            ["p is uninitialized and does not point to valid storage",
+             "Pointers cannot store integers",
+             "The dereference operator is always invalid",
+             "int pointers must be global"],
+            0,
+            "Dereferencing an uninitialized pointer is undefined behavior."
+        );
+
+        const c = concepts[i % concepts.length];
+
+        addQuestion(
+            "C", "Technical MCQ",
+            i % 3 === 0 ? "Hard" : "Medium",
+            "C fundamentals",
+            c[0], "", c[1], c[2], c[3]
+        );
+    }
+}
+
+/* Build 200 SQL questions. */
+function buildSQLQuestions() {
+    const concepts = [
+        ["Which clause filters grouped aggregate results?",
+         ["WHERE", "HAVING", "ORDER BY", "VALUES"], 1,
+         "HAVING filters groups after GROUP BY; WHERE filters rows before grouping."],
+
+        ["Which join returns matching rows from both tables?",
+         ["INNER JOIN", "CROSS JOIN", "FULL JOIN only", "SELF JOIN only"], 0,
+         "INNER JOIN returns rows satisfying the join condition."],
+
+        ["Which command changes existing rows?",
+         ["INSERT", "UPDATE", "CREATE", "GRANT"], 1,
+         "UPDATE modifies rows in an existing table."],
+
+        ["What does COUNT(*) count?",
+         ["Only non-NULL values in one column",
+          "Rows in the result set",
+          "Only distinct rows", "Columns"], 1,
+         "COUNT(*) counts rows, including rows containing NULL."],
+
+        ["Which key uniquely identifies a row?",
+         ["Foreign key always", "Primary key",
+          "Duplicate key", "Nullable key"], 1,
+         "A primary key uniquely identifies each row."],
+
+        ["What is normalization intended to reduce?",
+         ["Data consistency", "Redundancy and update anomalies",
+          "Query capability", "Primary keys"], 1,
+         "Normalization reduces redundancy and anomalies."],
+
+        ["Which command removes rows but keeps the table definition?",
+         ["DROP TABLE", "TRUNCATE TABLE", "ALTER TABLE", "CREATE TABLE"], 1,
+         "TRUNCATE removes table rows but retains the table definition."],
+
+        ["What does DISTINCT do?",
+         ["Sorts descending", "Removes duplicate result rows",
+          "Creates an index", "Updates duplicates"], 1,
+         "DISTINCT returns unique combinations of selected columns."],
+
+        ["Which condition matches values in an inclusive range?",
+         ["BETWEEN", "LIKE", "EXISTS only", "IS"], 0,
+         "BETWEEN includes both endpoints."],
+
+        ["What is a foreign key used for?",
+         ["Encrypting a table",
+          "Enforcing a relationship to referenced data",
+          "Sorting rows", "Replacing indexes"], 1,
+         "A foreign key enforces referential integrity."]
+    ];
+
+    for (let i = 0; i < 40; i++) {
+        const n = 2 + i % 8;
+        const sum = n * (n + 1) / 2;
+
+        addQuestion(
+            "SQL", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Aggregates",
+            `If numbers contains the integers 1 through ${n}, what does this query return?`,
+            `SELECT SUM(n) FROM numbers WHERE n <= ${n};`,
+            [String(sum), String(n), String(n * n), String(sum + 1)],
+            0,
+            `SUM adds the matching values, producing ${sum}.`
+        );
+
+        const vals = [i % 7 + 1, (i * 2) % 8 + 2, (i * 3) % 9 + 3];
+        const maximum = Math.max(...vals);
+
+        addQuestion(
+            "SQL", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Aggregate functions",
+            "Assuming the table contains these three values, what does MAX return?",
+            `SELECT MAX(score) FROM (SELECT ${vals[0]} AS score UNION ALL SELECT ${vals[1]} UNION ALL SELECT ${vals[2]}) AS t;`,
+            [String(maximum), String(Math.min(...vals)),
+             String(vals.reduce((a, b) => a + b, 0)), "3"],
+            0,
+            `MAX returns the largest value: ${maximum}.`
+        );
+
+        const threshold = i % 3 + 1;
+        const matched = [1, 2, 3, 4].filter(v => v > threshold).join(", ");
+
+        addQuestion(
+            "SQL", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Filtering",
+            "If users contains IDs 1, 2, 3, and 4, which IDs are returned?",
+            `SELECT id FROM users WHERE id > ${threshold} ORDER BY id;`,
+            [matched, "1, 2", String(threshold), "No rows"],
+            0,
+            `The WHERE condition keeps IDs greater than ${threshold}.`
+        );
+
+        addQuestion(
+            "SQL", "Find the Error",
+            i % 2 ? "Hard" : "Medium",
+            "Query syntax",
+            "What is wrong if both name and age are intended as selected columns?",
+            "SELECT name age FROM employees;",
+            ["A comma is missing between name and age",
+             "SELECT cannot retrieve columns",
+             "FROM must come first",
+             "SQL column names must be quoted"],
+            0,
+            "Write SELECT name, age FROM employees."
+        );
+
+        addQuestion(
+            "SQL", "Find the Error",
+            i % 2 ? "Hard" : "Medium",
+            "NULL handling",
+            "Why does this condition fail to match NULL values as intended?",
+            "SELECT * FROM users WHERE email = NULL;",
+            ["NULL should be tested with IS NULL",
+             "NULL must use == NULL",
+             "email must be numeric",
+             "WHERE cannot test missing data"],
+            0,
+            "Use WHERE email IS NULL. Comparisons with NULL use SQL's unknown logic."
+        );
+
+        const c = concepts[i % concepts.length];
+
+        addQuestion(
+            "SQL", "Technical MCQ",
+            i % 3 === 0 ? "Hard" : "Medium",
+            "SQL fundamentals",
+            c[0], "", c[1], c[2], c[3]
+        );
+    }
+}
+
+/* Build 200 Web Technology questions. */
+function buildWebQuestions() {
+    const concepts = [
+        ["Which HTML element represents the main page content?",
+         ["<aside>", "<main>", "<footer>", "<meta>"], 1,
+         "The main element identifies the dominant content of a document."],
+
+        ["Which CSS layout is primarily one-dimensional?",
+         ["CSS Grid", "Flexbox", "Both always", "Neither"], 1,
+         "Flexbox primarily arranges items along one axis."],
+
+        ["Which method converts JSON text into a JavaScript value?",
+         ["JSON.stringify()", "JSON.parse()", "Object.toJSON()", "parseHTML()"], 1,
+         "JSON.parse converts valid JSON text into a JavaScript value."],
+
+        ["Which HTTP method is commonly used to retrieve a resource?",
+         ["POST", "GET", "PATCH", "DELETE"], 1,
+         "GET requests a representation of a resource."],
+
+        ["What does CSS specificity help determine?",
+         ["Which matching rule wins", "Network speed",
+          "HTML validity", "Image file size"], 0,
+         "Specificity helps resolve competing CSS declarations."],
+
+        ["Which attribute provides alternative text for an image?",
+         ["title only", "alt", "srcset only", "role only"], 1,
+         "The alt attribute provides a text alternative."],
+
+        ["What does fetch() return?",
+         ["A Promise", "An HTML element", "A CSS rule", "A synchronous body"], 0,
+         "fetch returns a Promise that resolves to a Response."],
+
+        ["Which browser storage persists until cleared?",
+         ["localStorage", "A local variable", "event.target", "A loop"], 0,
+         "localStorage persists for the same origin until removed."],
+
+        ["What does responsive design aim to achieve?",
+         ["Desktop only", "Layouts adapting to screen sizes",
+          "Disable CSS", "Remove semantic HTML"], 1,
+         "Responsive design adapts to different viewports and devices."],
+
+        ["Which practice helps reduce XSS risk?",
+         ["Insert untrusted input with innerHTML blindly",
+          "Handle untrusted input safely",
+          "Disable HTTPS", "Trust every query parameter"], 1,
+         "Avoid unsafe HTML insertion and sanitize or encode data appropriately."]
+    ];
+
+    for (let i = 0; i < 40; i++) {
+        const a = i % 9 + 1;
+        const b = i % 5 + 2;
+        const sum = a + b;
+
+        addQuestion(
+            "Web Technologies", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "JavaScript operators",
+            "What is printed by this JavaScript code?",
+            `const a = ${a};\nconst b = ${b};\nconsole.log(a + b);`,
+            [String(sum), String("" + a + b),
+             String(a * b), String(a - b)],
+            0,
+            "Both values are numbers, so + performs numeric addition."
+        );
+
+        const arr = [i % 7 + 1, (i * 3) % 10 + 2, (i * 5) % 9 + 3];
+
+        addQuestion(
+            "Web Technologies", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Arrays",
+            "What is logged?",
+            `const items = [${arr.join(", ")}];\nconsole.log(items.length);`,
+            ["3", "2", String(arr.reduce((x, y) => x + y, 0)), String(arr[0])],
+            0,
+            "Array.length reports the number of elements."
+        );
+
+        const word = ["PRAKTIKUL", "JavaScript", "Browser", "Frontend", "Coding"][i % 5];
+
+        addQuestion(
+            "Web Technologies", "Output Prediction",
+            i % 2 ? "Hard" : "Medium",
+            "Strings",
+            "What is the output?",
+            `console.log("${word}".toLowerCase());`,
+            [word.toLowerCase(), word.toUpperCase(), word, String(word.length)],
+            0,
+            "toLowerCase returns a lowercase version of the string."
+        );
+
+        addQuestion(
+            "Web Technologies", "Find the Error",
+            i % 2 ? "Hard" : "Medium",
+            "JavaScript variables",
+            "What is the error in this snippet?",
+            `const score = ${200 + i * 17};\nscore = score + 1;\nconsole.log(score);`,
+            ["A const binding cannot be reassigned",
+             "console.log cannot print numbers",
+             "Numbers cannot use +",
+             "Semicolons are forbidden"],
+            0,
+            "A const binding cannot be reassigned. Use let when reassignment is needed."
+        );
+
+        addQuestion(
+            "Web Technologies", "Find the Error",
+            i % 2 ? "Hard" : "Medium",
+            "DOM and events",
+            "Which issue can cause this code to fail?",
+            'document.querySelector("#send").addEventListener("click", sendForm);',
+            ["If no element matches #send, querySelector returns null",
+             "addEventListener works only on images",
+             "The selector must be a class",
+             "Events cannot call functions"],
+            0,
+            "Check that the element exists before adding an event listener."
+        );
+
+        const c = concepts[i % concepts.length];
+
+        addQuestion(
+            "Web Technologies", "Technical MCQ",
+            i % 3 === 0 ? "Hard" : "Medium",
+            "Web fundamentals",
+            c[0], "", c[1], c[2], c[3]
+        );
+    }
+}
+
+/*
+  Each subject produces 200 questions:
+  40 iterations x 5 question patterns = 200.
+  Total = 5 subjects x 200 = 1,000.
+*/
+function buildBank() {
+    bank = [];
+
+    buildPythonQuestions();
+    buildJavaQuestions();
+    buildCQuestions();
+    buildSQLQuestions();
+    buildWebQuestions();
+
+    $("bankCount").textContent = bank.length.toLocaleString();
+}
+
+/* Local storage helpers. */
+function getUsed() {
+    try {
+        return new Set(JSON.parse(localStorage.getItem(USED_KEY) || "[]"));
+    } catch {
+        return new Set();
+    }
+}
+
+function saveUsed(set) {
+    localStorage.setItem(USED_KEY, JSON.stringify([...set]));
+}
+
+function getHistory() {
+    try {
+        return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+    } catch {
+        return [];
+    }
+}
+
+function saveHistory(history) {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-100)));
+}
+
+function showToast(message) {
+    const toast = $("toast");
+    toast.textContent = message;
+    toast.style.display = "block";
+
+    clearTimeout(showToast.timer);
+
+    showToast.timer = setTimeout(() => {
+        toast.style.display = "none";
+    }, 2800);
+}
+
+function updateStats() {
+    const history = getHistory();
+
+    $("attemptCount").textContent = history.length;
+
+    $("bestScore").textContent = history.length
+        ? Math.max(...history.map(item => item.score)) + "%"
+        : "—";
+
+    $("answeredCount").textContent = Object.values(answers)
+        .filter(value => value !== null && value !== undefined).length;
+}
+
+function eligibleQuestions() {
+    const topic = $("topicSelect").value;
+    const type = $("typeSelect").value;
+    const difficulty = $("difficultySelect").value;
+    const used = getUsed();
+
+    return bank.filter(item =>
+        (topic === "all" || item.topic === topic) &&
+        (type === "all" || item.type === type) &&
+        (difficulty === "all" || item.difficulty === difficulty) &&
+        !used.has(item.id)
+    );
+}
+
+/* Start a new test. */
+function startQuiz() {
+    if (active && !submitted) {
+        if (!confirm("Exit the current quiz? Its score will not be saved.")) {
+            return;
+        }
+
+        stopTimers();
+    }
+
+    const pool = eligibleQuestions();
+
+    if (!pool.length) {
+        showToast("No unused questions match these filters. Reset question history.");
+        return;
+    }
+
+    const requestedCount = Number($("countSelect").value);
+    const count = Math.min(requestedCount, pool.length);
+
+    if (count < requestedCount) {
+        showToast(`Only ${count} unused matching questions remain.`);
+    }
+
+    test = shuffle(pool).slice(0, count);
+    answers = {};
+    flags = new Set();
+    secondsSpent = {};
+
+    test.forEach(item => {
+        answers[item.id] = null;
+        secondsSpent[item.id] = 0;
+    });
+
+    current = 0;
+    reviewCurrent = 0;
+    totalLeft = Number($("durationSelect").value) * 60;
+    questionLeft = Number($("perQuestionSelect").value) || 0;
+
+    active = true;
+    reviewing = false;
+    submitted = false;
+    testStarted = Date.now();
+
+    $("setupPanel").classList.add("hidden");
+    $("reportPanel").classList.add("hidden");
+    $("reviewPanel").classList.add("hidden");
+    $("quizPanel").classList.remove("hidden");
+
+    renderQuestion();
+    renderNavigator();
+    renderTopicMix();
+    updateStats();
+    startTimers();
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* Timer controls. */
+function stopTimers() {
+    clearInterval(totalInterval);
+    clearInterval(questionInterval);
+
+    totalInterval = null;
+    questionInterval = null;
+}
+
+function resetQuestionTimer() {
+    questionLeft = Number($("perQuestionSelect").value) || 0;
+    questionStarted = Date.now();
+    updateTimerUI();
+}
+
+function formatTime(seconds) {
+    seconds = Math.max(0, seconds);
+
+    return `${Math.floor(seconds / 60).toString().padStart(2, "0")}:` +
+        `${(seconds % 60).toString().padStart(2, "0")}`;
+}
+
+function updateTimerUI() {
+    $("totalTimer").textContent = formatTime(totalLeft);
+    $("questionTimer").textContent = questionLeft
+        ? formatTime(questionLeft)
+        : "—";
+
+    $("totalTimer").classList.toggle("warn", totalLeft <= 60);
+
+    $("questionTimer").classList.toggle(
+        "warn",
+        questionLeft > 0 && questionLeft <= 10
+    );
+}
+
+function startTimers() {
+    stopTimers();
+
+    totalInterval = setInterval(() => {
+        if (!active || submitted) return;
+
+        totalLeft--;
+        updateTimerUI();
+
+        if (totalLeft <= 0) {
+            finishTest(true);
+        }
+    }, 1000);
+
+    if (Number($("perQuestionSelect").value) > 0) {
+        questionInterval = setInterval(() => {
+            if (!active || submitted || reviewing) return;
+
+            questionLeft--;
+            updateTimerUI();
+
+            if (questionLeft <= 0) {
+                const id = test[current].id;
+                secondsSpent[id] = Number($("perQuestionSelect").value);
+
+                showToast("Time up — moving to the next question.");
+
+                if (current < test.length - 1) {
+                    current++;
+                    resetQuestionTimer();
+                    renderQuestion();
+                } else {
+                    openReview();
+                }
+            }
+        }, 1000);
+    }
+}
+
+/* Render the active question. */
+function renderQuestion() {
+    if (!test.length) return;
+
+    const item = test[current];
+
+    questionStarted = Date.now();
+
+    $("topicBadge").textContent = item.topic.toUpperCase();
+    $("typeBadge").textContent = item.type.toUpperCase();
+    $("difficultyBadge").textContent = item.difficulty.toUpperCase();
+
+    $("difficultyBadge").className =
+        "badge " + item.difficulty.toLowerCase();
+
+    $("questionMeta").textContent =
+        `QUESTION ${current + 1} OF ${test.length} · ${item.concept}`;
+
+    $("questionText").textContent = item.prompt;
+
+    $("codeBox").textContent = item.code || "";
+    $("codeBox").classList.toggle("hidden", !item.code);
+
+    const optionsBox = $("optionsBox");
+    optionsBox.innerHTML = "";
+
+    item.options.forEach((option, index) => {
+        const button = document.createElement("button");
+
+        button.className = "option" +
+            (answers[item.id] === index ? " selected" : "");
+
+        button.innerHTML =
+            `<span class="letter">${String.fromCharCode(65 + index)}</span>` +
+            `<span>${escapeHTML(option)}</span>`;
+
+        button.disabled = submitted;
+
+        button.onclick = () => {
+            if (submitted) return;
+
+            answers[item.id] = index;
+            renderQuestion();
+        };
+
+        optionsBox.appendChild(button);
+    });
+
+    $("explanationBox").classList.remove("show");
+    $("explanationBox").textContent = "";
+
+    $("prevBtn").disabled = current === 0;
+
+    $("nextBtn").classList.toggle("hidden", current === test.length - 1);
+    $("submitBtn").classList.toggle("hidden", current !== test.length - 1);
+
+    $("flagBtn").textContent = flags.has(item.id)
+        ? "⚑ Marked for review"
+        : "⚑ Mark for review";
+
+    const answered = Object.values(answers)
+        .filter(value => value !== null).length;
+
+    $("progressLabel").textContent = `${answered} / ${test.length}`;
+
+    $("remainingLabel").textContent =
+        `Questions remaining: ${test.length - answered}`;
+
+    $("progressFill").style.width =
+        (answered / test.length * 100) + "%";
+
+    renderNavigator();
+    updateTimerUI();
+}
+
+function addElapsedTime() {
+    if (!test[current]) return;
+
+    const id = test[current].id;
+
+    secondsSpent[id] = (secondsSpent[id] || 0) +
+        Math.max(0, Math.round((Date.now() - questionStarted) / 1000));
+}
+
+function moveNext() {
+    addElapsedTime();
+
+    if (current < test.length - 1) {
+        current++;
+        resetQuestionTimer();
+        renderQuestion();
+    } else {
+        openReview();
+    }
+}
+
+function movePrevious() {
+    if (current <= 0) return;
+
+    addElapsedTime();
+    current--;
+    resetQuestionTimer();
+    renderQuestion();
+}
+
+function skipQuestion() {
+    addElapsedTime();
+
+    if (current < test.length - 1) {
+        current++;
+        resetQuestionTimer();
+        renderQuestion();
+    } else {
+        openReview();
+    }
+}
+
+function renderNavigator() {
+    const nav = $("navigator");
+    nav.innerHTML = "";
+
+    test.forEach((item, index) => {
+        const button = document.createElement("button");
+
+        button.className = "btn";
+        button.textContent = index + 1;
+        button.style.padding = "8px 0";
+        button.style.fontSize = "11px";
+
+        button.style.borderColor = index === current
+            ? "var(--purple)"
+            : "var(--line)";
+
+        button.style.background = answers[item.id] !== null
+            ? "#12432f"
+            : "#111e31";
+
+        button.style.color = answers[item.id] !== null
+            ? "var(--mint)"
+            : "var(--text)";
+
+        if (flags.has(item.id)) {
+            button.style.boxShadow = "inset 0 -3px var(--yellow)";
+        }
+
+        button.onclick = () => {
+            addElapsedTime();
+            current = index;
+            resetQuestionTimer();
+            renderQuestion();
+        };
+
+        nav.appendChild(button);
+    });
+}
+
+function renderTopicMix() {
+    const counts = {};
+
+    test.forEach(item => {
+        counts[item.topic] = (counts[item.topic] || 0) + 1;
+    });
+
+    $("quizTopicMix").innerHTML = Object.entries(counts).map(
+        ([topic, count]) =>
+            `<div class="topic-item">
+                <span>${escapeHTML(topic)}</span>
+                <span>${count}</span>
+            </div>`
+    ).join("");
+}
+
+/* Final review: answers may still be changed here. */
+function openReview() {
+    if (!active || submitted) return;
+
+    addElapsedTime();
+    reviewing = true;
+
+    clearInterval(questionInterval);
+
+    $("quizPanel").classList.add("hidden");
+    $("reviewPanel").classList.remove("hidden");
+
+    reviewCurrent = current;
+
+    renderReview();
+
+    $("reviewSummary").textContent =
+        `Answered ${Object.values(answers).filter(v => v !== null).length}/${test.length} · ` +
+        `Marked for review ${flags.size} · Time left ${formatTime(totalLeft)}`;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderReview() {
+    const item = test[reviewCurrent];
+
+    $("reviewTopicBadge").textContent = item.topic;
+    $("reviewTypeBadge").textContent = item.type;
+    $("reviewIndex").textContent =
+        `QUESTION ${reviewCurrent + 1} OF ${test.length}`;
+
+    $("reviewQuestion").textContent = item.prompt;
+
+    $("reviewCode").textContent = item.code || "";
+    $("reviewCode").classList.toggle("hidden", !item.code);
+
+    const options = $("reviewOptions");
+    options.innerHTML = "";
+
+    item.options.forEach((option, index) => {
+        const button = document.createElement("button");
+
+        button.className = "option" +
+            (answers[item.id] === index ? " selected" : "");
+
+        button.innerHTML =
+            `<span class="letter">${String.fromCharCode(65 + index)}</span>` +
+            `<span>${escapeHTML(option)}</span>`;
+
+        button.onclick = () => {
+            answers[item.id] = index;
+            renderReview();
+
+            $("reviewSummary").textContent =
+                `Answered ${Object.values(answers).filter(v => v !== null).length}/${test.length} · ` +
+                `Marked for review ${flags.size}`;
+        };
+
+        options.appendChild(button);
+    });
+
+    $("reviewPrevBtn").disabled = reviewCurrent === 0;
+    $("reviewNextBtn").disabled = reviewCurrent === test.length - 1;
+}
+
+/* Calculate the score and display the analysis. */
+function finishTest(fromTimer = false) {
+    if (submitted) return;
+
+    if (!fromTimer && active) {
+        addElapsedTime();
+    }
+
+    submitted = true;
+    active = false;
+    reviewing = false;
+
+    stopTimers();
+
+    const used = getUsed();
+
+    test.forEach(item => used.add(item.id));
+
+    saveUsed(used);
+
+    let correct = 0;
+    let answered = 0;
+
+    const topicStats = {};
+
+    test.forEach(item => {
+        if (!topicStats[item.topic]) {
+            topicStats[item.topic] = {
+                total: 0,
+                correct: 0,
+                answered: 0,
+                time: 0
+            };
+        }
+
+        const stats = topicStats[item.topic];
+
+        stats.total++;
+        stats.time += secondsSpent[item.id] || 0;
+
+        const response = answers[item.id];
+
+        if (response !== null && response !== undefined) {
+            answered++;
+            stats.answered++;
+
+            if (response === item.answer) {
+                correct++;
+                stats.correct++;
+            }
+        }
+    });
+
+    const score = Math.round(correct / test.length * 100);
+
+    const totalAllowed = Number($("durationSelect").value) * 60;
+    const usedSeconds = totalAllowed - totalLeft;
+
+    const totalQuestionSeconds = test.reduce(
+        (sum, item) => sum + (secondsSpent[item.id] || 0), 0
+    );
+
+    const averageSeconds = Math.round(
+        totalQuestionSeconds / test.length
+    );
+
+    const record = {
+        date: new Date().toISOString(),
+        score,
+        correct,
+        total: test.length,
+        answered,
+        topicStats
+    };
+
+    const history = getHistory();
+
+    history.push(record);
+    saveHistory(history);
+    updateStats();
+
+    $("quizPanel").classList.add("hidden");
+    $("reviewPanel").classList.add("hidden");
+    $("reportPanel").classList.remove("hidden");
+
+    const name = $("nameInput").value.trim();
+
+    $("reportHeading").textContent = name
+        ? `${name}'s performance report`
+        : "Your performance report";
+
+    $("reportGrade").textContent = score >= 85
+        ? "EXCELLENT"
+        : score >= 65
+        ? "GOOD PROGRESS"
+        : score >= 40
+        ? "KEEP PRACTISING"
+        : "BUILD YOUR BASICS";
+
+    $("scoreStat").textContent = score + "%";
+    $("correctStat").textContent = `${correct} / ${test.length}`;
+
+    $("timeStat").textContent =
+        `${Math.floor(usedSeconds / 60)}:${String(usedSeconds % 60).padStart(2, "0")}`;
+
+    $("speedStat").textContent = averageSeconds + "s";
+
+    $("topicReport").innerHTML = Object.entries(topicStats).map(
+        ([topic, stats]) => {
+            const percent = Math.round(stats.correct / stats.total * 100);
+
+            return `
+                <div class="report-topic">
+                    <strong>${escapeHTML(topic)}</strong>
+                    <div>
+                        <div class="report-bar">
+                            <i style="width:${percent}%"></i>
+                        </div>
+                        <div class="tiny" style="margin-top:5px">
+                            ${stats.correct}/${stats.total} correct ·
+                            ${stats.answered}/${stats.total} answered
+                        </div>
+                    </div>
+                    <strong>${percent}%</strong>
+                </div>
+            `;
+        }
+    ).join("");
+
+    $("answerReview").innerHTML = test.map((item, index) => {
+        const response = answers[item.id];
+        const isCorrect = response === item.answer;
+
+        const status = response === null
+            ? "Skipped"
+            : isCorrect
+            ? "Correct"
+            : "Incorrect";
+
+        const statusColor = response === null
+            ? "var(--yellow)"
+            : isCorrect
+            ? "var(--mint)"
+            : "var(--red)";
+
+        return `
+            <details style="border-bottom:1px solid #263751;padding:12px 0">
+                <summary style="cursor:pointer;font-weight:800;color:${statusColor}">
+                    ${index + 1}. ${escapeHTML(item.topic)} ·
+                    ${escapeHTML(item.type)} — ${status}
+                </summary>
+
+                <p style="line-height:1.6;font-size:13px">
+                    ${escapeHTML(item.prompt)}
+                </p>
+
+                ${item.code ? `<pre class="codebox">${escapeHTML(item.code)}</pre>` : ""}
+
+                <p class="tiny">
+                    Your answer:
+                    ${response === null ? "Not answered" : escapeHTML(item.options[response])}
+                </p>
+
+                <p class="tiny">
+                    Correct answer: ${escapeHTML(item.options[item.answer])}
+                </p>
+
+                <p style="font-size:13px;line-height:1.6">
+                    ${escapeHTML(item.explanation)}
+                </p>
+            </details>
+        `;
+    }).join("");
+
+    const sortedTopics = Object.entries(topicStats).sort(
+        (a, b) => (a[1].correct / a[1].total) -
+                  (b[1].correct / b[1].total)
+    );
+
+    const weakest = sortedTopics[0];
+    const strongest = sortedTopics[sortedTopics.length - 1];
+
+    $("recommendation").innerHTML =
+        `<strong style="color:var(--pink)">Focus next:</strong> ` +
+        `${weakest ? escapeHTML(weakest[0]) + " (" +
+            Math.round(weakest[1].correct / weakest[1].total * 100) + "%)" : "review missed questions"}. ` +
+        `<strong style="color:var(--mint)">Strongest:</strong> ` +
+        `${strongest ? escapeHTML(strongest[0]) + " (" +
+            Math.round(strongest[1].correct / strongest[1].total * 100) + "%)" : "keep practising"}. ` +
+        `Review incorrect answers and practise those concepts again.`;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    showToast(fromTimer
+        ? "Total timer expired — test submitted."
+        : "Test submitted. Your analysis is ready.");
+}
+
+/* Navigation and action listeners. */
+$("startBtn").addEventListener("click", startQuiz);
+
+$("prevBtn").addEventListener("click", movePrevious);
+$("nextBtn").addEventListener("click", moveNext);
+$("skipBtn").addEventListener("click", skipQuestion);
+$("submitBtn").addEventListener("click", openReview);
+
+$("flagBtn").addEventListener("click", () => {
+    const id = test[current].id;
+
+    if (flags.has(id)) {
+        flags.delete(id);
+    } else {
+        flags.add(id);
+    }
+
+    renderQuestion();
+});
+
+$("quitBtn").addEventListener("click", () => {
+    if (!confirm("Exit this test without scoring it?")) return;
+
+    active = false;
+    stopTimers();
+
+    $("quizPanel").classList.add("hidden");
+    $("reviewPanel").classList.add("hidden");
+    $("setupPanel").classList.remove("hidden");
+});
+
+$("reviewPrevBtn").addEventListener("click", () => {
+    if (reviewCurrent > 0) {
+        reviewCurrent--;
+        renderReview();
+    }
+});
+
+$("reviewNextBtn").addEventListener("click", () => {
+    if (reviewCurrent < test.length - 1) {
+        reviewCurrent++;
+        renderReview();
+    }
+});
+
+$("finalSubmitBtn").addEventListener("click", () => finishTest(false));
+
+$("retryBtn").addEventListener("click", () => {
+    $("reportPanel").classList.add("hidden");
+    $("setupPanel").classList.remove("hidden");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+function resetQuestionHistory() {
+    if (!confirm("Reset used-question history? Completed test scores will remain.")) {
+        return;
+    }
+
+    localStorage.removeItem(USED_KEY);
+    showToast("Question history reset. Fresh questions are available.");
+}
+
+$("resetBankBtn").addEventListener("click", resetQuestionHistory);
+
+$("resetProgressBtn").addEventListener("click", () => {
+    if (!confirm("Reset used-question history and completed-test statistics?")) {
+        return;
+    }
+
+    localStorage.removeItem(USED_KEY);
+    localStorage.removeItem(HISTORY_KEY);
+
+    updateStats();
+    showToast("Saved quiz progress reset.");
+});
+
+/* Generate the question bank and update the dashboard. */
+buildBank();
+updateStats();
+</script>
+</body>
+</html>

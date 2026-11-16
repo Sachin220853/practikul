@@ -1,0 +1,1538 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Interview Academy | PRAKTIKUL</title>
+
+<style>
+/* =====================================================
+   PRAKTIKUL - PYTHON INTERVIEW EXPLANATIONS
+   Original dark gaming style, adapted for learning.
+   ===================================================== */
+
+:root {
+    --bg: #070b17;
+    --panel: #10182b;
+    --panel-light: #17223a;
+    --cyan: #42e8ff;
+    --purple: #a78bfa;
+    --green: #48f0a8;
+    --pink: #ff78b7;
+    --red: #ff6685;
+    --text: #eef4ff;
+    --muted: #9aabc7;
+    --border: rgba(123, 160, 220, 0.18);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.background-glow {
+    position: fixed;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.13;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.glow-one {
+    background: var(--cyan);
+    top: 10%;
+    left: -180px;
+}
+
+.glow-two {
+    background: var(--purple);
+    right: -180px;
+    bottom: 0;
+}
+
+.topbar {
+    min-height: 75px;
+    padding: 16px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(7, 11, 23, 0.85);
+    backdrop-filter: blur(15px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    color: #07101d;
+    font-size: 24px;
+    font-weight: 900;
+    box-shadow: 0 0 24px rgba(66, 232, 255, 0.2);
+}
+
+.brand h2 {
+    font-size: 21px;
+    letter-spacing: 1.5px;
+}
+
+.brand small {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-top: 3px;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.xp-pill, .home-btn {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 11px 15px;
+    background: var(--panel);
+    color: var(--text);
+    font-weight: 700;
+}
+
+.xp-pill {
+    color: var(--green);
+}
+
+.home-btn:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+}
+
+.container {
+    max-width: 1450px;
+    margin: auto;
+    padding: 30px 4% 55px;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 1.5fr 0.7fr;
+    gap: 25px;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.eyebrow {
+    color: var(--cyan);
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.hero h1 {
+    font-size: clamp(32px, 4vw, 54px);
+    line-height: 1.12;
+    margin-bottom: 16px;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    max-width: 680px;
+    color: var(--muted);
+    line-height: 1.8;
+}
+
+.mascot-card {
+    background: linear-gradient(145deg, #111b31, #17152d);
+    border: 1px solid rgba(167, 139, 250, 0.28);
+    border-radius: 24px;
+    padding: 22px;
+    text-align: center;
+    box-shadow: 0 15px 45px rgba(0,0,0,.2);
+}
+
+.mascot {
+    font-size: 75px;
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 18px rgba(167,139,250,.4));
+}
+
+.mascot-card h3 {
+    color: var(--purple);
+    margin: 8px 0;
+}
+
+.mascot-card p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    padding: 19px;
+    background: rgba(16, 24, 43, 0.92);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+}
+
+.stat-card .stat-icon {
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+.stat-card .stat-number {
+    font-size: 27px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.stat-card .stat-label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.stat-card:nth-child(1) .stat-number { color: var(--cyan); }
+.stat-card:nth-child(2) .stat-number { color: var(--green); }
+.stat-card:nth-child(3) .stat-number { color: var(--purple); }
+.stat-card:nth-child(4) .stat-number { color: var(--pink); }
+
+.progress-card {
+    background: rgba(16, 24, 43, 0.92);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.progress-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 13px;
+    font-size: 13px;
+}
+
+.progress-heading span:last-child {
+    color: var(--green);
+    font-weight: 800;
+}
+
+.progress-track {
+    height: 10px;
+    background: #263149;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, var(--cyan), var(--purple), var(--green));
+    box-shadow: 0 0 15px rgba(66,232,255,.3);
+    transition: width .4s ease;
+}
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: 23px;
+    align-items: start;
+}
+
+.panel {
+    background: rgba(16, 24, 43, 0.94);
+    border: 1px solid var(--border);
+    border-radius: 21px;
+    overflow: hidden;
+}
+
+.panel-heading {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.panel-heading h2 {
+    font-size: 17px;
+    margin-bottom: 7px;
+}
+
+.panel-heading p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.filters {
+    padding: 15px;
+    display: grid;
+    gap: 11px;
+}
+
+.search-input, .filter-select {
+    width: 100%;
+    background: #0a1121;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    padding: 12px;
+    outline: none;
+}
+
+.search-input:focus, .filter-select:focus {
+    border-color: var(--cyan);
+}
+
+.category-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.category-btn {
+    padding: 9px 4px;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: #0a1121;
+    color: var(--muted);
+}
+
+.category-btn.active {
+    background: rgba(66,232,255,.12);
+    color: var(--cyan);
+    border-color: var(--cyan);
+}
+
+.question-list {
+    padding: 0 12px 14px;
+    max-height: 650px;
+    overflow-y: auto;
+}
+
+.question-item {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+    padding: 13px 11px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text);
+    border-radius: 12px;
+    margin-bottom: 5px;
+}
+
+.question-item:hover {
+    background: rgba(66,232,255,.05);
+    border-color: var(--border);
+}
+
+.question-item.active {
+    background: rgba(66,232,255,.09);
+    border-color: rgba(66,232,255,.55);
+}
+
+.question-item.completed .question-index {
+    background: rgba(72,240,168,.15);
+    color: var(--green);
+}
+
+.question-index {
+    min-width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: #202b43;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--cyan);
+}
+
+.question-item-text {
+    flex: 1;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.question-item-text small {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+}
+
+.empty-list {
+    color: var(--muted);
+    text-align: center;
+    padding: 25px 12px;
+    line-height: 1.6;
+    font-size: 13px;
+}
+
+.content-panel {
+    min-height: 620px;
+}
+
+.question-topline {
+    padding: 22px 25px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.question-count {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.difficulty {
+    padding: 7px 11px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: rgba(66,232,255,.1);
+    color: var(--cyan);
+    border: 1px solid rgba(66,232,255,.3);
+}
+
+.difficulty.Intermediate {
+    background: rgba(167,139,250,.12);
+    color: var(--purple);
+    border-color: rgba(167,139,250,.3);
+}
+
+.difficulty.Advanced {
+    background: rgba(255,120,183,.12);
+    color: var(--pink);
+    border-color: rgba(255,120,183,.3);
+}
+
+.question-body {
+    padding: 28px;
+}
+
+.topic-label {
+    color: var(--cyan);
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.question-title {
+    font-size: clamp(22px, 2.6vw, 34px);
+    line-height: 1.35;
+    margin-bottom: 23px;
+}
+
+.explanation-box {
+    padding: 22px;
+    border-radius: 16px;
+    border: 1px solid rgba(66,232,255,.2);
+    background: linear-gradient(135deg, rgba(66,232,255,.055), rgba(167,139,250,.06));
+    margin-bottom: 18px;
+}
+
+.explanation-box h3, .memory-box h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.explanation-box p {
+    color: #d1dbee;
+    line-height: 1.9;
+    font-size: 14px;
+    white-space: pre-line;
+}
+
+.memory-box {
+    padding: 19px;
+    border-radius: 15px;
+    border: 1px solid rgba(72,240,168,.23);
+    background: rgba(72,240,168,.045);
+    margin-bottom: 22px;
+}
+
+.memory-box h3 {
+    color: var(--green);
+}
+
+.memory-box p {
+    color: #c5d7d4;
+    line-height: 1.8;
+    font-size: 13px;
+}
+
+.action-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.action-btn {
+    padding: 12px 17px;
+    border-radius: 11px;
+    border: 1px solid var(--border);
+    background: var(--panel-light);
+    color: var(--text);
+    font-weight: 800;
+    font-size: 12px;
+    transition: .2s;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--cyan);
+}
+
+.action-btn.primary {
+    color: #07101d;
+    background: linear-gradient(100deg, var(--cyan), #85dfff);
+    border: none;
+}
+
+.action-btn.complete {
+    background: rgba(72,240,168,.1);
+    border-color: var(--green);
+    color: var(--green);
+}
+
+.action-btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.nav-footer {
+    border-top: 1px solid var(--border);
+    padding: 19px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-footer span {
+    color: var(--muted);
+    font-size: 11px;
+    text-align: center;
+}
+
+.learning-note {
+    margin-top: 23px;
+    padding: 18px 20px;
+    border-radius: 15px;
+    background: rgba(167,139,250,.055);
+    border: 1px solid rgba(167,139,250,.16);
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.learning-note strong {
+    color: var(--purple);
+}
+
+footer {
+    text-align: center;
+    color: #6f809e;
+    font-size: 11px;
+    padding: 30px 10px 0;
+}
+
+.toast {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translate(-50%, 20px);
+    background: #14243a;
+    border: 1px solid var(--green);
+    color: var(--green);
+    border-radius: 12px;
+    padding: 13px 18px;
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transition: .3s;
+    z-index: 50;
+    text-align: center;
+    max-width: 90%;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (max-width: 1000px) {
+    .main-layout {
+        grid-template-columns: 290px minmax(0, 1fr);
+    }
+
+    .hero {
+        grid-template-columns: 1fr .55fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .mascot-card {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        gap: 18px;
+    }
+
+    .mascot {
+        font-size: 55px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .question-list {
+        max-height: 330px;
+    }
+
+    .content-panel {
+        min-height: auto;
+    }
+
+    .question-body {
+        padding: 20px;
+    }
+
+    .topbar {
+        padding: 13px 4%;
+    }
+
+    .brand h2 {
+        font-size: 17px;
+    }
+
+    .xp-pill, .home-btn {
+        padding: 10px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 420px) {
+    .brand small {
+        letter-spacing: 1px;
+        font-size: 8px;
+    }
+
+    .brand-logo {
+        width: 37px;
+        height: 37px;
+    }
+
+    .top-actions {
+        gap: 5px;
+    }
+
+    .question-topline {
+        padding: 17px;
+    }
+
+    .nav-footer {
+        padding: 15px;
+    }
+}
+
+/* Highlighted button to open Python coding questions */
+.coding-switch-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 20px;
+    margin-top: 22px;
+    border-radius: 13px;
+    border: 1px solid rgba(72, 240, 168, 0.75);
+    background: linear-gradient(
+        110deg,
+        rgba(72, 240, 168, 0.19),
+        rgba(66, 232, 255, 0.15),
+        rgba(167, 139, 250, 0.18)
+    );
+    color: #48f0a8;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    box-shadow:
+        0 0 18px rgba(72, 240, 168, 0.12),
+        inset 0 0 14px rgba(66, 232, 255, 0.05);
+    animation: codingPulse 2.5s ease-in-out infinite;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.coding-switch-btn:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 0 28px rgba(72, 240, 168, 0.25),
+        0 0 45px rgba(66, 232, 255, 0.12);
+    border-color: #48f0a8;
+    color: #ffffff;
+}
+
+.coding-switch-btn .coding-arrow {
+    display: inline-block;
+    font-size: 18px;
+    transition: transform 0.25s ease;
+}
+
+.coding-switch-btn:hover .coding-arrow {
+    transform: translateX(5px);
+}
+
+.coding-switch-btn .coding-tag {
+    font-size: 9px;
+    padding: 4px 7px;
+    border-radius: 6px;
+    color: #07101d;
+    background: #48f0a8;
+    letter-spacing: 0.6px;
+}
+
+@keyframes codingPulse {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(72, 240, 168, 0.10);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(72, 240, 168, 0.22);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .coding-switch-btn {
+        animation: none;
+        transition: none;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+<div class="background-glow glow-one"></div>
+<div class="background-glow glow-two"></div>
+
+<!-- Top navigation -->
+<header class="topbar">
+    <a href="home.html" class="brand" aria-label="Praktikul home">
+        <div class="brand-logo">P</div>
+        <div>
+            <h2>PRAKTIKUL</h2>
+            <small>LEARN. PRACTICE. ACHIEVE.</small>
+        </div>
+    </a>
+
+    <div class="top-actions">
+        <div class="xp-pill">⚡ <span id="xpDisplay">0</span> XP</div>
+        <a href="home.html" class="home-btn">⌂ Home</a>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- Hero section -->
+    <section class="hero">
+        <div>
+            <div class="eyebrow">✦ Python Interview Academy</div>
+            <h1>
+                Master Python.<br>
+                <span class="gradient-text">One Question at a Time.</span>
+            </h1>
+            
+<p>
+    Explore 101 important Python interview questions with clear explanations,
+    key concepts, and memory tips. Learn at your own pace and track your progress.
+</p>
+
+<!-- Switch to the separate Python coding interview page -->
+<a href="python-coding.html" class="coding-switch-btn">
+    💻 Coding Questions
+    <span class="coding-tag">51 QUESTIONS</span>
+    <span class="coding-arrow">→</span>
+</a>
+
+        </div>
+
+        <div class="mascot-card">
+            <div class="mascot" id="mascot">👾</div>
+            <div>
+                <h3>Your Learning Companion</h3>
+                <p id="mascotMessage">
+                    Every concept you understand brings you one step closer to your goal.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-number" id="totalDisplay">101</div>
+            <div class="stat-label">Total Questions</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-number" id="completedDisplay">0</div>
+            <div class="stat-label">Questions Studied</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-number" id="remainingDisplay">101</div>
+            <div class="stat-label">Questions Remaining</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-number" id="percentageDisplay">0%</div>
+            <div class="stat-label">Learning Progress</div>
+        </div>
+    </section>
+
+    <!-- Overall progress -->
+    <section class="progress-card">
+        <div class="progress-heading">
+            <span>YOUR PYTHON LEARNING JOURNEY</span>
+            <span id="progressText">0 / 101 completed</span>
+        </div>
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </section>
+
+    <section class="main-layout">
+
+        <!-- Left side: question navigation -->
+        <aside class="panel">
+            <div class="panel-heading">
+                <h2>⚔️ Question Library</h2>
+                <p>Choose a question to read its explanation and key points.</p>
+            </div>
+
+            <div class="filters">
+                <input
+                    id="searchInput"
+                    class="search-input"
+                    type="search"
+                    placeholder="⌕ Search Python questions..."
+                    aria-label="Search Python questions"
+                >
+
+                <div class="category-buttons">
+                    <button class="category-btn active" data-level="All">All 101</button>
+                    <button class="category-btn" data-level="Beginner">Beginner</button>
+                    <button class="category-btn" data-level="Intermediate">Intermediate</button>
+                </div>
+
+                <button class="category-btn" data-level="Advanced">Advanced Questions</button>
+
+                <select id="statusFilter" class="filter-select" aria-label="Filter by learning status">
+                    <option value="all">All questions</option>
+                    <option value="unread">Not studied</option>
+                    <option value="completed">Already studied</option>
+                </select>
+            </div>
+
+            <div class="question-list" id="questionList"></div>
+        </aside>
+
+        <!-- Right side: explanations -->
+        <section class="panel content-panel">
+            <div class="question-topline">
+                <div class="question-count" id="questionCount">QUESTION 1 OF 101</div>
+                <span class="difficulty" id="difficultyBadge">Beginner</span>
+            </div>
+
+            <div class="question-body">
+                <div class="topic-label" id="topicLabel">PYTHON FUNDAMENTALS</div>
+
+                <h2 class="question-title" id="questionTitle">
+                    What is Python?
+                </h2>
+
+                <div class="explanation-box">
+                    <h3>📖 Explanation</h3>
+                    <p id="explanationText"></p>
+                </div>
+
+                <div class="memory-box">
+                    <h3>🧠 Key Point to Remember</h3>
+                    <p id="memoryText"></p>
+                </div>
+
+                <div class="action-row">
+                    <button class="action-btn" id="hintButton">💡 Study Tip</button>
+                    <button class="action-btn primary" id="completeButton">
+                        ✓ Mark as Studied
+                    </button>
+                </div>
+
+                <div class="learning-note">
+                    <strong>Interview tip:</strong>
+                    Understand the concept first, then explain it in your own words.
+                    For interview preparation, focus on definitions, differences,
+                    advantages, limitations, and relevant real-world uses.
+                </div>
+            </div>
+
+            <div class="nav-footer">
+                <button class="action-btn" id="previousButton">← Previous</button>
+                <span id="navigationText">Keep learning at your own pace.</span>
+                <button class="action-btn primary" id="nextButton">Next →</button>
+            </div>
+        </section>
+    </section>
+
+    <footer>
+        PRAKTIKUL · Python Interview Academy · Created by sachin.B.V
+    </footer>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =====================================================
+   QUESTION BANK
+   The questions are grouped by difficulty.
+   Each question has an explanation and a memory tip.
+   ===================================================== */
+
+const rawQuestions = [
+/* ================= BEGINNER: 40 ================= */
+["Beginner","Python Fundamentals","Why Python? What makes it different from other programming languages?","Python is a high-level, general-purpose programming language known for readable syntax and a large ecosystem of libraries. It supports procedural, object-oriented, and functional programming. Its simple syntax can make development easier, although execution speed and deployment requirements depend on the application.","Remember: readable syntax, versatile programming styles, and a large ecosystem."],
+["Beginner","Python Fundamentals","What are the benefits and real-world applications of Python?","Python offers readable syntax, extensive libraries, cross-platform support, and a large developer community. It is used in web development, automation, data analysis, artificial intelligence, machine learning, scientific computing, and scripting.","Remember: Python is widely used for automation, web applications, and data work."],
+["Beginner","Python Fundamentals","Is Python interpreted or compiled?","Python is commonly described as an interpreted language. In the standard CPython implementation, source code is compiled into bytecode, which is then executed by the Python virtual machine. Other implementations may work differently.","Remember: in CPython, source code becomes bytecode before execution."],
+["Beginner","Python Fundamentals","What is a module, and how is it different from a package?","A module is usually a single Python file containing functions, classes, or variables. A package organizes related modules into a directory structure. Packages can contain subpackages and may include an __init__.py file.","Remember: module = a file; package = an organized collection of modules."],
+["Beginner","Python Fundamentals","Is Python case-sensitive?","Yes. Python treats identifiers with different letter casing as different names. For example, total, Total, and TOTAL are three distinct identifiers.","Remember: capitalization matters in Python identifiers."],
+["Beginner","Python Fundamentals","Is indentation required in Python?","Yes. Python uses indentation to define blocks of code, such as the body of a function, loop, or conditional statement. Incorrect indentation can produce an IndentationError or change the structure of the program.","Remember: indentation defines code blocks."],
+["Beginner","Data Types","What is a variable, and what are the basic data types in Python?","A variable is a name that refers to an object. Common built-in types include int for integers, float for decimal numbers, str for text, bool for Boolean values, list, tuple, set, and dict for dictionaries. Python is dynamically typed, so a name can later refer to an object of another type.","Remember: variables are names referring to objects; Python is dynamically typed."],
+["Beginner","Data Types","What is mutability? Differentiate mutable and immutable data types.","Mutable objects can be changed after creation; lists, dictionaries, and sets are examples. Immutable objects cannot be changed in place; integers, floats, strings, and tuples are common examples. A tuple can contain a mutable object, which may itself change.","Remember: list is mutable; string and integer are immutable."],
+["Beginner","Data Types","Differentiate between a List and a Tuple.","A list is an ordered, mutable collection, usually written with square brackets. A tuple is an ordered, immutable collection, usually written with parentheses. Both can contain duplicate values and items of different types.","Remember: list = changeable; tuple = immutable."],
+["Beginner","Data Types","Explain the difference between a Set and a Dictionary.","A set stores unique elements without using key-value pairs. A dictionary stores mappings from unique keys to values. Sets are useful for uniqueness and set operations; dictionaries are useful for looking up values by key.","Remember: set stores unique items; dictionary stores key-value pairs."],
+["Beginner","Data Types","What is indexing, and how is it different from slicing?","Indexing retrieves one item at a position. Slicing retrieves a range of items using a form such as sequence[start:stop:step]. The stop position is excluded, and slicing commonly returns a new sequence of the same general kind.","Remember: indexing gets one item; slicing gets a range."],
+["Beginner","Data Types","What are negative indexes in Python?","Negative indexes count from the end of a sequence. Index -1 refers to the last item, -2 to the second-last item, and so on. Negative indexing is supported by sequences such as strings, lists, and tuples.","Remember: -1 means the last element."],
+["Beginner","Data Types","What is List Comprehension?","List comprehension is a compact way to create a list from an iterable, optionally filtering items with a condition. It combines an expression and a loop in a single expression and can make simple transformations concise.","Remember: list comprehension builds a list using an expression and iteration."],
+["Beginner","Data Types","Differentiate between List Comprehension and Dictionary Comprehension.","List comprehension creates a list of values, while dictionary comprehension creates key-value mappings. Both can iterate over an iterable and include optional conditions.","Remember: list comprehension produces values; dictionary comprehension produces key-value pairs."],
+["Beginner","Control Flow","What is the difference between break, continue, and pass?","break exits the nearest enclosing loop. continue skips the rest of the current iteration and proceeds to the next one. pass performs no operation and acts as a placeholder where a statement is syntactically required.","Remember: break exits; continue skips; pass does nothing."],
+["Beginner","Control Flow","What is the difference between a for loop and a while loop?","A for loop iterates over items in an iterable, such as a list or range. A while loop repeats as long as its condition remains true. Either can run indefinitely if its termination conditions are not handled correctly.","Remember: for iterates over an iterable; while checks a condition."],
+["Beginner","Control Flow","What is the pass statement used for?","The pass statement does nothing when executed. It is useful as a temporary placeholder for an empty function, class, loop, or conditional block while the surrounding structure is being developed.","Remember: pass is a no-operation placeholder."],
+["Beginner","Variables and Functions","What is a local variable, and what is a global variable?","A local variable is defined within a function and is normally available in that function's local scope. A global variable is defined at module level. The global keyword allows a function to rebind a module-level name.","Remember: local belongs to a local scope; global is at module level."],
+["Beginner","Object-Oriented Python","What is the self parameter in Python?","In a normal instance method, self refers to the instance on which the method is called. Python supplies the instance automatically when the method is invoked through that instance. The name self is a strong convention, not a reserved keyword.","Remember: self refers to the current instance."],
+["Beginner","Object-Oriented Python","What is the __init__() constructor in a Python class?","__init__() is an initializer method called after a new instance has been created. It commonly assigns initial attribute values. Technically, __new__() is responsible for creating the instance, while __init__() initializes it.","Remember: __init__ initializes an instance."],
+["Beginner","Object-Oriented Python","What is a class, and what is an object?","A class defines a type and can describe attributes and methods. An object is an instance of a class, with its own identity and state. Classes help organize related data and behavior.","Remember: class = blueprint; object = instance."],
+["Beginner","Functions","What is a lambda function? Is it an anonymous function?","A lambda expression creates a small function consisting of a single expression. It is often used for short operations, such as a sorting key. Lambda functions have no declared function name, although the resulting function can be assigned to a variable.","Remember: lambda creates a small, single-expression function."],
+["Beginner","Control Flow","What is the ternary (conditional) operator in Python?","Python's conditional expression selects one of two expressions based on a condition. Its general form is value_if_true if condition else value_if_false. It can make simple conditional assignments concise.","Remember: true-value if condition else false-value."],
+["Beginner","Python Fundamentals","What is an expression in Python?","An expression is a combination of values, variables, operators, and function calls that evaluates to a value. Examples include arithmetic calculations, comparisons, and function-call results.","Remember: an expression evaluates to a value."],
+["Beginner","Operators","What does the == operator do?","The == operator tests equality between two objects according to their type's equality behavior. It returns a Boolean result. It differs from =, which is used for assignment.","Remember: == compares equality; = assigns a value."],
+["Beginner","Type Conversion","What is type conversion? Explain int(), float(), str(), ord(), oct(), and hex().","Type conversion changes or represents a value in another form. int() converts a suitable value to an integer; float() to a floating-point number; str() to text; ord() returns a character's Unicode code point; oct() and hex() return string representations of integers in octal and hexadecimal notation.","Remember: ord converts a character to its code point; oct and hex format integers."],
+["Beginner","Operators","What is the difference between /, //, and %?","The / operator performs division and returns a floating-point result in Python 3. The // operator performs floor division, rounding the quotient down. The % operator returns the remainder according to Python's modulo rules.","Remember: / division; // floor division; % remainder."],
+["Beginner","Built-in Functions","What does the len() function do?","len() returns the number of items in a supported object, such as the characters in a string, elements in a list, or key-value entries in a dictionary.","Remember: len() returns the number of items."],
+["Beginner","Built-in Functions","What is the zip() function in Python?","zip() combines items from multiple iterables position by position, producing tuples. By default, iteration stops when the shortest input iterable is exhausted. In Python 3, zip() returns an iterator.","Remember: zip pairs items by position and stops at the shortest iterable."],
+["Beginner","Strings","How do you capitalize the first letter of a string?","The capitalize() string method returns a string with its first character capitalized and the remaining characters lowercased. If you need to preserve the rest of the original string's casing, a different approach may be appropriate.","Remember: capitalize() also lowercases the rest of the string."],
+["Beginner","Input and Output","How do you read multiple values from one input() line using split() and map()?","input() reads a line as text. split() separates the text into pieces, and map() applies a conversion function to each piece. This is commonly used to parse several integer or floating-point inputs from one line.","Remember: input reads text; split separates it; map converts each part."],
+["Beginner","Code Documentation","How do you write comments and docstrings in Python?","A single-line comment begins with #. A docstring is a string literal placed at the beginning of a module, class, or function to document its purpose. Triple-quoted strings are commonly used for multiline docstrings.","Remember: # for comments; a leading string literal for a docstring."],
+["Beginner","Code Style","What is PEP 8?","PEP 8 is Python's widely used style guide. It recommends conventions for indentation, naming, whitespace, imports, and line length to make code more readable and consistent.","Remember: PEP 8 promotes consistent, readable Python code."],
+["Beginner","Packages and Tools","What is pip, and why is it used?","pip is a package installer commonly used to install, upgrade, and uninstall Python packages from package indexes. Virtual environments help keep project dependencies isolated.","Remember: pip manages installed Python packages."],
+["Beginner","Python Fundamentals","What is PYTHONPATH?","PYTHONPATH is an environment variable that can add directories to Python's module search path. It can help Python find modules in additional locations, but should be configured carefully to avoid import conflicts.","Remember: PYTHONPATH adds locations to the module search path."],
+["Beginner","Modules","What are some commonly used built-in Python modules?","Common standard-library modules include math for mathematical functions, os for operating-system interfaces, sys for interpreter-related features, pathlib for paths, json for JSON data, datetime for dates and times, and random for pseudo-random values.","Remember: many useful modules are included in Python's standard library."],
+["Beginner","Strings","How do you use f-strings and str.format() for string formatting?","Both approaches insert values into formatted strings. F-strings evaluate expressions inside braces in a string prefixed with f. str.format() uses braces as replacement fields and supplies values through the format() method.","Remember: f-strings embed expressions directly; format() fills replacement fields."],
+["Beginner","Dictionaries","How do you get all the keys from a dictionary?","The keys() method returns a dictionary view containing its keys. The view reflects changes to the dictionary. Convert it to a list if a separate list of keys is needed.","Remember: dictionary.keys() returns a dynamic view of keys."],
+["Beginner","Data Types","How do you initialize an empty List, Tuple, Dictionary, and Set?","An empty list can be created with [] or list(); an empty tuple with () or tuple(); an empty dictionary with {} or dict(); and an empty set with set(). The expression {} creates a dictionary, not a set.","Remember: use set() for an empty set."],
+["Beginner","Algorithms","How do you create a Fibonacci series in Python?","The Fibonacci sequence starts with values commonly defined as 0 and 1, and each following value is the sum of the previous two. A loop can maintain the two most recent values to generate the sequence efficiently.","Remember: each Fibonacci value is the sum of the two before it."],
+
+/* ================= INTERMEDIATE: 39 ================= */
+["Intermediate","Exception Handling","How does exception handling work using try, except, else, and finally?","try contains code that may raise an exception. except handles matching exceptions. else runs when the try block finishes without an exception. finally runs during cleanup whether an exception occurred or not, subject to process termination and other exceptional circumstances.","Remember: try attempts; except handles; else means no exception; finally cleans up."],
+["Intermediate","Functions","What are *args and **kwargs? Explain with examples.","*args collects extra positional arguments into a tuple. **kwargs collects extra keyword arguments into a dictionary. They are useful when a function needs a flexible argument list.","Remember: *args collects positional arguments; **kwargs collects keyword arguments."],
+["Intermediate","Scope","What is variable scope? Explain Local, Global, and Enclosing scopes.","Scope determines where a name can be resolved. Local scope belongs to a function; enclosing scope comes from an outer function; global scope belongs to the module; built-in scope contains predefined names. Python resolves names using the LEGB rule: Local, Enclosing, Global, Built-in.","Remember: LEGB = Local, Enclosing, Global, Built-in."],
+["Intermediate","Object-Oriented Python","How does inheritance work in Python? Explain its types with an example.","Inheritance allows a class to derive attributes and methods from another class. Common forms include single, multiple, multilevel, hierarchical, and hybrid inheritance. Inheritance supports reuse and specialization, but class relationships should remain understandable.","Remember: inheritance allows a derived class to reuse and extend another class."],
+["Intermediate","Object-Oriented Python","What is the difference between abstraction and encapsulation?","Abstraction focuses on exposing essential behavior while hiding unnecessary implementation details. Encapsulation groups data and behavior and controls how an object's state is accessed. Python conventions and properties can help manage access to attributes.","Remember: abstraction hides complexity; encapsulation organizes and protects state."],
+["Intermediate","Object-Oriented Python","What is the difference between method overriding and method overloading?","Overriding occurs when a subclass provides its own implementation of an inherited method. Traditional signature-based overloading with multiple methods of the same name is not supported in the same way as in some languages; Python often uses default arguments, variable arguments, or dispatch mechanisms instead.","Remember: overriding replaces inherited behavior; Python handles overload-like needs through other techniques."],
+["Intermediate","Object-Oriented Python","Differentiate between instance methods, class methods, and static methods.","Instance methods receive self and work with an instance. Class methods use @classmethod and receive cls, representing the class. Static methods use @staticmethod and receive neither automatically; they group utility behavior related to the class.","Remember: self = instance; cls = class; static = no automatic first argument."],
+["Intermediate","Iteration","What is the difference between a generator and an iterator?","An iterator is an object that supports the iterator protocol, including __iter__() and __next__(). A generator is a convenient kind of iterator created by a generator function or generator expression. Generators commonly produce values lazily.","Remember: every generator is an iterator, but not every iterator is a generator."],
+["Intermediate","Iteration","What is a generator? Explain the yield keyword with an example.","A generator function uses yield to produce a value and suspend its state. When iteration resumes, execution continues from that point. This makes it possible to produce a sequence lazily without storing every result at once.","Remember: yield produces a value and pauses generator execution."],
+["Intermediate","Sorting","What is the difference between sorted() and list.sort()?","sorted() returns a new sorted list from an iterable. list.sort() sorts a list in place and returns None. Both accept options such as key and reverse.","Remember: sorted creates a new list; sort changes the existing list."],
+["Intermediate","Sorting","Which sorting algorithm do Python's sort() and sorted() use?","Python's built-in sorting uses Timsort, a stable sorting algorithm designed to perform well on real-world data, especially data containing existing ordered runs. The exact implementation details are specific to the Python implementation.","Remember: Python's built-in sort is stable and uses Timsort in CPython."],
+["Intermediate","Copying Objects","What is the difference between assignment, shallow copy, and deep copy?","Assignment creates another reference to the same object. A shallow copy creates a new outer object but keeps references to nested objects. A deep copy recursively copies nested objects where supported, helping separate nested mutable structures.","Remember: assignment aliases; shallow copy copies the outer object; deep copy copies nested structures."],
+["Intermediate","Dictionaries","How do you copy a dictionary and delete dictionary keys?","A dictionary can be shallow-copied with copy() or dict(existing_dictionary). pop(key) removes a key and returns its value; del removes a key statement-style; clear() removes all entries. Missing-key behavior differs between these approaches.","Remember: copy() copies; pop() removes and returns; clear() empties."],
+["Intermediate","File Handling","What is the difference between open() and the with open() statement?","open() returns a file object that should be closed when finished. The with statement manages the file's context and closes it automatically when the block exits, including when an exception occurs.","Remember: with open() provides automatic resource cleanup."],
+["Intermediate","File Handling","What are the different file modes in Python, such as r, w, a, r+, and rb?","r reads an existing file; w writes and truncates an existing file or creates it; a appends or creates; r+ allows reading and writing without truncating initially; rb reads in binary mode. The exact valid operations also depend on the mode and file position.","Remember: w truncates; a appends; b indicates binary mode."],
+["Intermediate","File Handling","How do you delete a file using os.remove() or os.unlink()?","Both os.remove() and os.unlink() remove a file path on typical supported operating systems. They can raise exceptions if the file does not exist or permissions prevent deletion. pathlib also provides a Path.unlink() method.","Remember: remove() and unlink() both delete a file path."],
+["Intermediate","Serialization","What is pickling and unpickling? Explain serialization and deserialization.","Pickling converts a Python object into a byte stream using the pickle module. Unpickling reconstructs an object from that stream. Never unpickle untrusted data because malicious pickle payloads can execute code.","Remember: pickle serializes Python objects; unpickling untrusted data is dangerous."],
+["Intermediate","Errors","What is the difference between syntax errors and runtime errors?","A syntax error means the source does not follow Python's grammar and prevents normal execution of that code. A runtime error occurs while a program is executing, such as attempting to divide by zero or access a missing key.","Remember: syntax errors concern program structure; runtime errors occur during execution."],
+["Intermediate","Python Internals","How do compilation and bytecode execution work in Python?","In CPython, source code is compiled into bytecode, which the Python virtual machine executes. Bytecode may be cached in .pyc files when applicable. This differs from compiling a program into standalone native machine code.","Remember: source → bytecode → Python virtual machine."],
+["Intermediate","Python Internals","What is the difference between .py and .pyc files?","A .py file contains Python source code that people can read and edit. A .pyc file contains cached bytecode produced by Python. Bytecode caches can reduce repeated compilation work, but they are implementation- and version-specific.","Remember: .py is source; .pyc is cached bytecode."],
+["Intermediate","Python Fundamentals","What are the differences between Python 2 and Python 3?","Python 3 is the current major version family. Compared with Python 2, it standardized text as Unicode strings, changed division behavior for integers, modernized syntax and libraries, and removed many legacy features. Python 2 has reached end of life.","Remember: use Python 3 for modern development."],
+["Intermediate","Python Fundamentals","What is the difference between range() and xrange()?","In Python 2, range() returned a list while xrange() produced a range-like lazy sequence. In Python 3, xrange() no longer exists; range() provides a memory-efficient iterable sequence.","Remember: Python 3 range() replaces the old xrange() use case."],
+["Intermediate","Built-in Methods","What are Python's built-in list, tuple, set, and dictionary methods?","Lists provide methods such as append(), extend(), insert(), remove(), pop(), sort(), and reverse(). Tuples provide methods including count() and index(). Sets provide add(), discard(), remove(), union(), and intersection(). Dictionaries provide get(), keys(), values(), items(), update(), pop(), and clear().","Remember: learn methods according to the collection's purpose and mutability."],
+["Intermediate","Data Structures","What is the difference between a Python List and an array?","A Python list can hold references to objects of different types. Arrays, depending on the array type or library, commonly store elements of a specified type more compactly. Python's standard array module and NumPy arrays have different capabilities and constraints.","Remember: lists are flexible; typed arrays are designed for more constrained storage."],
+["Intermediate","Data Analysis","Why are NumPy arrays often faster than Python lists for numerical operations?","NumPy arrays usually store homogeneous numerical data compactly and perform many operations in optimized compiled code. Vectorized operations reduce Python-level loops. Performance depends on the operation, array size, memory layout, and data type.","Remember: compact storage and vectorized compiled operations often improve speed."],
+["Intermediate","Data Analysis","What is Pandas? Differentiate between a Series and a DataFrame.","Pandas is a library for data manipulation and analysis. A Series is a one-dimensional labeled array; a DataFrame is a two-dimensional labeled structure with rows and columns. Both support indexing, alignment, filtering, and data transformations.","Remember: Series = one-dimensional; DataFrame = two-dimensional."],
+["Intermediate","Object-Oriented Python","How do you create and instantiate classes and objects in Python?","A class is declared using the class keyword. Calling the class generally creates an instance and initializes it through the class's construction process, commonly involving __new__() and __init__(). Methods and attributes define its behavior and state.","Remember: declare a class, then call it to create an instance."],
+["Intermediate","Object-Oriented Python","What is the significance of the __init__() constructor?","__init__() initializes an instance's state after it has been created. It commonly accepts arguments and assigns them to instance attributes. It should not return a non-None value.","Remember: __init__ sets up an already-created instance."],
+["Intermediate","Object-Oriented Python","Does Python support multiple inheritance?","Yes. A Python class can inherit from more than one base class. Python uses the Method Resolution Order (MRO) to determine how methods are searched across the inheritance hierarchy.","Remember: multiple inheritance is supported; MRO controls lookup order."],
+["Intermediate","Python Internals","What is a namespace in Python? Explain built-in, global, enclosing, and local namespaces.","A namespace maps names to objects. Local namespaces contain function-local names; enclosing namespaces belong to enclosing functions; global namespaces belong to modules; built-in namespaces contain predefined names. These scopes participate in Python's LEGB name-resolution rule.","Remember: namespaces organize names; LEGB describes lookup order."],
+["Intermediate","Strings and Lists","How do you reverse a string or list using slicing?","A slice with a step of -1 traverses a sequence backward and produces a reversed sequence for strings and lists. It creates a new sequence rather than reversing a list in place.","Remember: a negative slice step traverses backward."],
+["Intermediate","Data Types","How can two tuples be concatenated if tuples are immutable?","Tuples cannot be changed in place, but the + operator creates a new tuple containing the elements of both input tuples. Immutability prevents changing an existing tuple, not creating another tuple.","Remember: concatenation creates a new tuple."],
+["Intermediate","Functional Programming","How do map(), filter(), and reduce() work?","map() applies a function to items from an iterable. filter() selects items for which a predicate is true. reduce(), available in functools, repeatedly combines items to produce an accumulated result.","Remember: map transforms; filter selects; reduce combines."],
+["Intermediate","Testing","What is unit testing, and how is the unittest module used?","Unit testing checks small, isolated units of software. Python's unittest module provides test cases, assertions, setup and teardown methods, and test runners. Well-isolated tests help detect regressions and clarify expected behavior.","Remember: unit tests verify individual pieces of behavior."],
+["Intermediate","Web Development","What is Flask, and what are its benefits?","Flask is a lightweight Python web framework. It provides routing and request-response fundamentals while allowing developers to choose additional components as needed. It is often used for small web apps, APIs, and prototypes.","Remember: Flask is lightweight and flexible."],
+["Intermediate","Web Development","What is Django's MTV architecture?","Django's Model-Template-View architecture separates data models, presentation templates, and request-handling logic. Django's view plays a role similar to the controller in other MVC terminology, while the framework handles URL routing and other web concerns.","Remember: Model = data; Template = presentation; View = request logic."],
+["Intermediate","Data Visualization","How do you plot graphs using Python libraries?","Libraries such as Matplotlib and Seaborn can visualize numerical and categorical data. A typical workflow is to prepare the data, choose a chart suited to the question, label axes, and display or save the figure.","Remember: prepare data, choose the right chart, label it clearly."],
+["Intermediate","Algorithms","How do you implement recursion to reverse a list?","A recursive approach defines a base case and a smaller subproblem. For reversing a list, one conceptual approach handles an empty or single-item list as the base case and combines the remaining subproblem's result with the current item. Iterative methods are often more memory-efficient for this task.","Remember: recursion needs a base case and progress toward it."],
+["Intermediate","Python Applications","How can you use Python for web development, automation, scripting, and data analysis?","For web development, Python frameworks handle requests and application logic. Automation scripts can manage files and repetitive tasks. Data analysis libraries process and summarize datasets. The best tools depend on the requirements and deployment environment.","Remember: choose libraries and frameworks based on the task."],
+
+/* ================= ADVANCED: 22 ================= */
+["Advanced","Decorators","What is a decorator? Explain it using a wrapper function and a practical example.","A decorator is a callable that takes another callable and returns a callable, often adding behavior around the original. A wrapper can perform work before and after calling the original function. Decorators are commonly used for logging, timing, authorization, and caching.","Remember: decorators extend behavior without changing the original function's body."],
+["Advanced","Memory Management","How does Python manage memory? Explain the private heap, reference counting, and garbage collection.","In CPython, objects and data structures are managed in a private heap through Python's memory-management system. Reference counting tracks references to objects, and cyclic garbage collection can identify many unreachable reference cycles. Details differ across Python implementations.","Remember: private heap, reference counts, and cycle collection are key CPython concepts."],
+["Advanced","Function Arguments","How are arguments passed in Python: by value, by reference, or by object sharing (assignment)?","Python's argument model is commonly described as call by object sharing. A parameter becomes a local name referring to the supplied object. Mutating a shared mutable object can be visible to the caller, but rebinding the local parameter does not rebind the caller's variable.","Remember: the object is shared; the local parameter name is separate."],
+["Advanced","Concurrency","How does Python's Global Interpreter Lock (GIL) work?","In traditional CPython builds, the Global Interpreter Lock allows only one thread at a time to execute Python bytecode within a process. Threads can still help with I/O-bound work, while CPU-bound parallelism may benefit from multiprocessing. Free-threaded CPython builds change this model.","Remember: the GIL affects parallel execution in traditional CPython builds."],
+["Advanced","Concurrency","What is the difference between multithreading and multiprocessing?","Multithreading uses multiple threads within one process and shares its memory space. Multiprocessing uses separate processes with separate memory spaces and can provide CPU parallelism, but inter-process communication and process creation add overhead.","Remember: threads share process memory; processes have separate memory spaces."],
+["Advanced","Naming Conventions","What is the difference between _var, __var, and __var__ in Python?","A leading single underscore signals a non-public convention. A double leading underscore inside a class triggers name mangling to reduce accidental clashes with subclasses. Names with double underscores at both ends are commonly reserved for Python's special protocol methods and attributes.","Remember: _var is a convention; __var is name-mangled in classes; __var__ is special-method style."],
+["Advanced","Object-Oriented Python","What are magic methods or dunder methods? Explain operator overloading.","Dunder methods are special methods with double underscores at both ends, such as __len__() or __add__(). Defining supported special methods lets custom objects participate in built-in operations and protocols, a feature often called operator overloading.","Remember: dunder methods connect custom objects to Python language protocols."],
+["Advanced","Python Internals","What is monkey patching in Python?","Monkey patching means changing or replacing a class, function, or module attribute at runtime. It can be useful in testing or compatibility work, but it may make behavior harder to trace and can create fragile dependencies.","Remember: runtime modification is powerful but should be used carefully."],
+["Advanced","Object-Oriented Python","How does Python resolve the diamond problem in multiple inheritance using the Method Resolution Order (MRO)?","The diamond problem occurs when a class inherits through multiple paths from a shared base class. Python uses a consistent Method Resolution Order based on C3 linearization to determine the lookup sequence. super() follows that order rather than simply calling a fixed parent.","Remember: MRO and cooperative super() calls coordinate multiple inheritance."],
+["Advanced","Iteration","What is the difference between generators and ordinary functions in terms of memory usage and execution?","An ordinary function generally returns a result and finishes. A generator function yields values over time and retains its execution state between yields. Generators can reduce memory use when processing large sequences because values need not all be stored at once.","Remember: generators produce values lazily and preserve execution state."],
+["Advanced","Python Internals","What are the differences between compilation, interpretation, bytecode, and linking in Python?","Compilation transforms source into another representation; CPython typically compiles source to bytecode. Interpretation executes that bytecode in the Python virtual machine. Linking combines compiled components in native toolchains; it is not generally a separate, mandatory step for every ordinary Python script.","Remember: CPython bytecode compilation and execution are different from native linking."],
+["Advanced","Memory Management","Why might Python not immediately return all allocated memory to the operating system?","Python's allocator may retain freed memory for reuse, and the underlying memory allocator may keep arenas or pools rather than immediately returning them to the operating system. Reference cycles, live objects, and implementation-specific behavior can also affect observed memory use.","Remember: freed Python objects do not guarantee an immediate drop in process memory."],
+["Advanced","Compatibility","How can you make Python code compatible across different Python versions?","Use documented language features supported by the target versions, test against a version matrix, specify dependencies, and avoid relying on implementation details. Conditional compatibility logic or carefully chosen compatibility libraries can help when differences cannot be avoided.","Remember: define supported versions and test each one."],
+["Advanced","Data Types","How do you initialize an empty set without using set() and why does {} create a dictionary?","The standard built-in syntax for an empty set is set(). Curly braces with no entries represent an empty dictionary because that syntax is defined for dictionaries. A non-empty set can be written with set-display syntax, but an empty set literal does not exist in Python.","Remember: {} is an empty dictionary; set() creates an empty set."],
+["Advanced","Memory Management","How does the Python interpreter handle reference cycles during garbage collection?","In CPython, cyclic garbage collection supplements reference counting by detecting groups of container objects that reference one another but are no longer reachable. Not every object participates in cyclic collection, and finalizers or external references can affect whether an object is collected.","Remember: cyclic GC supplements reference counting for unreachable cycles."],
+["Advanced","Data Structures","How do you find the middle element of a linked list in one pass using slow and fast pointers?","Maintain two pointers: advance the slow pointer by one node and the fast pointer by two nodes. When the fast pointer reaches the end, the slow pointer is at the middle. For even-length lists, the exact middle returned depends on the chosen stopping condition.","Remember: slow moves one step; fast moves two."],
+["Advanced","Algorithms","How do you find the longest substring without repeating characters using a sliding window?","Use a moving window whose characters are unique. Track the most recent position of each character; when a repeated character appears within the current window, advance the left boundary beyond its previous position. Update the maximum window length as the scan proceeds.","Remember: track last-seen positions and move the left boundary forward."],
+["Advanced","Dynamic Programming","How do you solve the 0/1 Knapsack problem using dynamic programming and tabulation?","The 0/1 Knapsack problem selects items with weights and values while respecting a capacity, and each item can be selected at most once. Tabulation builds states representing the best value achievable for prefixes of items and capacities. The usual two-dimensional method takes O(nW) time, where W is capacity.","Remember: each item is used zero or one time; DP tracks item count and capacity."],
+["Advanced","Algorithms","How do you solve the Asteroid Collision problem using a stack?","Process asteroids from left to right using a stack. A collision is possible when a positive-moving asteroid is on the stack and the current asteroid moves left. Compare magnitudes to determine which survives, repeating while collisions remain possible.","Remember: a stack models the unresolved asteroids and potential collisions."],
+["Advanced","Data Structures","What is the time complexity of inserting elements into a linked list at the head, tail, and position K?","Insertion at the head is O(1). At the tail, it is O(1) when a tail pointer is maintained, otherwise O(n) to find the end. Insertion at position K is generally O(n) when traversal is needed, followed by O(1) pointer updates.","Remember: pointer updates are constant-time; finding the insertion position may require traversal."],
+["Advanced","Decorators","How would you implement a decorator that accepts arguments?","A decorator with arguments uses an outer function to accept configuration and return a decorator. The decorator receives the target function and returns a wrapper that can use the configuration when the function is called. functools.wraps is commonly used to preserve metadata.","Remember: decorator arguments add an outer function layer."],
+["Advanced","Generators","How would you implement a generator that processes a large file without loading it entirely into memory?","Open the file with a context manager and iterate over it line by line inside a generator, yielding processed results as needed. This avoids reading the entire file into memory at once. Choose buffering and error handling appropriate to the file format.","Remember: stream one record or line at a time and yield results lazily."]
+];
+
+/* Convert question bank records into structured objects. */
+const questions = rawQuestions.map((item, index) => ({
+    id: index + 1,
+    level: item[0],
+    topic: item[1],
+    question: item[2],
+    explanation: item[3],
+    memory: item[4]
+}));
+
+/* =====================================================
+   APPLICATION STATE
+   ===================================================== */
+
+let currentQuestionId = 1;
+let activeLevel = "All";
+let searchTerm = "";
+let statusFilter = "all";
+let studyTipVisible = false;
+
+const STORAGE_KEY = "praktikul_python_interview_progress_v1";
+
+/* Load saved progress safely from the browser. */
+function loadProgress() {
+    try {
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        return new Set(
+            Array.isArray(stored)
+                ? stored.filter(id => Number.isInteger(id) && id >= 1 && id <= questions.length)
+                : []
+        );
+    } catch (error) {
+        return new Set();
+    }
+}
+
+let completedQuestions = loadProgress();
+
+/* Save completed question IDs in this browser. */
+function saveProgress() {
+    try {
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify([...completedQuestions])
+        );
+    } catch (error) {
+        showToast("Progress could not be saved in this browser.");
+    }
+}
+
+/* =====================================================
+   FILTERING AND QUESTION NAVIGATION
+   ===================================================== */
+
+function getFilteredQuestions() {
+    return questions.filter(question => {
+        const matchesLevel =
+            activeLevel === "All" || question.level === activeLevel;
+
+        const searchableText =
+            `${question.question} ${question.topic} ${question.explanation}`.toLowerCase();
+
+        const matchesSearch = searchableText.includes(searchTerm.toLowerCase());
+
+        const isCompleted = completedQuestions.has(question.id);
+
+        const matchesStatus =
+            statusFilter === "all" ||
+            (statusFilter === "completed" && isCompleted) ||
+            (statusFilter === "unread" && !isCompleted);
+
+        return matchesLevel && matchesSearch && matchesStatus;
+    });
+}
+
+function renderQuestionList() {
+    const list = document.getElementById("questionList");
+    const filtered = getFilteredQuestions();
+
+    if (!filtered.length) {
+        list.innerHTML = `
+            <div class="empty-list">
+                No matching questions found.<br>
+                Try another search or filter.
+            </div>`;
+        return;
+    }
+
+    list.innerHTML = filtered.map(question => {
+        const completed = completedQuestions.has(question.id);
+        const active = question.id === currentQuestionId;
+
+        return `
+            <button
+                class="question-item ${active ? "active" : ""} ${completed ? "completed" : ""}"
+                data-question-id="${question.id}"
+                aria-current="${active ? "true" : "false"}"
+            >
+                <span class="question-index">${completed ? "✓" : String(question.id).padStart(2, "0")}</span>
+                <span class="question-item-text">
+                    ${escapeHTML(question.question)}
+                    <small>${escapeHTML(question.level)} · ${escapeHTML(question.topic)}</small>
+                </span>
+            </button>`;
+    }).join("");
+
+    list.querySelectorAll("[data-question-id]").forEach(button => {
+        button.addEventListener("click", () => {
+            currentQuestionId = Number(button.dataset.questionId);
+            studyTipVisible = false;
+            renderEverything();
+        });
+    });
+}
+
+/* Prevent question text from being interpreted as HTML. */
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    })[character]);
+}
+
+function selectQuestion(id) {
+    const filtered = getFilteredQuestions();
+
+    if (!filtered.some(question => question.id === id)) {
+        const first = filtered[0];
+        if (first) currentQuestionId = first.id;
+        renderEverything();
+        return;
+    }
+
+    currentQuestionId = id;
+    studyTipVisible = false;
+    renderEverything();
+}
+
+function navigateQuestion(direction) {
+    const filtered = getFilteredQuestions();
+
+    if (!filtered.length) return;
+
+    let index = filtered.findIndex(
+        question => question.id === currentQuestionId
+    );
+
+    if (index < 0) index = 0;
+
+    index += direction;
+
+    if (index < 0) index = 0;
+    if (index >= filtered.length) index = filtered.length - 1;
+
+    currentQuestionId = filtered[index].id;
+    studyTipVisible = false;
+    renderEverything();
+}
+
+/* =====================================================
+   EXPLANATION DISPLAY
+   ===================================================== */
+
+function renderExplanation() {
+    let question = questions.find(q => q.id === currentQuestionId);
+    const filtered = getFilteredQuestions();
+
+    /* If filters hide the selected question, show the first match. */
+    if (!filtered.some(q => q.id === currentQuestionId)) {
+        question = filtered[0];
+        if (question) currentQuestionId = question.id;
+    }
+
+    if (!question) {
+        document.getElementById("questionCount").textContent = "NO QUESTIONS";
+        document.getElementById("topicLabel").textContent = "CHANGE YOUR FILTERS";
+        document.getElementById("questionTitle").textContent = "No questions to display";
+        document.getElementById("explanationText").textContent =
+            "Try choosing another difficulty level, clearing your search, or changing the learning-status filter.";
+        document.getElementById("memoryText").textContent =
+            "Keep exploring. Your learning progress is saved separately.";
+        document.getElementById("difficultyBadge").textContent = "Learning";
+        document.getElementById("completeButton").disabled = true;
+        document.getElementById("previousButton").disabled = true;
+        document.getElementById("nextButton").disabled = true;
+        document.getElementById("navigationText").textContent = "No matching questions";
+        return;
+    }
+
+    const index = filtered.findIndex(q => q.id === question.id);
+    const isCompleted = completedQuestions.has(question.id);
+
+    document.getElementById("questionCount").textContent =
+        `QUESTION ${index + 1} OF ${filtered.length}`;
+
+    document.getElementById("topicLabel").textContent =
+        `${question.topic} · QUESTION ${question.id}`;
+
+    document.getElementById("questionTitle").textContent = question.question;
+    document.getElementById("explanationText").textContent = question.explanation;
+    document.getElementById("memoryText").textContent = question.memory;
+
+    const badge = document.getElementById("difficultyBadge");
+    badge.textContent = question.level;
+    badge.className = `difficulty ${question.level}`;
+
+    const completeButton = document.getElementById("completeButton");
+    completeButton.disabled = false;
+    completeButton.classList.toggle("complete", isCompleted);
+    completeButton.textContent = isCompleted
+        ? "✓ Studied — Mark Again"
+        : "✓ Mark as Studied";
+
+    document.getElementById("previousButton").disabled = index === 0;
+    document.getElementById("nextButton").disabled = index === filtered.length - 1;
+
+    document.getElementById("navigationText").textContent =
+        `Question ${index + 1} of ${filtered.length}`;
+
+    document.getElementById("hintButton").textContent =
+        studyTipVisible ? "💡 Study Tip Shown" : "💡 Study Tip";
+
+    document.getElementById("mascotMessage").textContent =
+        isCompleted
+            ? "Great work! Revisit this topic whenever you need a refresher."
+            : "Read the explanation, understand the concept, and mark it as studied when ready.";
+}
+
+function renderEverything() {
+    renderQuestionList();
+    renderExplanation();
+    updateStats();
+}
+
+/* =====================================================
+   PROGRESS AND XP
+   ===================================================== */
+
+function updateStats() {
+    const total = questions.length;
+    const completed = completedQuestions.size;
+    const remaining = total - completed;
+    const percentage = Math.round((completed / total) * 100);
+    const xp = completed * 10;
+
+    document.getElementById("totalDisplay").textContent = total;
+    document.getElementById("completedDisplay").textContent = completed;
+    document.getElementById("remainingDisplay").textContent = remaining;
+    document.getElementById("percentageDisplay").textContent = `${percentage}%`;
+    document.getElementById("progressText").textContent =
+        `${completed} / ${total} completed`;
+    document.getElementById("progressFill").style.width = `${percentage}%`;
+    document.getElementById("xpDisplay").textContent = xp;
+
+    if (percentage === 100) {
+        document.getElementById("mascotMessage").textContent =
+            "Amazing! You have marked all 101 Python questions as studied. Keep revising!";
+    }
+}
+
+/* Mark the currently displayed question as studied. */
+function toggleCompleted() {
+    const question = questions.find(q => q.id === currentQuestionId);
+    if (!question) return;
+
+    if (completedQuestions.has(question.id)) {
+        completedQuestions.delete(question.id);
+        showToast("Question marked as not studied.");
+    } else {
+        completedQuestions.add(question.id);
+        showToast("Question studied! +10 XP earned.");
+    }
+
+    saveProgress();
+    renderEverything();
+
+    if (completedQuestions.size === questions.length) {
+        showToast("🏆 All 101 questions marked as studied!");
+    }
+}
+
+/* =====================================================
+   STUDY TIP
+   ===================================================== */
+
+function showStudyTip() {
+    const question = questions.find(q => q.id === currentQuestionId);
+    if (!question) return;
+
+    studyTipVisible = !studyTipVisible;
+
+    const memoryBox = document.querySelector(".memory-box");
+
+    if (studyTipVisible) {
+        memoryBox.style.borderColor = "var(--cyan)";
+        memoryBox.style.boxShadow = "0 0 24px rgba(66,232,255,.1)";
+        memoryBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        showToast("Focus on the key point before moving on.");
+    } else {
+        memoryBox.style.borderColor = "";
+        memoryBox.style.boxShadow = "";
+    }
+
+    document.getElementById("hintButton").textContent =
+        studyTipVisible ? "💡 Study Tip Highlighted" : "💡 Study Tip";
+}
+
+/* =====================================================
+   TOAST NOTIFICATIONS
+   ===================================================== */
+
+let toastTimeout;
+
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2300);
+}
+
+/* =====================================================
+   EVENT LISTENERS
+   ===================================================== */
+
+document.getElementById("searchInput").addEventListener("input", event => {
+    searchTerm = event.target.value.trim();
+    renderEverything();
+});
+
+document.getElementById("statusFilter").addEventListener("change", event => {
+    statusFilter = event.target.value;
+    renderEverything();
+});
+
+document.querySelectorAll("[data-level]").forEach(button => {
+    button.addEventListener("click", () => {
+        activeLevel = button.dataset.level;
+
+        document.querySelectorAll("[data-level]").forEach(item => {
+            item.classList.toggle("active", item === button);
+        });
+
+        renderEverything();
+    });
+});
+
+document.getElementById("previousButton").addEventListener("click", () => {
+    navigateQuestion(-1);
+});
+
+document.getElementById("nextButton").addEventListener("click", () => {
+    navigateQuestion(1);
+});
+
+document.getElementById("completeButton").addEventListener("click", toggleCompleted);
+document.getElementById("hintButton").addEventListener("click", showStudyTip);
+
+/* Keyboard navigation: left and right arrow keys. */
+document.addEventListener("keydown", event => {
+    const tag = document.activeElement?.tagName;
+
+    if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+
+    if (event.key === "ArrowLeft") navigateQuestion(-1);
+    if (event.key === "ArrowRight") navigateQuestion(1);
+});
+
+/* =====================================================
+   BACKGROUND PARTICLE ANIMATION
+   Decorative effect retained from the original design.
+   ===================================================== */
+
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    particles = Array.from({ length: Math.min(65, Math.floor(window.innerWidth / 18)) }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.35,
+        speedY: (Math.random() - 0.5) * 0.35,
+        alpha: Math.random() * 0.45 + 0.12
+    }));
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(particle => {
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+
+        if (particle.x < 0) particle.x = canvas.width;
+        if (particle.x > canvas.width) particle.x = 0;
+        if (particle.y < 0) particle.y = canvas.height;
+        if (particle.y > canvas.height) particle.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(66, 232, 255, ${particle.alpha})`;
+        ctx.fill();
+    });
+
+    requestAnimationFrame(animateParticles);
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+/* =====================================================
+   INITIALIZE PAGE
+   ===================================================== */
+
+resizeCanvas();
+animateParticles();
+renderEverything();
+</script>
+
+</body>
+</html>

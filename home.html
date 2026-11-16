@@ -1,0 +1,823 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRAKTIKUL | Student Dashboard</title>
+
+    <!--
+        PRAKTIKUL HOME PAGE
+        Unit I: Semantic HTML, Flexbox, CSS Grid, responsive design.
+        Unit II: JavaScript DOM manipulation, events and localStorage.
+        Unit III: Reusable UI concepts can be added with React later.
+    -->
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #070b18;
+            --card: #10182c;
+            --card-light: #17223b;
+            --text: #f4f7ff;
+            --muted: #a5b0ca;
+            --blue: #6395ff;
+            --cyan: #48e0e8;
+            --purple: #a98bff;
+            --border: rgba(255, 255, 255, 0.09);
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(ellipse at 10% 0%, #17254b 0%, transparent 40%),
+                radial-gradient(ellipse at 95% 40%, #17123d 0%, transparent 35%),
+                var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1180px, 92%);
+            margin: auto;
+        }
+
+        /* NAVIGATION BAR */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(7, 11, 24, 0.88);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 1.45rem;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+        }
+
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            color: white;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #547fff, #9b72ff);
+            box-shadow: 0 0 25px rgba(99, 149, 255, 0.22);
+        }
+
+        .brand span:last-child {
+            background: linear-gradient(90deg, #ffffff, #80caff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: var(--muted);
+            font-size: 0.94rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 13px 7px 7px;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: white;
+            font-weight: 800;
+            background: linear-gradient(135deg, #5488ff, #a77bff);
+        }
+
+        .profile-name {
+            max-width: 140px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.88rem;
+        }
+
+        /* WELCOME SECTION */
+        .welcome {
+            padding: 55px 0 30px;
+            animation: slideUp 0.65s ease both;
+        }
+
+        .welcome-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            color: var(--cyan);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 12px var(--cyan);
+        }
+
+        .welcome h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            overflow-wrap: anywhere;
+        }
+
+        .welcome h1 span {
+            background: linear-gradient(90deg, #78a5ff, #bba3ff, #4de4e9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .welcome p {
+            margin-top: 15px;
+            max-width: 650px;
+            color: var(--muted);
+            font-size: 1.03rem;
+        }
+
+        .welcome-email {
+            display: inline-block;
+            margin-top: 10px;
+            color: #91a9d9;
+            font-size: 0.86rem;
+            overflow-wrap: anywhere;
+        }
+
+        /* QUICK STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin: 28px 0 48px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 0;
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(16, 24, 44, 0.82);
+            transition: transform 0.25s, border-color 0.25s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 149, 255, 0.45);
+        }
+
+        .stat-icon {
+            flex-shrink: 0;
+            width: 49px;
+            height: 49px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            font-size: 1.5rem;
+        }
+
+        .icon-blue {
+            background: rgba(99, 149, 255, 0.15);
+        }
+
+        .icon-purple {
+            background: rgba(169, 139, 255, 0.15);
+        }
+
+        .icon-cyan {
+            background: rgba(72, 224, 232, 0.12);
+        }
+
+        .stat-card h2 {
+            font-size: 1.45rem;
+            line-height: 1.4;
+        }
+
+        .stat-card p {
+            color: var(--muted);
+            font-size: 0.84rem;
+        }
+
+        /* PRACTICE CARDS */
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 15px;
+            margin-bottom: 23px;
+        }
+
+        .eyebrow {
+            color: var(--blue);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .section-heading h2 {
+            margin-top: 5px;
+            font-size: clamp(1.6rem, 3vw, 2.15rem);
+        }
+
+        .section-heading p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .practice-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .practice-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            padding: 27px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: linear-gradient(
+                145deg,
+                rgba(23, 34, 59, 0.96),
+                rgba(12, 18, 34, 0.96)
+            );
+            transition: transform 0.25s, border-color 0.25s;
+        }
+
+        .practice-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(99, 149, 255, 0.5);
+        }
+
+        .practice-card::after {
+            content: "";
+            position: absolute;
+            width: 145px;
+            height: 145px;
+            top: -80px;
+            right: -65px;
+            border-radius: 50%;
+            background: var(--glow, rgba(99, 149, 255, 0.12));
+            filter: blur(5px);
+            pointer-events: none;
+        }
+
+        .card-aptitude {
+            --glow: rgba(99, 149, 255, 0.22);
+        }
+
+        .card-technical {
+            --glow: rgba(169, 139, 255, 0.22);
+        }
+
+        .card-report {
+            --glow: rgba(72, 224, 232, 0.2);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 22px;
+            border-radius: 18px;
+            font-size: 1.9rem;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .card-tag {
+            align-self: flex-start;
+            margin-bottom: 13px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: #b9ceff;
+            background: rgba(99, 149, 255, 0.12);
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .practice-card h3 {
+            font-size: 1.32rem;
+            margin-bottom: 10px;
+        }
+
+        .practice-card > p {
+            flex: 1;
+            margin-bottom: 22px;
+            color: var(--muted);
+            font-size: 0.91rem;
+        }
+
+        .card-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .card-features span {
+            padding: 5px 9px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: #c5cee2;
+            font-size: 0.75rem;
+        }
+
+        .card-button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: 100%;
+            padding: 13px 16px;
+            border: 1px solid rgba(99, 149, 255, 0.35);
+            border-radius: 12px;
+            background: rgba(99, 149, 255, 0.1);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .card-button:hover {
+            background: rgba(99, 149, 255, 0.23);
+        }
+
+        .card-button:focus-visible,
+        .nav-link:focus-visible,
+        .logout-button:focus-visible {
+            outline: 2px solid var(--cyan);
+            outline-offset: 4px;
+        }
+
+        /* DAILY MOTIVATION */
+        .motivation {
+            position: relative;
+            margin: 48px 0;
+            padding: 29px 32px;
+            overflow: hidden;
+            border: 1px solid rgba(169, 139, 255, 0.2);
+            border-radius: 20px;
+            background: linear-gradient(
+                100deg,
+                rgba(83, 81, 175, 0.17),
+                rgba(27, 43, 80, 0.25)
+            );
+        }
+
+        .motivation h3 {
+            margin-bottom: 7px;
+            font-size: 1.1rem;
+        }
+
+        .motivation p {
+            max-width: 750px;
+            color: var(--muted);
+        }
+
+        .motivation strong {
+            color: #c4b1ff;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 25px 0;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.83rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-brand {
+            color: white;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logout-button {
+            border: none;
+            background: none;
+            color: #ffabb7;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            color: white;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 900px) {
+            .practice-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .card-report {
+                grid-column: 1 / -1;
+            }
+
+            .stats {
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 16px;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .nav-content {
+                min-height: 68px;
+            }
+
+            .brand {
+                font-size: 1.15rem;
+            }
+
+            .brand-icon {
+                width: 37px;
+                height: 37px;
+            }
+
+            .nav-right {
+                gap: 10px;
+            }
+
+            .nav-link {
+                display: none;
+            }
+
+            .profile {
+                padding-right: 9px;
+            }
+
+            .profile-name {
+                max-width: 95px;
+            }
+
+            .welcome {
+                padding-top: 38px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                margin-bottom: 38px;
+            }
+
+            .stat-card {
+                padding: 16px 19px;
+            }
+
+            .practice-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-report {
+                grid-column: auto;
+            }
+
+            .practice-card {
+                padding: 23px;
+            }
+
+            .section-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .motivation {
+                padding: 24px;
+                margin: 35px 0;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVIGATION -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a class="brand" href="home.html" aria-label="Praktikul home">
+                <span class="brand-icon" aria-hidden="true">P</span>
+                <span>PRAKTIKUL</span>
+            </a>
+
+            <nav class="nav-right" aria-label="Main navigation">
+                <a class="nav-link" href="#practice">Practice</a>
+                <a class="nav-link" href="#motivation">Daily Motivation</a>
+
+                <div class="profile">
+                    <div class="avatar" id="profileAvatar" aria-hidden="true">U</div>
+                    <span class="profile-name" id="profileName">Student</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- PERSONALIZED GREETING -->
+        <section class="welcome" aria-labelledby="welcomeHeading">
+            <div class="welcome-label">
+                <span class="status-dot" aria-hidden="true"></span>
+                YOUR LEARNING SPACE
+            </div>
+
+            <h1 id="welcomeHeading">
+                Welcome back,<br>
+                <span id="welcomeName">Future Achiever</span>!
+            </h1>
+
+            <p>
+                Your goals won't achieve themselves.
+                Practice, improve your skills, track your progress,
+                and get one step closer to your dream career.
+            </p>
+
+            <div class="welcome-email" id="welcomeEmail">
+                Your personal learning dashboard
+            </div>
+        </section>
+
+        <!-- QUICK OVERVIEW -->
+        <section class="stats" aria-label="Learning platform overview">
+            <article class="stat-card">
+                <div class="stat-icon icon-blue" aria-hidden="true">🧠</div>
+                <div>
+                    <h2>1000+</h2>
+                    <p>Aptitude questions planned</p>
+                </div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon icon-purple" aria-hidden="true">💻</div>
+                <div>
+                    <h2>Company-wise</h2>
+                    <p>Technical interview practice</p>
+                </div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon icon-cyan" aria-hidden="true">📈</div>
+                <div>
+                    <h2>Track</h2>
+                    <p>Your practice performance</p>
+                </div>
+            </article>
+        </section>
+
+        <!-- PRACTICE AND REPORT OPTIONS -->
+        <section id="practice" aria-labelledby="practiceHeading">
+            <div class="section-heading">
+                <div>
+                    <div class="eyebrow">YOUR NEXT MOVE</div>
+                    <h2 id="practiceHeading">Choose your practice</h2>
+                    <p>Build your skills one question at a time.</p>
+                </div>
+            </div>
+
+            <div class="practice-grid">
+                <!-- OPTION 1: APTITUDE -->
+                <article class="practice-card card-aptitude">
+                    <div class="card-icon" aria-hidden="true">🧠</div>
+                    <div class="card-tag">01 · Build your logic</div>
+                    <h3>Aptitude Arena</h3>
+
+                    <p>
+                        Sharpen your reasoning and problem-solving skills
+                        with quantitative aptitude, logical reasoning,
+                        and verbal ability practice.
+                    </p>
+
+                    <div class="card-features">
+                        <span>Quantitative</span>
+                        <span>Logical Reasoning</span>
+                        <span>Verbal Ability</span>
+                        <span>Timed Tests</span>
+                    </div>
+
+                    <a class="card-button" href="aptitude.html">
+                        <span>Start Aptitude Practice</span>
+                        <span aria-hidden="true">→</span>
+                    </a>
+                </article>
+
+                <!-- OPTION 2: TECHNICAL QUESTIONS -->
+                <article class="practice-card card-technical">
+                    <div class="card-icon" aria-hidden="true">💻</div>
+                    <div class="card-tag">02 · Get interview-ready</div>
+                    <h3>Technical Zone</h3>
+
+                    <p>
+                        Learn technical questions asked in company
+                        interviews and strengthen your programming basics.
+                    </p>
+
+                    <div class="card-features">
+                        <span>Python</span>
+                    </div>
+
+                    <a class="card-button" href="technical.html">
+                        <span>Explore Technical Questions</span>
+                        <span aria-hidden="true">→</span>
+                    </a>
+                </article>
+
+                <!-- OPTION 3: PERFORMANCE REPORT -->
+                <article class="practice-card card-report">
+                    <div class="card-icon" aria-hidden="true">📊</div>
+                    <div class="card-tag">03 · Measure your growth</div>
+                    <h3>Performance Report</h3>
+
+                    <p>
+                        Review your scores, accuracy, attempted questions,
+                        time spent, strengths, and areas that need more
+                        practice as you complete tests.
+                    </p>
+
+                    <div class="card-features">
+                        <span>Test Scores</span>
+                        <span>Accuracy</span>
+                        <span>Progress</span>
+                        <span>Improvement Areas</span>
+                    </div>
+
+                    <!-- CONNECTED TO THE PERFORMANCE REPORT PAGE -->
+                    <a class="card-button" href="performance-report.html">
+                        <span>View Performance Report</span>
+                        <span aria-hidden="true">→</span>
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- DAILY MOTIVATION -->
+        <section class="motivation" id="motivation">
+            <h3>⚡ Today's Reminder</h3>
+            <p>
+                You don't have to be perfect today.
+                You just have to be <strong>better than yesterday.</strong>
+                Consistent practice creates confidence, and confidence
+                helps you perform when it matters.
+            </p>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-content">
+            <p>
+                <span class="footer-brand">PRAKTIKUL</span>
+                &nbsp; | &nbsp; Practice with purpose. Perform with confidence.
+            </p>
+
+            <p>Created by Sachin B. V.</p>
+
+            <button class="logout-button" id="logoutButton" type="button">
+                Exit dashboard
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        // Read demo user details saved by the signup page.
+        const userName = localStorage.getItem("praktikulUserName");
+        const userGmail = localStorage.getItem("praktikulUserGmail");
+
+        // Select elements that display the user's details.
+        const welcomeName = document.getElementById("welcomeName");
+        const profileName = document.getElementById("profileName");
+        const profileAvatar = document.getElementById("profileAvatar");
+        const welcomeEmail = document.getElementById("welcomeEmail");
+
+        // Display the user's name and Gmail address.
+        if (userName && userName.trim() !== "") {
+            const cleanName = userName.trim();
+
+            welcomeName.textContent = cleanName;
+            profileName.textContent = cleanName;
+            profileAvatar.textContent = cleanName.charAt(0).toUpperCase();
+        } else {
+            // Require signup details for the demo dashboard.
+            window.location.replace("signup.html");
+        }
+
+        if (userGmail && userGmail.trim() !== "") {
+            welcomeEmail.textContent = userGmail;
+        }
+
+        // Exit dashboard and clear demo user details.
+        document.getElementById("logoutButton").addEventListener("click", function () {
+            const shouldExit = confirm(
+                "Do you want to exit the PRAKTIKUL dashboard?"
+            );
+
+            if (shouldExit) {
+                localStorage.removeItem("praktikulUserName");
+                localStorage.removeItem("praktikulUserGmail");
+                window.location.href = "index.html";
+            }
+        });
+    </script>
+</body>
+</html>
